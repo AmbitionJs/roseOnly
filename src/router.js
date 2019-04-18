@@ -5,7 +5,13 @@ Vue.use(Router)
 
 export default new Router({
   mode:'history',
+  base: process.env.BASE_URL,
   routes: [
-    
+    // 贺斯洁
+    {
+      path: '/person',
+      name: 'person',
+      component: () => import('./views/hsj/test.vue')
+    },
   ]
 })
