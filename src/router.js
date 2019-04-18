@@ -13,7 +13,7 @@ export default new Router({
       name: 'person',
       component: () => import('./views/hsj/test.vue')
     },
-    {
+    {// 陈世厚
       path: '/foot',
       name: 'foot',
       component: () => import('./views/csh/index.vue')
