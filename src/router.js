@@ -17,6 +17,11 @@ export default new Router({
       path: '/foot',
       name: 'foot',
       component: () => import('./views/csh/index.vue')
+    },
+    {// 王云杰
+      path: '/login',
+      name: 'login',
+      component: () => import('./views/wyj/Login.vue')
     }
   ]
 })
