@@ -8,7 +8,9 @@
         <Order v-for="i in 10" :key="i"/>
       </el-tab-pane>
       <el-tab-pane label="申请退换" name="apply-return">申请退换</el-tab-pane>
-      <el-tab-pane label="我的信息" name="user-info">我的信息</el-tab-pane>
+      <el-tab-pane label="我的信息" name="user-info">
+        <Info />
+      </el-tab-pane>
       <el-tab-pane label="积分兑换" name="redeem">积分兑换</el-tab-pane>
       <el-tab-pane label="收货地址" name="ship-address">收货地址</el-tab-pane>
     </el-tabs>
@@ -16,7 +18,10 @@
 </template>
 
 <script>
-import Order from "../../components/hsj/Order.vue";
+// 订单组件
+import Order from "../../components/hsj/Order.vue"
+// 我的信息组件
+import Info from '../../components/hsj/Info.vue'
 export default {
   data() {
     return {
@@ -29,7 +34,8 @@ export default {
     }
   },
   components: {
-    Order
+    Order,
+    Info
   }
 };
 </script>

@@ -1,1 +1,5 @@
-// 我的信息组件
+<template>
+    <div class="info">
+        我的信息 info
+    </div>
+</template>
