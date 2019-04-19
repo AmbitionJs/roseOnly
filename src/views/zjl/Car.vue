@@ -14,33 +14,34 @@
     <div class="shopping-list">
       <table>
         <tr>
-          <th></th>
-          <th>品牌</th>
-          <th>商品名称</th>
-          <th>单价</th>
+          <th style="margin-left: 100px;">品牌</th>
+          <th style="margin-left: 100px;">商品名称</th>
+          <th style="margin-left: 80px;">单价</th>
           <th>数量</th>
           <th>操作</th>
         </tr>
         <tr v-for="item in cartDatas" :key="item.goodsIds">
           <td>
-            <input type="checkbox" :checked="item.select" @click="item.select=!item.select">
+            <!-- <input type="checkbox" :checked="item.select" @click="item.select=!item.select"> -->
+             <el-checkbox v-model="item.select"></el-checkbox>
           </td>
-          <td>roseonly</td>
+          <td><span>roseonly</span></td>
           <td>
             <img :src="item.picFileUrl" alt>
             <span>{{item.goodsName}}</span>
           </td>
-          <td>￥{{item.goodsPrice}}</td>
+          <td><span>￥{{item.goodsPrice}}</span></td>
           <td>
             <div class="number-group">
-              <span class="el-icon-remove-outline" @click="reduceNum(item.goodsIds)"></span>
+              <!-- <span class="el-icon-remove-outline" @click="reduceNum(item.goodsIds)"></span>
               <input
                 type="text"
                 v-model="item.goodsNum"
                 class="good-number"
                 @change="changeNum(item.goodsIds)"
               >
-              <span class="el-icon-circle-plus-outline" @click="addNum(item.goodsIds)"></span>
+              <span class="el-icon-circle-plus-outline" @click="addNum(item.goodsIds)"></span> -->
+              <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goodsIds)" :min="1" :max="10"></el-input-number>
             </div>
           </td>
           <td>
@@ -51,13 +52,14 @@
     </div>
     <div class="cart-footer">
       <div class="cart-footer-left">
-        <input
+        <!-- <input
           type="checkbox"
           id="select-all"
           @change="selectAll(isSelectAll)"
           :checked="isSelectAll"
         >
-        <label for="select-all">全选</label>
+        <label for="select-all">全选</label> -->
+        <el-checkbox v-model="isSelectAll" @change="selectAll(isSelectAll)">全选</el-checkbox>
       </div>
       <div class="cart-footer-right">
         <div class="total-price">
@@ -181,51 +183,49 @@ export default {
       }
     },
     // 增加商品数量
-    addNum(id) {
-      var num;
-      this.cartDatas.forEach(item => {
-        if (item.goodsIds == id) {
-          item.goodsNum++;
-          num = item.goodsNum;
-        }
-      });
-      console.log(num);
-      // const token = sessionStorage.getItem("token")
-      // this.axios.post('/trolley/add', {
-      //   goodsId: id,
-      //   goodsNum: num,
-      //   userToken: token
-      // })
-    },
-    // 减少商品数量
-    reduceNum(id) {
-      var num;
-      this.cartDatas.forEach(item => {
-        if (item.goodsIds == id) {
-          if (item.goodsNum == 1) {
-            num = item.goodsNum;
-            return;
-          }
-          item.goodsNum--;
-          num = item.goodsNum;
-        }
-      });
-      console.log(num);
-      // const token = sessionStorage.getItem("token")
-      // this.axios.post('/trolley/add', {
-      //   goodsId: id,
-      //   goodsNum: num,
-      //   userToken: token
-      // })
-    },
+    // addNum(id) {
+    //   var num;
+    //   this.cartDatas.forEach(item => {
+    //     if (item.goodsIds == id) {
+    //       item.goodsNum++;
+    //       num = item.goodsNum;
+    //     }
+    //   });
+    //   console.log(num);
+    //   // const token = sessionStorage.getItem("token")
+    //   // this.axios.post('/trolley/add', {
+    //   //   goodsId: id,
+    //   //   goodsNum: num,
+    //   //   userToken: token
+    //   // })
+    // },
+    // // 减少商品数量
+    // reduceNum(id) {
+    //   var num;
+    //   this.cartDatas.forEach(item => {
+    //     if (item.goodsIds == id) {
+    //       if (item.goodsNum == 1) {
+    //         num = item.goodsNum;
+    //         return;
+    //       }
+    //       item.goodsNum--;
+    //       num = item.goodsNum;
+    //     }
+    //   });
+    //   console.log(num);
+    //   // const token = sessionStorage.getItem("token")
+    //   // this.axios.post('/trolley/add', {
+    //   //   goodsId: id,
+    //   //   goodsNum: num,
+    //   //   userToken: token
+    //   // })
+    // },
     // 输入商品数量
     changeNum(id) {
+      console.log(id)
       var num;
       this.cartDatas.forEach(item => {
         if (item.goodsIds == id) {
-          if (item.goodsNum <= 0) {
-            item.goodsNum = 1;
-          }
           num = item.goodsNum;
         }
       });
@@ -265,10 +265,15 @@ export default {
   },
   computed: {
     // 检测是否全选
-    isSelectAll() {
-      return this.cartDatas.every(item => {
-        return item.select;
-      });
+    isSelectAll: {
+      get() {
+        return this.cartDatas.every(item => {
+          return item.select;
+        })
+      },
+      set(val) {
+        console.log(val)
+      }
     },
     getTotal() {
       // 获取cartDatas中select为true的数据
@@ -298,6 +303,7 @@ export default {
   width: 968px;
   min-width: 768px;
   margin: 0 auto;
+  color: #414141;
   user-select: none;
 }
 .cart-title {
@@ -325,11 +331,12 @@ export default {
 }
 .cart-clear-btn {
   text-decoration: none;
-  color: #414141;
+  color: #000;
+  opacity: 0.5;
+  font-weight: bold;
 }
 .cart-clear-btn:hover {
-  color: #000;
-  font-weight: bold;
+  opacity: 1;
 }
 .cart-footer {
   padding: 10px;
@@ -356,18 +363,18 @@ table {
   width: 100%;
 }
 table {
-  border-top: 1px solid #000;
+  border-top: 1px solid #ebeef5;
   text-align: center;
 }
 tr {
   width: 100%;
-  padding: 10px 0;
-  border-bottom: 1px solid #000;
+  border-bottom: 1px solid #ebeef5;
   display: flex;
   justify-content: space-between;
 }
-tr:not(:first-child) {
-  line-height: 80px;
+tr:not(:first-child),
+td {
+  line-height: 95px;
 }
 .good-number {
   width: 100px;
@@ -380,10 +387,10 @@ td {
 .number-group {
   user-select: none;
 }
-.number-group span {
+/* .number-group span {
   padding: 10px;
   cursor: pointer;
-}
+} */
 .del-shopping-list {
   padding: 10px 0;
 }
@@ -396,5 +403,11 @@ td {
 }
 .order-assist p:not(:first-child) {
   font-size: 13px;
+}
+table tr td img {
+  width: 100px;
+  height: 100px;
+  display: inline-block;
+  vertical-align: middle;
 }
 </style>
