@@ -21,7 +21,7 @@
           <th>数量</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item in cardatas" :key="item.goodsIds">
+        <tr v-for="item in cartDatas" :key="item.goodsIds">
           <td>
             <input type="checkbox" :checked="item.select" @click="item.select=!item.select">
           </td>
@@ -67,6 +67,12 @@
         <button type="button" id="settlement" @click="settlement">去结算</button>
       </div>
     </div>
+    <div class="order-assist">
+      <p>订单帮助</p>
+      <p>热线电话：400-1314-520</p>
+      <p>客服邮箱：service@roseonly.com  客服工作时间：周一至周日9:00-21:00</p>
+      <p>如果您在下单过程中遇到问题，请与我们联系。因为鲜花商品对配送时效有特殊要求，订购后请随时登录查询物流状态。</p>
+    </div>
   </div>
 </template>
 
@@ -75,7 +81,7 @@ export default {
   name: "cart",
   data() {
     return {
-      cardatas: [
+      cartDatas: [
         {
           goodsIds: 1,
           brand: "roseonly",
@@ -151,15 +157,15 @@ export default {
             console.log(err);
           });
       }
-      this.cardatas.forEach((item,index) => {
+      this.cartDatas.forEach((item,index) => {
         if(item.goodsIds == id) {
-          this.cardatas.splice(index, 1)
+          this.cartDatas.splice(index, 1)
         }
       })
     },
     // 清空购物车
     clearCart() {
-      this.cardatas = []
+      this.cartDatas = []
       const token = sessionStorage.getItem("token");
       if (token) {
         this.axios
@@ -177,7 +183,7 @@ export default {
     // 增加商品数量
     addNum(id) {
       var num;
-      this.cardatas.forEach(item => {
+      this.cartDatas.forEach(item => {
         if (item.goodsIds == id) {
           item.goodsNum++;
           num = item.goodsNum;
@@ -194,7 +200,7 @@ export default {
     // 减少商品数量
     reduceNum(id) {
       var num;
-      this.cardatas.forEach(item => {
+      this.cartDatas.forEach(item => {
         if (item.goodsIds == id) {
           if (item.goodsNum == 1) {
             num = item.goodsNum;
@@ -215,7 +221,7 @@ export default {
     // 输入商品数量
     changeNum(id) {
       var num;
-      this.cardatas.forEach(item => {
+      this.cartDatas.forEach(item => {
         if (item.goodsIds == id) {
           if (item.goodsNum <= 0) {
             item.goodsNum = 1;
@@ -233,14 +239,14 @@ export default {
     },
     // 全选/取消全选
     selectAll(_isSelect) {
-      this.cardatas.forEach(item => {
+      this.cartDatas.forEach(item => {
         item.select = !_isSelect;
       });
     },
     // 结算
     settlement() {
       var ids = [],token = sessionStorage.getItem('token')
-      this.cardatas.forEach(item => {
+      this.cartDatas.forEach(item => {
         if (item.select) {
           ids.push(item.goodsIds);
         }
@@ -260,13 +266,13 @@ export default {
   computed: {
     // 检测是否全选
     isSelectAll() {
-      return this.cardatas.every(item => {
+      return this.cartDatas.every(item => {
         return item.select;
       });
     },
     getTotal() {
-      // 获取cardatas中select为true的数据
-      var items = this.cardatas.filter(item => {
+      // 获取cartDatas中select为true的数据
+      var items = this.cartDatas.filter(item => {
           if (item.select) return item;
         }),
         totalPrice = 0;
@@ -279,8 +285,8 @@ export default {
   },
   mounted() {
     var _this = this;
-    //为cardatas添加select（是否选中）字段，初始值为true
-    this.cardatas.map(function(item) {
+    //为cartDatas添加select（是否选中）字段，初始值为true
+    this.cartDatas.map(function(item) {
       _this.$set(item, "select", true);
     });
   }
@@ -293,6 +299,10 @@ export default {
   min-width: 768px;
   margin: 0 auto;
   user-select: none;
+}
+.cart-title {
+  overflow: hidden;
+  line-height: 40px;
 }
 .cart-title-left {
   color: #414141;
@@ -380,5 +390,11 @@ td {
 .del-shopping-list:hover {
   text-decoration: underline;
   cursor: pointer;
+}
+.order-assist p {
+  margin: 0;
+}
+.order-assist p:not(:first-child) {
+  font-size: 13px;
 }
 </style>
