@@ -17,6 +17,6 @@ export default new Router({
       path: '/foot',
       name: 'foot',
       component: () => import('./views/csh/index.vue')
-    }
-  ]
+    },
+  ],
 })
