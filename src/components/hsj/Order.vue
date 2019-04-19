@@ -17,6 +17,7 @@
         <span class="detail itemCount">x {{ gridData[0].itemCount }}</span>
         <span class="detail itemTotalPrice">{{ gridData[0].itemTotalPrice }}</span>
         <span class="detail orderStatus">{{ gridData[0].orderStatus }}</span>
+        <el-button type="text">申请退换</el-button>
       </div>
     </el-card>
     <!-- 弹出框 -->
