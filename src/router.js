@@ -18,5 +18,10 @@ export default new Router({
       name: 'foot',
       component: () => import('./views/csh/index.vue')
     },
+    {
+      path: '/car',
+      name: 'car',
+      component: () => import('./views/zjl/Car.vue')
+    },
   ],
 })
