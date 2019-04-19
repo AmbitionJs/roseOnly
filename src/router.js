@@ -4,14 +4,14 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
-  mode:'history',
+  mode: 'history',
   base: process.env.BASE_URL,
   routes: [
     // 贺斯洁
     {
       path: '/person',
       name: 'person',
-      component: () => import('./views/hsj/test.vue')
+      component: () => import('./views/hsj/Person.vue')
     },
     {// 陈世厚
       path: '/foot',
@@ -22,6 +22,11 @@ export default new Router({
       path: '/car',
       name: 'car',
       component: () => import('./views/zjl/Car.vue')
+    },
+    {
+      path: '/submitOrder',
+      name: 'submitOrder',
+      component: () => import('./views/zjl/SubmitOrder.vue')
     },
   ],
 })
