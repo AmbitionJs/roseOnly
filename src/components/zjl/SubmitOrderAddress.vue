@@ -16,7 +16,7 @@
       </div>
     </div> -->
     <el-radio-group v-model="radio">
-      <el-radio :label="item.aId" v-for="item in address" :key="item.aId">
+      <el-radio :label="item.aId" v-for="item in address" :key="item.aId" @change="getId($event)">
         <div class="address">
           <span class="receiver">{{item.receiver}}</span>
           <span class="address">{{item.province + item.city + item.countyArea + item.detail}}</span>
@@ -58,8 +58,28 @@ export default {
           detail: '六块六六IHII看看',
           receiver: '4651',
           cellphone: '15689623889'
+        },
+        {
+          aId: 3,
+          province: '上海',
+          city: '上海市',
+          countyArea: '黄浦区',
+          detail: '六块六六IHII看看',
+          receiver: '4651',
+          cellphone: '15689623889'
         }
       ]
+    }
+  },
+  methods: {
+    getId(event) {
+      console.log(event)
+      const add = this.address.filter(item => {
+        if(item.aId == event) {
+          return item
+        }
+      })
+      console.log(add)
     }
   }
 }

@@ -17,5 +17,11 @@ export default {
 </script>
 
 <style>
-
+.submit-order {
+  width: 40%;
+  margin: 0 auto;
+}
+.submit-order-title {
+  text-align: center;
+}
 </style>

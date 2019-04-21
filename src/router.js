@@ -28,5 +28,10 @@ export default new Router({
       name: 'submitOrder',
       component: () => import('./views/zjl/SubmitOrder.vue')
     },
+    {
+      path: '/forgotPassword',
+      name: 'forgotPassword',
+      component: () => import('./views/zjl/ForgotPassword.vue')
+    },
   ],
 })
