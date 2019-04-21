@@ -145,8 +145,12 @@ export default {
             if(this.step3.pass === this.step3.checkPass) {
               this.active = 3
               // 第四步：完成，跳转登录界面
-                setTimeout(() => {
+              this.axios.post('/users/newpass', {
+                password: this.step3.checkPass
+              }).then(res => {
+                if(res) setTimeout(() => {
                   this.active = 4
+                  
                     if(this.active == 4) {
                       setTimeout(() => {
                         console.log('denglu')
@@ -154,6 +158,7 @@ export default {
                       },3000) 
                   }
                 },300)
+              }).catch(err => {console.log(err)})
             }
             else this.errorAlert('两次密码输入不正确')
           } else this.errorAlert('密码格式不正确')
