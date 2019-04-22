@@ -3,7 +3,7 @@
     <!-- 显示基本信息 -->
     <el-card class="box-card">
       <div slot="header" class="clearfix">
-        <span>{{ info.name }} 收</span>
+        <span>{{ info.name }}</span>
         <el-button style="float: right; padding: 3px 0" type="text">设为常用地址</el-button>
         <el-button
           style="float: right; padding: 3px 0"
@@ -12,6 +12,7 @@
         >编辑</el-button>
       </div>
       <div class="content">
+        <span class="name">{{ info.name }} 收</span>
         <div class="address">
           <span class="province">{{ info.province }}</span>
           <span class="city">{{ info.city }}</span>
