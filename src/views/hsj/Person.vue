@@ -12,7 +12,9 @@
         <Info />
       </el-tab-pane>
       <el-tab-pane label="积分兑换" name="redeem">积分兑换</el-tab-pane>
-      <el-tab-pane label="收货地址" name="ship-address">收货地址</el-tab-pane>
+      <el-tab-pane label="收货地址" name="ship-address">
+        <ShipAddress />
+      </el-tab-pane>
     </el-tabs>
   </div>
 </template>
@@ -22,6 +24,8 @@
 import Order from "../../components/hsj/Order.vue"
 // 我的信息组件
 import Info from '../../components/hsj/Info.vue'
+// 收货地址组件
+import ShipAddress from '../../components/hsj/ShipAddress.vue'
 export default {
   data() {
     return {
@@ -35,7 +39,8 @@ export default {
   },
   components: {
     Order,
-    Info
+    Info,
+    ShipAddress
   }
 };
 </script>
