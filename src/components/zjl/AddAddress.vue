@@ -1,88 +1,97 @@
 <template>
   <div class="add-address">
-    <el-form label-position="right" label-width="80px" :model="address">
-      <el-form-item label="收 货 人 ">
-        <el-input v-model="address.receiver"></el-input>
+    <el-form label-position="right" label-width="80px" :model="editAddr" ref="editAddr">
+      <!-- 收货人 -->
+      <el-form-item
+        label="收 货 人 "
+        prop="receiver"
+        :rules="[
+          { required: true, message: '请输入收货人', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="editAddress.receiver" class="min"></el-input>
       </el-form-item>
-      <el-form-item label="手机号码">
-        <el-input v-model="address.telphone"></el-input>
+      <!-- 手机号码 -->
+      <el-form-item label="手机号码" required>
+        <el-input v-model="editAddress.cellphone" class="min"></el-input>
       </el-form-item>
-      <el-form-item label="省份">
-        <el-select v-model="province" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <el-select v-model="city" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
-        <el-select v-model="countyArea" placeholder="请选择">
-          <el-option
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          ></el-option>
-        </el-select>
+      <!-- 邮箱 -->
+      <el-form-item
+        prop="email"
+        label="邮箱"
+        :rules="[
+          { required: true, message: '请输入邮箱地址', trigger: 'blur' },
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+        ]"
+      >
+        <el-input v-model="editAddress.email" class="min"></el-input>
       </el-form-item>
-      <el-form-item label="地址">
-        <el-input v-model="address.detail"></el-input>
+      <!-- 省份 -->
+      <el-form-item label="省份" required>
+        <area-select :level="2" type="text" v-model="select" :data="pcaa"></area-select>
       </el-form-item>
+      <!-- 详细地址 -->
+      <el-form-item label="地址" required>
+        <el-input v-model="editAddress.detail" class="middle"></el-input>
+      </el-form-item>
+      <!-- 按钮 -->
       <el-form-item>
         <el-button size="small" @click="cancel">取消</el-button>
-        <el-button type="primary" size="small">保存</el-button>
+        <el-button type="primary" size="small" @click="submitAddr">保存</el-button>
       </el-form-item>
     </el-form>
   </div>
 </template>
 
 <script>
+import PCAA from "area-data/pcaa";
+
 export default {
-  props: ['flag'],
+  props: ["editAddr", "selected", "isWay"],
   data() {
     return {
-      address: {
-        receiver: "",
-        telphone: "",
-        detail: ""
-      },
-      value: "",
-      province: "",
-      city: "",
-      countyArea: "",
-      options: [{
-          value: '选项1',
-          label: '黄金糕'
-        }, {
-          value: '选项2',
-          label: '双皮奶'
-        }, {
-          value: '选项3',
-          label: '蚵仔煎'
-        }, {
-          value: '选项4',
-          label: '龙须面'
-        }, {
-          value: '选项5',
-          label: '北京烤鸭'
-        }],
+      pcaa: PCAA,
+      select: [],
+      editAddress: {}
     };
   },
   methods: {
     cancel() {
-      this.$emit('flag')
+      this.$emit("hide");
+    },
+    submitAddr() {
+      
     }
+  },
+  mounted() {
+
+  },
+  updated() {
+    
   }
 };
 </script>
 
 <style>
+.area-select-wrap {
+  line-height: 25px;
+}
+.area-select-wrap .area-select:first-child {
+  margin-left: 0;
+}
+.area-select.medium {
+  height: 40px;
+}
+.min {
+  width: 300px;
+}
+.middle {
+  width: 515px;
+}
+.add-addr {
+  width: 100%;
+  height: 40px;
+  font-size: 17px;
+  margin-bottom: 50px;
+}
 </style>

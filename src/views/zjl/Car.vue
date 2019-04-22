@@ -22,7 +22,6 @@
         </tr>
         <tr v-for="item in cartDatas" :key="item.goodsIds">
           <td>
-            <!-- <input type="checkbox" :checked="item.select" @click="item.select=!item.select"> -->
              <el-checkbox v-model="item.select"></el-checkbox>
           </td>
           <td><span>roseonly</span></td>
@@ -33,14 +32,6 @@
           <td><span>￥{{item.goodsPrice}}</span></td>
           <td>
             <div class="number-group">
-              <!-- <span class="el-icon-remove-outline" @click="reduceNum(item.goodsIds)"></span>
-              <input
-                type="text"
-                v-model="item.goodsNum"
-                class="good-number"
-                @change="changeNum(item.goodsIds)"
-              >
-              <span class="el-icon-circle-plus-outline" @click="addNum(item.goodsIds)"></span> -->
               <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goodsIds)" :min="1" :max="10"></el-input-number>
             </div>
           </td>
@@ -52,13 +43,6 @@
     </div>
     <div class="cart-footer">
       <div class="cart-footer-left">
-        <!-- <input
-          type="checkbox"
-          id="select-all"
-          @change="selectAll(isSelectAll)"
-          :checked="isSelectAll"
-        >
-        <label for="select-all">全选</label> -->
         <el-checkbox v-model="isSelectAll" @change="selectAll(isSelectAll)">全选</el-checkbox>
       </div>
       <div class="cart-footer-right">
@@ -79,6 +63,7 @@
 </template>
 
 <script>
+import {mapMutations, mapState} from 'vuex'
 export default {
   name: "cart",
   data() {
@@ -131,6 +116,7 @@ export default {
         })
         .then(res => {
           console.log(res);
+          this.cartDatas = res.data
         })
         .catch(err => {
           console.log(err);
@@ -138,6 +124,9 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('orders',[
+      'cartOrders'
+    ]),
     // 删除单个购物车商品
     deleteList(id) {
       var goodsIds = [];
@@ -182,44 +171,6 @@ export default {
           });
       }
     },
-    // 增加商品数量
-    // addNum(id) {
-    //   var num;
-    //   this.cartDatas.forEach(item => {
-    //     if (item.goodsIds == id) {
-    //       item.goodsNum++;
-    //       num = item.goodsNum;
-    //     }
-    //   });
-    //   console.log(num);
-    //   // const token = sessionStorage.getItem("token")
-    //   // this.axios.post('/trolley/add', {
-    //   //   goodsId: id,
-    //   //   goodsNum: num,
-    //   //   userToken: token
-    //   // })
-    // },
-    // // 减少商品数量
-    // reduceNum(id) {
-    //   var num;
-    //   this.cartDatas.forEach(item => {
-    //     if (item.goodsIds == id) {
-    //       if (item.goodsNum == 1) {
-    //         num = item.goodsNum;
-    //         return;
-    //       }
-    //       item.goodsNum--;
-    //       num = item.goodsNum;
-    //     }
-    //   });
-    //   console.log(num);
-    //   // const token = sessionStorage.getItem("token")
-    //   // this.axios.post('/trolley/add', {
-    //   //   goodsId: id,
-    //   //   goodsNum: num,
-    //   //   userToken: token
-    //   // })
-    // },
     // 输入商品数量
     changeNum(id) {
       console.log(id)
@@ -259,11 +210,13 @@ export default {
       .then(res => {
         if(res.state == 200) {
           this.$router.push('/submitOrder')
+          this.cartOrders(res.data)
         }
       })
     }
   },
   computed: {
+    ...mapState('orders',['submitOrderList']),
     // 检测是否全选
     isSelectAll: {
       get() {

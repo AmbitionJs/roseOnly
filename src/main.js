@@ -11,6 +11,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
 
+// 省市区插件
+import 'vue-area-linkage/dist/index.css'
+import VueAreaLinkage from 'vue-area-linkage'
+
+Vue.use(VueAreaLinkage)
+
+
 // 统一设置请求的前缀
 axios.defaults.baseURL = 'http://192.168.2.220:8081'
 
