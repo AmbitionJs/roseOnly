@@ -1,6 +1,7 @@
 <template>
   <div class="info">
     <el-tabs type="border-card">
+      <!-- 基本信息 -->
       <el-tab-pane>
         <span slot="label">基本信息</span>
         <el-form ref="form" :model="form" label-width="80px">
@@ -71,9 +72,25 @@
           </el-form-item>
         </el-form>
       </el-tab-pane>
+      <!-- 修改密码 -->
       <el-tab-pane>
         <span slot="label">修改密码</span>
-        修改密码
+        <div class="content">
+          <el-form ref="form" :model="form" label-width="80px">
+            <el-form-item label="旧密码">
+              <el-input v-model="form.oldPass"></el-input>
+            </el-form-item>
+            <el-form-item label="新密码">
+              <el-input v-model="form.newPass"></el-input>
+            </el-form-item>
+            <el-form-item label="确认">
+              <el-input v-model="form.verifyPass"></el-input>
+            </el-form-item>
+            <el-form-item>
+              <el-button>修改</el-button>
+            </el-form-item>
+          </el-form>
+        </div>
       </el-tab-pane>
     </el-tabs>
   </div>
@@ -104,7 +121,10 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: ""
+        desc: "",
+        oldPass: "",
+        newPass: "",
+        verifyPass: ""
       },
       lover: {
         name: "",
