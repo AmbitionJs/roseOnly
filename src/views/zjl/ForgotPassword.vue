@@ -66,7 +66,7 @@
 
 <script>
 import { setTimeout } from 'timers';
-import '../../../public/js/verifyCode.js';
+import '@/assets/zjl/js/verifyCode.js';
 
 export default {
   data() {
