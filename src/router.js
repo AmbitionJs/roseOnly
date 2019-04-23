@@ -7,6 +7,11 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
+    {
+      path:'/',
+      name:'home',
+      component: () => import('.[表情]iews/hjs/Home.vue')
+    },
     // 贺斯洁
     {
       path: '/person',
