@@ -10,7 +10,7 @@ export default new Router({
     {
       path:'/',
       name:'home',
-      component: () => import('.[表情]iews/hjs/Home.vue')
+      component: () => import('./views/hjs/Home.vue')
     },
     // 贺斯洁
     {
