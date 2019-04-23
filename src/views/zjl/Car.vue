@@ -76,57 +76,36 @@ export default {
           picFileUrl: "",
           goodsPrice: 1999,
           goodsNum: 1
-        },
-        {
-          goodsIds: 2,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        },
-        {
-          goodsIds: 3,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        },
-        {
-          goodsIds: 4,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 2999,
-          goodsNum: 2
         }
       ]
     };
   },
   created() {
-    // 获取购物车数据
-    const token = sessionStorage.getItem("token");
-    const userId = sessionStorage.getItem("userId");
-    if (token) {
-      this.axios
-        .get("/trolley/" + userId, {
-          userId: userId,
-          userToken: token
-        })
-        .then(res => {
-          console.log(res);
-          this.cartDatas = res.data
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    this.getCarDatas()
   },
   methods: {
     ...mapMutations('orders',[
       'cartOrders'
     ]),
+    getCarDatas() {
+        // 获取购物车数据
+      const token = sessionStorage.getItem("token");
+      const userId = sessionStorage.getItem("userId");
+      if (token) {
+        this.axios
+          .get("/trolley/" + userId, {
+            userId: userId,
+            userToken: token
+          })
+          .then(res => {
+            console.log(res);
+            this.cartDatas = res.data
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
     // 删除单个购物车商品
     deleteList(id) {
       var goodsIds = [];
@@ -143,20 +122,21 @@ export default {
           })
           .then(res => {
             console.log(res);
+            this.getCarDatas()
           })
           .catch(err => {
             console.log(err);
           });
       }
-      this.cartDatas.forEach((item,index) => {
+      /* this.cartDatas.forEach((item,index) => {
         if(item.goodsIds == id) {
           this.cartDatas.splice(index, 1)
         }
-      })
+      }) */
     },
     // 清空购物车
     clearCart() {
-      this.cartDatas = []
+      // this.cartDatas = []
       const token = sessionStorage.getItem("token");
       if (token) {
         this.axios
@@ -165,6 +145,7 @@ export default {
           })
           .then(res => {
             console.log(res);
+            this.getCarDatas()
           })
           .catch(err => {
             console.log(err);
