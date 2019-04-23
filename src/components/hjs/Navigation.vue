@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <div class="top-tittle" v-show="topdis">
-      <router-link to>
+      <router-link to='/'>
         <h1 class="tittle">roseonly</h1>
       </router-link>
     </div>
@@ -14,61 +14,20 @@
 
         <!-- 导航的中间部分,链接 -->
         <div class="nav-middle">
-          <div @mouseover="listIndex = 1" @mouseout="listIndex = 0" class="nav-header">
-            <span>新品上市</span>
+          <div v-for='(item,index) in getFirstNavList' :key='item.goodsTypeId' @mouseover="listIndex = index" @mouseout="listIndex = -1" class="nav-header">
+            <span>{{item.goodsTypeName}}</span>
             <!-- 下方的下拉列表 -->
             <transition name="fade">
-              <div class="nav-list" v-show="listIndex==1">
+              <div class="nav-list" v-show="listIndex==index">
+
                 <!-- 列表中左边的全部分类 -->
                 <div class="nav-list-msg">
-                  <ul>
-                    <li>场合</li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                  </ul>
-
-                  <ul>
-                    <li>气氛</li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                  </ul>
-
-                  <ul>
-                    <li>年龄</li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
-                    </li>
-                    <li>
-                      <router-link to>经典永续</router-link>
+                  <ul v-for="item1 in getNextNavList(item.goodsTypeId)" :key="item1.goodsTypeId">
+                    <!-- 二级分类 -->
+                    <li>{{item1.goodsTypeName+item1.goodsTypeId}}</li>
+                    <!-- 三级分类 -->
+                    <li v-for="item2 in getNextNavList(item1.goodsTypeId)" :key="item2.goodsTypeId">
+                      <router-link to>{{item2.goodsTypeName+item2.goodsTypeId}}</router-link>
                     </li>
                   </ul>
                 </div>
@@ -80,18 +39,6 @@
               </div>
             </transition>
           </div>
-
-          <div @mouseover="listIndex = 2" @mouseout="listIndex = 0">
-            <span>爱礼推荐</span>
-            <!-- 下方的下拉列表 -->
-            <transition name="fade">
-              <div class="nav-list" v-show="listIndex==2">2内容</div>
-            </transition>
-          </div>
-          <div>鲜花玫瑰</div>
-          <div>永生玫瑰</div>
-          <div>玫瑰珠宝</div>
-          <div>玫瑰香氛</div>
         </div>
 
         <!-- 导航的右边部分,用户和购物车 -->
@@ -126,14 +73,18 @@
 <script>
 // 导航中的用户，购物车，地图三个图标
 import "@/assets/hjs/iconfont.css";
+import { mapState,mapMutations,mapActions,mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       topdis: true, // 距离顶部的距离
       islogin: false, // 判断是否登录
-      listIndex: 0
+      listIndex: -1,
     };
+  },
+  computed:{
+    ...mapGetters('hjs',['getFirstNavList','getNextNavList'])
   },
   methods: {
     // 滚轮滑动距离
@@ -143,7 +94,10 @@ export default {
         document.documentElement.scrollTop ||
         document.body.scrollTop;
       scrollTop < 100 ? (this.topdis = true) : (this.topdis = false);
-    }
+    },
+
+    // 修改store里面的state导航列表数据
+    ...mapMutations('hjs',['setNavList'])
   },
   created() {
     window.addEventListener("scroll", this.handleScroll);
@@ -151,7 +105,64 @@ export default {
     if (sessionStorage.getItem("token")) {
       this.islogin = true;
     }
-    
+
+    // 判断store里面的state是否存有导航列表
+    if(sessionStorage.getItem('havaNavList')){
+
+    }else{
+      // 不存在则发送ajax请求,并将数据存入state
+      // ... ajax请求成功后通过mutation修改state里面的数据
+      this.setNavList([
+          {
+            'goodsTypeId':1,
+            'goodsTypeName':'测试一',
+            'goodsTypeSuperior':0
+          },
+          {
+            'goodsTypeId':2,
+            'goodsTypeName':'测试二',
+            'goodsTypeSuperior':0
+          },
+          {
+            'goodsTypeId':3,
+            'goodsTypeName':'测试三',
+            'goodsTypeSuperior':1
+          },
+          {
+            'goodsTypeId':4,
+            'goodsTypeName':'测试四',
+            'goodsTypeSuperior':1
+          },
+          {
+            'goodsTypeId':5,
+            'goodsTypeName':'测试五',
+            'goodsTypeSuperior':2
+          },
+          {
+            'goodsTypeId':6,
+            'goodsTypeName':'测试六',
+            'goodsTypeSuperior':2
+          },
+          {
+            'goodsTypeId':7,
+            'goodsTypeName':'测试七',
+            'goodsTypeSuperior':3
+          },
+          {
+            'goodsTypeId':8,
+            'goodsTypeName':'测试八',
+            'goodsTypeSuperior':4
+          },
+          {
+            'goodsTypeId':9,
+            'goodsTypeName':'测试九',
+            'goodsTypeSuperior':5
+          },]
+        )
+    }
+  },
+  mounted(){
+
   }
 };
 </script>
@@ -222,7 +233,7 @@ a {
   position: absolute;
   top: 50px;
   left: 0;
-  background: #fff;
+  background: rgba(255, 255, 255, 0.849);
   color: black;
   display: flex;
   justify-content: space-around;
@@ -254,7 +265,7 @@ a {
 /* 下拉列表动画部分 */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 0.5s;
+  transition: opacity 0.2s;
 }
 .fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
