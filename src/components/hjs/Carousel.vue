@@ -30,6 +30,8 @@ export default {
     margin: 0 auto;
   }
   .el-carousel{
-    height: 100%;
+    width: 1240px;
+    height: 450px;
+    margin: 0 auto;
   }
 </style>
