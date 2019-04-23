@@ -104,7 +104,7 @@ export default {
         pass: "",
         checkPass: ""
       },
-      checkCode: 1234, // 手机验证码
+      checkCode: '', // 手机验证码
     }
   },
   methods: {

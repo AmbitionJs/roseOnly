@@ -36,7 +36,8 @@
             </div>
           </td>
           <td>
-            <span class="del-shopping-list" @click="deleteList(item.goodsIds)">删除</span>
+            <!-- <span class="del-shopping-list" @click="deleteList(item.goodsIds)">删除</span> -->
+            <el-button type="danger" icon="el-icon-delete" @click="deleteList(item.goodsIds)" size="mini" circle></el-button>
           </td>
         </tr>
       </table>
@@ -68,16 +69,7 @@ export default {
   name: "cart",
   data() {
     return {
-      cartDatas: [
-        {
-          goodsIds: 1,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        }
-      ]
+      cartDatas: []
     };
   },
   created() {
@@ -162,12 +154,12 @@ export default {
         }
       });
       console.log(num);
-      // const token = sessionStorage.getItem("token")
-      // this.axios.post('/trolley/add', {
-      //   goodsId: id,
-      //   goodsNum: num,
-      //   userToken: token
-      // })
+      const token = sessionStorage.getItem("token")
+      this.axios.post('/trolley/add', {
+        goodsId: id,
+        goodsNum: num,
+        userToken: token
+      })
     },
     // 全选/取消全选
     selectAll(_isSelect) {
@@ -184,16 +176,31 @@ export default {
         }
       });
       console.log(ids);
-      this.axios.post('/trolley/settlement', {
-        trolleyIds: ids,
-        userToken: token
-      })
-      .then(res => {
-        if(res.state == 200) {
-          this.$router.push('/submitOrder')
-          this.cartOrders(res.data)
-        }
-      })
+      if(ids.length == 0) {
+        this.errorAlert('您的购物车没有产品！')
+      } else {
+        this.axios.post('/trolley/settlement', {
+          trolleyIds: ids,
+          userToken: token
+        })
+        .then(res => {
+          if(res.state == 200) {
+            this.$router.push('/submitOrder')
+            this.cartOrders(res.data)
+          }
+        })
+      }
+      
+    },
+    errorAlert(msg) {
+      this.$alert(msg, '警告', {
+        confirmButtonText: '去添加',
+        center: true,
+        type: 'error'
+      }).then(()=>{
+        // 跳转到商品页
+        // this.$router.push('/')
+      }).catch(()=> {})
     }
   },
   computed: {
