@@ -385,17 +385,17 @@
           <p>我们正在寻找那些与我们有一样梦想的人,如果你是： 富有创意的花艺师、编程极客、优秀的网站产品经理和策划推广人员；请将简历发到 hr@roseonly.com</p>
           <p>roseonly期待您的加入。</p>
           <p class="font_s">相关职位</p>
-          <p class="store" @click="returnTop('.store')">店铺店长></p>
-          <p class="florists" @click="returnTop('.florists')">店铺花艺师></p>
-          <p class="sale" @click="returnTop('.sale')">珠宝销售></p>
-          <p class="engineer" @click="returnTop('.engineer')">高级Java开发工程师></p>
-          <p class="bi" @click="returnTop('.bi')">BI工程师></p>
-          <p class="media" @click="returnTop('.media')">新媒体编辑></p>
-          <p class="h5" @click="returnTop('.h5')">H5高级研发工程师></p>
-          <p class="finance" @click="returnTop('.finance')">高级财务经理></p>
-          <a href="javascript:;" class="ui" @click="returnTop('.ui')">UI设计></a>
+          <p class="point" @click="returnTop('#store')">店铺店长></p>
+          <p class="point" @click="returnTop('#florists')">店铺花艺师></p>
+          <p class="point" @click="returnTop('#sale')">珠宝销售></p>
+          <p class="point" @click="returnTop('#engineer')">高级Java开发工程师></p>
+          <p class="point" @click="returnTop('#bi')">BI工程师></p>
+          <p class="point" @click="returnTop('#media')">新媒体编辑></p>
+          <p class="point" @click="returnTop('#h5')">H5高级研发工程师></p>
+          <p class="point" @click="returnTop('#finance')">高级财务经理></p>
+          <p class="point" @click="returnTop('#ui')">UI设计></p>
           <br>
-          <div class="font_s store">店铺店长</div>
+          <div class="font_s" id="store">店铺店长</div>
             <p >岗位职责:</p>
             <p>1、全面主持店铺的管理工作，配合总部的各项营销策略的实施；</p>
             <p>2、负责完成公司下达的销售计划和销售目标，并进行月销售分析；</p>
@@ -405,7 +405,7 @@
             <p>2、4年以上终端零售管理，两年以上高档奢侈品专柜店长管理工作经验（花店，珠宝行业优先）；</p>
             <p>3、优秀的团队管理、精通柜台商品进销，盘点，销售统计等店务工作；</p>
             <p>4、良好的组织协调能力，优秀的语言表达能力（流利的中文及基本英文水平），执行能力和学习能力。</p>
-          <div class="font_s florists">店铺花艺师</div>
+          <div class="font_s" id="florists">店铺花艺师</div>
             <p>岗位职责:</p>
             <p>1、热爱时尚花艺，并有较高悟性，对色彩有独到见解和理解能力；</p>
             <p>2、熟悉门店鲜花产品的设计，及熟练包装技巧；</p>
@@ -415,7 +415,7 @@
             <p>1、热爱花卉艺术，富有创造力，1年以上相关工作经验；</p>
             <p>2、专注做事，诚恳认真，踏实稳定，敬业并有激情，具备团队意识、责任感及行动力；</p>
             <p>3、熟悉各种花材和花器的特性、材质。</p>
-          <div class="font_s sale">珠宝销售</div>
+          <div class="font_s" id="sale">珠宝销售</div>
             <p>岗位职责:</p>
             <p>1、熟悉门店相关展品的相关知识和销售流程；</p>
             <p>2、热情接待顾客，了解顾客的需求，解答顾客的疑问；</p>
@@ -426,9 +426,8 @@
             <p>1、珠宝专业或者1年以上相关工作经验者；</p>
             <p>2、服务热情，工作态度端正、积极肯干；</p>
             <p>3、善于沟通，具备较强的语言表达能力，有强烈的进取心和上进心；</p>
-            <p>4、为人正直，有较强的应变能力和学习能力，富有开拓精神。</p>
-          
-          <div class="font_s engineer">高级Java开发工程师</div>
+            <p>4、为人正直，有较强的应变能力和学习能力，富有开拓精神。</p>          
+          <div class="font_s" id="engineer">高级Java开发工程师</div>
             <p>岗位职责:</p>
             <p>1、参与团队敏捷过程的完善，并持续改进；</p>
             <p>2、参与项目需求分析和系统设计及架构；</p>
@@ -436,9 +435,8 @@
             <p>素质要求:</p>
             <p>1、本科以上、4年开发工作经验；</p>
             <p>2、熟练JAVA语言，及JEE相关的常用开源框架，至少熟悉一种数据库，熟练使用基本linux操作。沟通能力好；</p>
-            <p>3、具有良好的沟通能力及团队协作精神, 有较强的分析和解决问题的能力；具备良好的心理素质, 能够承受一定的工作力。</p>
-          
-          <div class="font_s bi">BI工程师</div>
+            <p>3、具有良好的沟通能力及团队协作精神, 有较强的分析和解决问题的能力；具备良好的心理素质, 能够承受一定的工作力。</p>  
+          <div class="font_s" id="bi">BI工程师</div>
             <p>岗位职责:</p>
             <p>1、负责BI数据仓库的规划和搭建；</p>
             <p>2、参与需求分析，数据仓库建模，功能设计及评审；</p>
@@ -451,8 +449,7 @@
             <p>3、熟悉BI的各个环节(ETL、DW、OLAP)及工具的使用；</p>
             <p>4、熟悉使用MySQL，对查询优化有深入的理解。熟练掌握shell、awk等脚本语言，熟悉在linux上用脚本处理文件；</p>
             <p>5、精通JAVA程序开发，熟悉 B/S 编程，对 B/S 结构有深入了解，具有JAVA网络编程开发经验优化。</p>
-          </div>
-          <div class="font_s media">新媒体编辑 （招聘人数： 2 人 ）</div>
+          <div class="font_s" id="media">新媒体编辑 （招聘人数： 2 人 ）</div>
             <p>岗位职责:</p>
             <p>1、根据公司整体营销计划，完成品牌微博微信等社交媒体运营策略及活动策划 ；</p>
             <p>2、负责社交媒体的日常内容编辑、发布等运营工作；</p>
@@ -467,7 +464,7 @@
             <p>4、充分了解用户需求，搜集用户反馈，分析用户行为；</p>
             <p>5、协助完成自媒体kol、自媒体广告的推广投放工作；</p>
             <p>6、协助完成部分品牌合作工作。</p>
-          <div class="font_s h5">H5高级研发工程师</div>
+          <div class="font_s" id="h5">H5高级研发工程师</div>
             <p>岗位职责:</p>
             <p>1.开发基于Html5的WAP网页前端开发，适配多种浏览器；</p>
             <p>2.参与项目重点、难点模块的研发工作；</p>
@@ -484,7 +481,7 @@
             <p>7.学习能力强，具备良好的问题分析和解决能力，对新技术有敏感性并愿意致力于新技术研究；</p>
             <p>8.乐观，上进，有钻研精神，充满激情好奇，热爱互联网行业，能够快速融入团队合作；</p>
             <p>9.具有新媒体微信、微博等开发经验优先。</p>
-          <div class="font_s finance">高级财务经理（招聘人数： 1 人 ）</div>
+          <div class="font_s" id="finance">高级财务经理（招聘人数： 1 人 ）</div>
             <p>岗位职责:</p>
             <p>1.建立、健全财务管理体系，对财务部门的日常管理、年度预算、资金运作等进行总体控制； </p>
             <p>2.与财政、税务、银行、证券等相关政府部门及会计师事务所等相关中介机构建立并保持良好的关系； </p>
@@ -500,7 +497,7 @@
             <p>4、熟悉财务核算流程，有不断学习的意愿； </p>
             <p>5、为人正直、责任心强、作风严谨、工作仔细认真； 有较强的沟通协调能力； 有良好的纪律性、团队合作以及开拓创新精神；</p>
             <p>6、有良好的沟通和人际交往能力，组织协调能力和承压能力。</p>
-          <div class="font_s ui">UI设计（招聘人数： 1 人 ）</div>
+          <div class="font_s" id="ui">UI设计（招聘人数： 1 人 ）</div>
             <p>岗位职责:</p>
             <p>1、负责公司微博微信日常推送的图片创意以及制作； </p>
             <p>2、负责公司微博微信节日和活动时设计并制作HTML5页面； </p>
@@ -516,6 +513,7 @@
             <p>5、善于与人沟通，良好的团队合作精神和绝对的执行力，具备高度的责任感，能够承受压力，有创新精神，能够保质保量的完成工作；</p>
             <p>6、有较强的自学能力及吃苦耐劳的工作精神；</p>
             <p>7、美术专业优先，有自媒体设计经验者优先</p>
+          </div>
       </el-tab-pane>
       
       <!-- 保养物语 -->
@@ -524,7 +522,42 @@
         <div class="content">
           <h2 class="title">保养物语</h2>
           <hr class="first">
-          <img src="" alt="">
+          <ul class="list">
+            <li>
+              <div>鲜花玫瑰</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes01.png" alt="roseonly">
+            </li>
+            <li>
+              <div>永生玫瑰</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes02.png" alt="roseonly">
+            </li>
+            <li>
+              <div>巧克力</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes06.png" alt="roseonly">
+            </li>
+            <li>
+              <div>玫瑰珠宝</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes07.png" alt="roseonly">
+            </li>
+          </ul>
+          <ul class="list">
+            <li>
+              <div>围巾</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes08.png" alt="roseonly">
+            </li>
+            <li>
+              <div>蜡烛</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes09.png" alt="roseonly">
+            </li>
+            <li>
+              <div>玫瑰饰品</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes10.png" alt="roseonly">
+            </li>
+            <li>
+              <div>钻戒</div>
+              <img src="https://www.roseonly.com.cn/index/images/notes11.png" alt="roseonly">
+            </li>
+          </ul>
         </div>
       </el-tab-pane>
       
@@ -552,31 +585,58 @@ export default {
     returnTop:function(selector){
       document.querySelector(selector).scrollIntoView(true);      
     }
-  },
-  watch: {
-    
   }
 }
 </script>
 
 <style>
-  .c_red{
+  .store_tit {
+    line-height: 50px;
+    text-align: center;
+  }
+  .details {
+    height: 180px;
+    line-height: 25px;
+    display: table-cell;
+    vertical-align: middle;
+    padding-left: 20px;
+  }
+  .note img {
+    display: block;float: left;
+  }
+  .list {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    color: #000;
+  }
+  .list li {
+    width: 270px;
+    text-align: center;
+    display: block;
+    float: left;
+    padding-bottom: 20px;
+  }
+  .point {
+    cursor: pointer;
+  }
+  .c_red {
     font-weight: normal;
     color: #c71f2c;
   }
-  .page4{
+  .page4 {
     margin-bottom: 16px;
   }
-  .line_cls{
+  .line_cls {
     line-height: 26px;
   }
-  .font_s{
+  .font_s {
     font-size: 18px;
   }
-  .font_c{
+  .font_c {
     text-align: center
   }
-  .font_b{
+  .font_b {
     font-weight: bold;
   }
   .code {
@@ -647,7 +707,7 @@ export default {
   .content {
     padding: 0 30px;
   }
-  .el-tabs__header{
+  .el-tabs__header {
     padding-top: 80px;
   }
   .is_left {
