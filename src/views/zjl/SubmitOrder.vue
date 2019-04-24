@@ -183,7 +183,7 @@ export default {
             token = sessionStorage.getItem("token");
           // 发起请求
           this.axios
-            .post("/users/" + userId + "/addresses/delete", {
+            .post("/users/{" + userId + "/}addresses/delete", {
               userId: userId,
               userToken: token,
               addressId: id
@@ -240,7 +240,7 @@ export default {
         }
         // 发起请求，传输数据
         this.axios
-          .post("/users/" + userId + "/addresses/" + way, {
+          .post("/users/{" + userId + "}/addresses/" + way, {
             userId: userId,
             userToken: token,
             ...this.editAddr
@@ -275,7 +275,7 @@ export default {
       const userId = sessionStorage.getItem("userId"),
         token = sessionStorage.getItem("token");
       this.axios
-        .get("/users/" + userId + "/addresses/list", {
+        .get("/users/{" + userId + "}/addresses/list", {
           userId: userId,
           userToken: token
         })
@@ -307,6 +307,8 @@ export default {
           orderDetailArriveDate: this.deliveryTime
         })
         .then(res => {
+          this.clearInput();
+          this.flag = false;
           console.log("提交成功", res);
         })
         .catch(err => {
