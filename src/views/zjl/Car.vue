@@ -85,7 +85,7 @@ export default {
       const userId = sessionStorage.getItem("userId");
       if (token) {
         this.axios
-          .get("/trolley/" + userId, {
+          .get("/trolley/{" + userId + '}', {
             userId: userId,
             userToken: token
           })
