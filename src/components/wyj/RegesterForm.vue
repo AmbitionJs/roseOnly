@@ -125,6 +125,7 @@ export default {
                 })
                 .then(res=>{
                     if(res.code ==200){
+                        console.log('手机号码验证请求成功')
                          this.$refs.telText.innerText = "手机号码可以使用注册";
                           this.$refs.telText.style.color = "green";
                     }else{
@@ -245,7 +246,8 @@ export default {
                 cellphone:this.username,
             })
             .then((res)=>{
-                console.log('手机验证请求成功',res.data.smsCode);
+            
+                console.log('手机验证请求成功',res);
                   that.smsCode = res.data.smsCode
             })
             .catch((err)=>{
