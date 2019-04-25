@@ -1,38 +1,34 @@
 <template>
-    <div class="login note" ref="login" :style ="note">
-        <loginForm></loginForm>
+    <div class="regester note" :style = "note">
+        <regesterForm></regesterForm>
     </div>
 </template>
 <script>
-import loginForm from "@/components/wyj/LoginForm"
+import regesterForm from "@/components/wyj/RegesterForm"
 export default {
-    name:'login',
+    name:'regester',
     components:{
-        loginForm
+        regesterForm
     },
-     data(){
+    data(){
         return{
-            note:{
+             note:{
                 backgroundImage: "url(" + require("../../../public/login.jpg") + ")",
                 backgroundSize:"cover",
                 backgroundRepeat:'no-repeat',
                 backgroundPosition:'center'
             }
-            
         }
-    },
+    }
 }
 </script>
 <style>
-.login{
+.regester{
     width: 100%;
     height: 600px;
+    background-color:black;
     position: relative;
-    /* background-color: black; */
     min-width: 1346px;
-    
 }
 
 </style>
-
-
