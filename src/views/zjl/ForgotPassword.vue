@@ -66,7 +66,7 @@
 
 <script>
 import { setTimeout } from 'timers';
-import '../../../public/js/verifyCode.js';
+import '@/assets/zjl/js/verifyCode.js';
 
 export default {
   data() {
@@ -104,7 +104,7 @@ export default {
         pass: "",
         checkPass: ""
       },
-      checkCode: 1234, // 手机验证码
+      checkCode: '', // 手机验证码
     }
   },
   methods: {
@@ -126,13 +126,14 @@ export default {
     next2() {
       // 第二步：验证身份
       if(this.active == 1) {
-        if(this.step2.verify == this.checkCode) {
+        if(this.step2.verify == this.checkCode && this.step2.verify != '' && this.checkCode != '') {
           this.active = 2
         } else {
           if(this.step2.verify == '') {
           this.errorAlert('请输入短信验证码')
+          } else {
+            this.errorAlert('短信验证码不正确')
           }
-          this.errorAlert('短信验证码不正确')
         }
       }
     },
@@ -153,8 +154,8 @@ export default {
                   
                     if(this.active == 4) {
                       setTimeout(() => {
-                        console.log('denglu')
-                        // this.$router.push('/login')
+                        console.log('设置成功')
+                        this.$router.push('/login')
                       },3000) 
                   }
                 },300)
@@ -175,7 +176,7 @@ export default {
     },
     // 获取手机验证码
     getCode() {
-      this.axios.post('/users/sms/'+ this.step2.phone, {
+      this.axios.post('/users/sms/{'+ this.step2.phone + '}', {
         cellphone: this.step2.phone
       })
       .then(res => {

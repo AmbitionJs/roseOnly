@@ -1,5 +1,5 @@
 <template>
-  <div class="good-lists">
+  <div class="good-lists-item">
     <el-row>
       <el-col :span="4"><div class="grid-content bg-purple">
         <router-link to="/">
@@ -32,15 +32,15 @@ export default {
 </script>
 
 <style>
-.good-lists {
+.good-lists-item {
   padding: 10px;
   border-bottom: 1px solid #eee;
   /* line-height: 100px; */
 }
-.good-lists:last-child {
+.good-lists-item:last-child {
   border-bottom: none;
 }
-.good-lists .good-img {
+.good-lists-item .good-img {
   width: 100px;
   height: 100px;
   display: block;

@@ -36,7 +36,8 @@
             </div>
           </td>
           <td>
-            <span class="del-shopping-list" @click="deleteList(item.goodsIds)">删除</span>
+            <!-- <span class="del-shopping-list" @click="deleteList(item.goodsIds)">删除</span> -->
+            <el-button type="danger" icon="el-icon-delete" @click="deleteList(item.goodsIds)" size="mini" circle></el-button>
           </td>
         </tr>
       </table>
@@ -68,65 +69,35 @@ export default {
   name: "cart",
   data() {
     return {
-      cartDatas: [
-        {
-          goodsIds: 1,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        },
-        {
-          goodsIds: 2,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        },
-        {
-          goodsIds: 3,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 1999,
-          goodsNum: 1
-        },
-        {
-          goodsIds: 4,
-          brand: "roseonly",
-          goodsName: "玫瑰公仔-项圈狗手链与甜心狗",
-          picFileUrl: "",
-          goodsPrice: 2999,
-          goodsNum: 2
-        }
-      ]
+      cartDatas: []
     };
   },
   created() {
-    // 获取购物车数据
-    const token = sessionStorage.getItem("token");
-    const userId = sessionStorage.getItem("userId");
-    if (token) {
-      this.axios
-        .get("/trolley/" + userId, {
-          userId: userId,
-          userToken: token
-        })
-        .then(res => {
-          console.log(res);
-          this.cartDatas = res.data
-        })
-        .catch(err => {
-          console.log(err);
-        });
-    }
+    this.getCarDatas()
   },
   methods: {
     ...mapMutations('orders',[
       'cartOrders'
     ]),
+    getCarDatas() {
+        // 获取购物车数据
+      const token = sessionStorage.getItem("token");
+      const userId = sessionStorage.getItem("userId");
+      if (token) {
+        this.axios
+          .get("/trolley/{" + userId + '}', {
+            userId: userId,
+            userToken: token
+          })
+          .then(res => {
+            console.log(res);
+            this.cartDatas = res.data
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      }
+    },
     // 删除单个购物车商品
     deleteList(id) {
       var goodsIds = [];
@@ -143,20 +114,21 @@ export default {
           })
           .then(res => {
             console.log(res);
+            this.getCarDatas()
           })
           .catch(err => {
             console.log(err);
           });
       }
-      this.cartDatas.forEach((item,index) => {
+      /* this.cartDatas.forEach((item,index) => {
         if(item.goodsIds == id) {
           this.cartDatas.splice(index, 1)
         }
-      })
+      }) */
     },
     // 清空购物车
     clearCart() {
-      this.cartDatas = []
+      // this.cartDatas = []
       const token = sessionStorage.getItem("token");
       if (token) {
         this.axios
@@ -165,6 +137,7 @@ export default {
           })
           .then(res => {
             console.log(res);
+            this.getCarDatas()
           })
           .catch(err => {
             console.log(err);
@@ -181,12 +154,12 @@ export default {
         }
       });
       console.log(num);
-      // const token = sessionStorage.getItem("token")
-      // this.axios.post('/trolley/add', {
-      //   goodsId: id,
-      //   goodsNum: num,
-      //   userToken: token
-      // })
+      const token = sessionStorage.getItem("token")
+      this.axios.post('/trolley/add', {
+        goodsId: id,
+        goodsNum: num,
+        userToken: token
+      })
     },
     // 全选/取消全选
     selectAll(_isSelect) {
@@ -203,16 +176,31 @@ export default {
         }
       });
       console.log(ids);
-      this.axios.post('/trolley/settlement', {
-        trolleyIds: ids,
-        userToken: token
-      })
-      .then(res => {
-        if(res.state == 200) {
-          this.$router.push('/submitOrder')
-          this.cartOrders(res.data)
-        }
-      })
+      if(ids.length == 0) {
+        this.errorAlert('您的购物车没有产品！')
+      } else {
+        this.axios.post('/trolley/settlement', {
+          trolleyIds: ids,
+          userToken: token
+        })
+        .then(res => {
+          if(res.state == 200) {
+            this.$router.push('/submitOrder')
+            this.cartOrders(res.data)
+          }
+        })
+      }
+      
+    },
+    errorAlert(msg) {
+      this.$alert(msg, '警告', {
+        confirmButtonText: '去添加',
+        center: true,
+        type: 'error'
+      }).then(()=>{
+        // 跳转到商品页
+        // this.$router.push('/')
+      }).catch(()=> {})
     }
   },
   computed: {
