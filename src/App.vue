@@ -13,7 +13,6 @@
   </div>
 </template>
 
-<<<<<<< HEAD
 <script>
 import Nav from '@/components/hjs/Navigation.vue'
 import Footer from '@/components/hjs/Footer.vue'
@@ -60,9 +59,5 @@ export default {
   .mtop{
     margin-top: 150px;
   }
-=======
-<style>
-  
->>>>>>> 2915fcf85b25e2a862a554fbeecfd18cd876ce1c
 </style>
 
