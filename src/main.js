@@ -6,8 +6,6 @@ import store from './store/store'
 import axios from 'axios'
 import SIdentify from "@/components/wyj/identify"
 Vue.prototype.axios = axios
-//统一设置请求的前缀
-axios.defaults.baseURL = "http://172.16.7.71:8080"
 
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
@@ -54,7 +52,8 @@ Vue.use(VueAreaLinkage)
 
 
 // 统一设置请求的前缀
-axios.defaults.baseURL = 'http://172.16.7.71:8080'
+// axios.defaults.baseURL = 'http://172.16.7.71:8080'
+axios.defaults.baseURL = 'http://127.0.0.1:3000'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 
 // 请求拦截

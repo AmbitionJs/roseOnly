@@ -4,7 +4,7 @@
     <el-card class="box-card">
       <!-- 订单的 基本信息 和 操作 -->
       <div slot="header" class="clearfix">
-        <span>订单编号: 2019031216408152</span>
+        <span>订单编号: {{ order.orderDetailNo }}</span>
         <span>订单时间: 2019-03-12 16:40</span>
         <el-tooltip class="item" effect="dark" content="显示订单详细信息" placement="bottom">
           <el-button type="text" icon="el-icon-date" @click="dialogTableVisible = true"></el-button>
@@ -152,6 +152,9 @@
 </style>
 
 <script>
+// 导入 Vuex
+import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
+
 export default {
   data() {
     return {
@@ -180,8 +183,8 @@ export default {
       results: null
     };
   },
-  created() {
-  }
+  created() {},
+  props: ["order"]
 };
 </script>
 
