@@ -7,10 +7,21 @@ export default new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [
-    {
+     // 黄家盛
+     {
       path:'/',
       name:'home',
       component: () => import('./views/hjs/Home.vue')
+    },
+    {
+      path:'/Category/:id',
+      name:'Category',
+      component: () => import('./views/hjs/Category.vue')
+    },
+    {
+      path:'/GoodsDetail/:id',
+      name:'GoodsDetail',
+      component:() => import('./views/hjs/GoodsDetail.vue')
     },
     // 贺斯洁
     {
