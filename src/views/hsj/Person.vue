@@ -2,7 +2,7 @@
   <div class="person">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="我的订单" name="order-lists">
-        <Order v-for="i in 10" :key="i"/>
+        <Order />
       </el-tab-pane>
       <el-tab-pane label="退换列表" name="return-lists">
         <Order v-for="i in 10" :key="i"/>
@@ -29,7 +29,9 @@ import ShipAddress from '../../components/hsj/ShipAddress.vue'
 export default {
   data() {
     return {
-      activeName: "order-lists"
+      activeName: "order-lists",
+      result: null,
+      isResponse: false
     };
   },
   methods: {
@@ -41,7 +43,15 @@ export default {
     Order,
     Info,
     ShipAddress
-  }
+  },
+  created() {
+    this.axios
+      .get("/users")
+      .then(response => {
+        this.result = response
+        this.isResponse = true
+      });
+  },
 };
 </script>
 

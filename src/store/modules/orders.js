@@ -33,7 +33,6 @@ const state = {
     goodsPrice: 2999,
     goodsNum: 2
   }],
-
 }
 
 export default {

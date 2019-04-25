@@ -176,8 +176,11 @@ export default {
           itemCount: "3",
           itemTotalPrice: "3000"
         }
-      ]
+      ],
+      results: null
     };
+  },
+  created() {
   }
 };
 </script>
