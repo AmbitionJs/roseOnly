@@ -179,11 +179,11 @@ export default {
         type: "warning"
       })
         .then(() => {
-          const userId = sessionStorage.getItem("userId"),
-            token = sessionStorage.getItem("token");
+          const userId = localStorage.getItem("userId"),
+            token = localStorage.getItem("token");
           // 发起请求
           this.axios
-            .post("/users/{" + userId + "/}addresses/delete", {
+            .post("/users/" + userId + "/addresses/delete", {
               userId: userId,
               userToken: token,
               addressId: id
@@ -220,8 +220,8 @@ export default {
       }
       if (isEmpty == false && this.selected.length > 0) {
         // 获取用户id 和 身份信息token
-        let userId = sessionStorage.getItem("userId"),
-          token = sessionStorage.getItem("token"),
+        let userId = localStorage.getItem("userId"),
+          token = localStorage.getItem("token"),
           way = "";
         // 给提交地址的省市区 重新赋值
         this.editAddr.province = this.selected[0];
@@ -240,7 +240,7 @@ export default {
         }
         // 发起请求，传输数据
         this.axios
-          .post("/users/{" + userId + "}/addresses/" + way, {
+          .post("/users/" + userId + "/addresses/" + way, {
             userId: userId,
             userToken: token,
             ...this.editAddr
@@ -272,10 +272,10 @@ export default {
     },
     // 获取地址数据
     getAddress() {
-      const userId = sessionStorage.getItem("userId"),
-        token = sessionStorage.getItem("token");
+      const userId = localStorage.getItem("userId"),
+        token = localStorage.getItem("token");
       this.axios
-        .get("/users/{" + userId + "}/addresses/list", {
+        .get("/users/" + userId + "/addresses/list", {
           userId: userId,
           userToken: token
         })
@@ -287,7 +287,7 @@ export default {
     // 提交订单
     submitOrder() {
       console.log(
-        sessionStorage.getItem("token"),
+        localStorage.getItem("token"),
         this.submitOrderList.orderDetailId,
         this.submitOrderList.orderDetailNo,
         this.radio,
@@ -297,7 +297,7 @@ export default {
       );
       this.axios
         .post("/orders/submit", {
-          userToken: sessionStorage.getItem("token"),
+          userToken: localStorage.getItem("token"),
           orderDetailId: this.submitOrderList.orderDetailId,
           orderDetailNo: this.submitOrderList.orderDetailNo,
           addressId: this.radio,
