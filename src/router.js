@@ -3,13 +3,8 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-<<<<<<< HEAD
-const router =  new Router({
-  mode:'history',
-=======
-export default new Router({
+const router = new Router({
   mode: 'history',
->>>>>>> 7d3ca03ae235f469db05edfb2118356012cc2e8f
   base: process.env.BASE_URL,
   routes: [
      // 黄家盛
@@ -39,7 +34,6 @@ export default new Router({
       name: 'foot',
       component: () => import('./views/csh/index.vue')
     },
-<<<<<<< HEAD
     {// 王云杰  登录路由
       path: '/login',
       name: 'login',
@@ -74,23 +68,3 @@ router.beforeEach((to,from,next)=>{
 })
 
 export default router
-
-=======
-    {
-      path: '/car',
-      name: 'car',
-      component: () => import('./views/zjl/Car.vue')
-    },
-    {
-      path: '/submitOrder',
-      name: 'submitOrder',
-      component: () => import('./views/zjl/SubmitOrder.vue')
-    },
-    {
-      path: '/forgotPassword',
-      name: 'forgotPassword',
-      component: () => import('./views/zjl/ForgotPassword.vue')
-    },
-  ],
-})
->>>>>>> 7d3ca03ae235f469db05edfb2118356012cc2e8f
