@@ -13,6 +13,8 @@ import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 //引入基础css样式
 import "@/Cssset/basecss.css"
+// 引入跨域 qs
+import qs from 'qs'
 
 Vue.use(ElementUI);
 //这个是使用动态验证码
@@ -56,6 +58,15 @@ Vue.use(VueAreaLinkage)
 // 统一设置请求的前缀
 axios.defaults.baseURL = 'http://172.16.7.71:8080'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
+axios.interceptors.request.use(config => {
+  if(config.type == 'formData' || config.method != 'post'){
+      return config
+  }
+  config.data = qs.stringify(config.data)
+  return config
+  }, (err) =>{
+  return Promise.reject(err);
+})
 
 // 请求拦截
 // axios.interceptors.request.use(config => {

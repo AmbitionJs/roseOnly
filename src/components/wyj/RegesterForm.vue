@@ -70,7 +70,7 @@
 </template>
 <script>
 import identify from "@/components/wyj/identify"
-import qs from 'qs'
+// import qs from 'qs'
 export default {
     name:'regesterForm',
     data(){
@@ -202,15 +202,15 @@ export default {
                 if(this.telstyle==1 && passpat.test(userpass) && pictureIpt == this.identifyCode && this.inputCode == this.smsCode){
                     console.log(cellphone,md5(userpass))
                     // 测试
-                    this.axios.interceptors.request.use(config => {
-                        if(config.type == 'formData' || config.method != 'post'){
-                            return config
-                        }
-                        config.data = qs.stringify(config.data)
-                        return config
-                        }, (err) =>{
-                        return Promise.reject(err);
-                    })
+                    // this.axios.interceptors.request.use(config => {
+                    //     if(config.type == 'formData' || config.method != 'post'){
+                    //         return config
+                    //     }
+                    //     config.data = qs.stringify(config.data)
+                    //     return config
+                    //     }, (err) =>{
+                    //     return Promise.reject(err);
+                    // })
                   //发送ajax请求，将创建的账号传入数据库
                   this.axios.post('/users/register',{
                       cellphone:cellphone,
