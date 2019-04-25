@@ -81,11 +81,11 @@ export default {
     ]),
     getCarDatas() {
         // 获取购物车数据
-      const token = sessionStorage.getItem("token");
-      const userId = sessionStorage.getItem("userId");
+      const token = localStorage.getItem("token");
+      const userId = localStorage.getItem("userId");
       if (token) {
         this.axios
-          .get("/trolley/{" + userId + '}', {
+          .get("/trolley/" + userId, {
             userId: userId,
             userToken: token
           })
@@ -105,7 +105,7 @@ export default {
         goodsIds.push(id);
       }
       console.log(goodsIds);
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (token) {
         this.axios
           .post("/trolley/delete", {
@@ -120,16 +120,12 @@ export default {
             console.log(err);
           });
       }
-      /* this.cartDatas.forEach((item,index) => {
-        if(item.goodsIds == id) {
-          this.cartDatas.splice(index, 1)
-        }
-      }) */
+
     },
     // 清空购物车
     clearCart() {
       // this.cartDatas = []
-      const token = sessionStorage.getItem("token");
+      const token = localStorage.getItem("token");
       if (token) {
         this.axios
           .post("/trolley/delete", {
@@ -154,7 +150,7 @@ export default {
         }
       });
       console.log(num);
-      const token = sessionStorage.getItem("token")
+      const token = localStorage.getItem("token")
       this.axios.post('/trolley/add', {
         goodsId: id,
         goodsNum: num,
@@ -169,7 +165,7 @@ export default {
     },
     // 结算
     settlement() {
-      var ids = [],token = sessionStorage.getItem('token')
+      var ids = [],token = localStorage.getItem('token')
       this.cartDatas.forEach(item => {
         if (item.select) {
           ids.push(item.goodsIds);

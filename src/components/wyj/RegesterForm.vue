@@ -70,6 +70,7 @@
 </template>
 <script>
 import identify from "@/components/wyj/identify"
+// import qs from 'qs'
 export default {
     name:'regesterForm',
     data(){
@@ -111,33 +112,35 @@ export default {
             console.log('获取焦点了')
             this.$refs.borderChang.style.border = "3px solid #ddd6d6";
         },
-        // 这个是当账号失去焦点的时候的效果
+        // 这个是当电话号码失去焦点的时候
         telBlur(){
             //这个是输入框的边框恢复
             this.$refs.borderChang.style.border = "1px solid #e7e4e4";
             //这个是进行验证
             var pat  = /^1(3|4|5|7|8|9)\d{9}$/;
-            var username  = this.$refs.tel.value;
-            console.log(username);
-            if(pat.test(username)){
-                this.axios.get('/users/{cellphone}/verification',{
-                    cellphone:this.$refs.tel.value,
+            var cellphone  = this.$refs.tel.value;
+            
+            console.log(cellphone);
+            if(pat.test(cellphone)){
+                this.axios.get('/users/' + cellphone +'/verification',{
+                    cellphone:cellphone
                 })
                 .then(res=>{
-                    if(res.code ==200){
+                    console.log(res);
+                    if(res.data.code ==200){
                         console.log('手机号码验证请求成功')
-                         this.$refs.telText.innerText = "手机号码可以使用注册";
+                         this.$refs.telText.innerText = "手机号码可以使用";
                           this.$refs.telText.style.color = "green";
+                          this.$data.telstyle = 1;
                     }else{
                         this.$refs.telText.innerText = "手机号码不能使用";
                         this.$refs.telText.style.color = "red"; 
-                        this.telstyle = 1;
                     }
                 })
                 .catch(err=>{
                     console.log(err);
                 })
-            }else if(username ==''){
+            }else if(cellphone ==''){
                 this.$refs.telText.innerText = "手机号码不能为空";
                 this.$refs.telText.style.color = "red";
             }
@@ -148,9 +151,11 @@ export default {
         },
         // 这个是当密码框失去焦点的时候验证
         passBlur(){
+            //获取md5
+            var md5 = require('md5')
             var userpass = this.$refs.passInput.value;
             var pat  = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
-            console.log(userpass)
+            console.log(md5(userpass))
             if(userpass ==""){
                 this.$refs.passText.innerText="密码不能为空";
                 this.$refs.passText.style.color="red";
@@ -179,46 +184,41 @@ export default {
         regesterBtn(){
             console.log('注册按钮被点击了')
             //获取username
-            var username = this.$refs.tel.value;
-            //获取验证电话号码
-            var telpat =  /^1(3|4|5|7|8|9)\d{9}$/;
+            var cellphone = this.$refs.tel.value;
+            //获取md5
+            var md5  = require('md5')
             //获取密码验证
             var passpat =/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,16}$/;
             //获取userpass
             var userpass = this.$refs.passInput.value;
             //获取输如验证图形验证框的内容
             var pictureIpt  = this.$refs.pictureInput.value
-            if(username ==" " || userpass=="" || pictureIpt =="" || this.inputCode ==''){
+            if(cellphone ==" " || userpass=="" || pictureIpt =="" || this.inputCode ==''){
                 this.$refs.passText.innerText = "账号,密码,短信验证或图形验证不能为空",
                 this.$refs.passText.style.color = 'red';
                 //这个是当不为空的时候
             }else {
-                //这个是当账号格式不正确
-                if(!(telpat.test(username))){
-                     this.$refs.passText.innerText = "账号格式不正确，请重新输入";
-                     this.$refs.passText.style.color = "red";
-                }
-                else if (!(passpat.test(userpass))){
-                    this.$refs.passText.innerText = "密码格式不正确，请重新输入";
-                    this.$refs.passText.style.color = "red";
-                }else if(!(pictureIpt == this.identifyCode)){
-                    this.$refs.passText.innerText = "图形验证不正确，请重新输入";
-                    this.$refs.passText.style.color = "red";
-                    //当有2个同时错误
-                }else{
-                     this.$refs.passText.innerText = "账号，密码,短信或图形验证不正确，请重新输入";
-                     this.$refs.passText.style.color = "red";
-                }
-                //当账号，密码，图形验证都正确的时候
+                 //当账号，密码，图形验证和短信验证都正确的时候
                 if(this.telstyle==1 && passpat.test(userpass) && pictureIpt == this.identifyCode && this.inputCode == this.smsCode){
-                    console.log(username,userpass)
+                    console.log(cellphone,md5(userpass))
+                    // 测试
+                    // this.axios.interceptors.request.use(config => {
+                    //     if(config.type == 'formData' || config.method != 'post'){
+                    //         return config
+                    //     }
+                    //     config.data = qs.stringify(config.data)
+                    //     return config
+                    //     }, (err) =>{
+                    //     return Promise.reject(err);
+                    // })
                   //发送ajax请求，将创建的账号传入数据库
                   this.axios.post('/users/register',{
-                      cellphone:username,
+                      cellphone:cellphone,
                       password:userpass
                   })
                    .then((res)=>{
-                       if(res.code ==200){
+                       console.log(res)
+                       if(res.data.code ==200){
                            //成功，跳转到登录页面
                         this.$router.oush('/login')
                        }
@@ -227,7 +227,11 @@ export default {
                        console.log(err);
                    })
                     
+                }else{
+                     this.$refs.passText.innerText = "账号，密码,短信或图形验证不正确，请重新输入";
+                     this.$refs.passText.style.color = "red";
                 }
+               
             }
         },
         //点击跳转到login页面
@@ -238,22 +242,24 @@ export default {
         sendMsg(){
             var that = this;
             console.log('发送验证码')
-           if(this.$refs.tel.value == ''){
+            var cellphone = this.$refs.tel.value;
+           if(cellphone == ''){
                this.$refs.telText.innerText = "请输入正确的手机号码";
                this.$refs.telText.style.color ="red"
            }else{
-                this.axios.post('/users/sms/{cellphone}',{
-                cellphone:this.username,
-            })
-            .then((res)=>{
-            
-                console.log('手机验证请求成功',res);
-                  that.smsCode = res.data.smsCode
-            })
-            .catch((err)=>{
-                console.log('手机验证请求失败',err);
-            })
-           }
+                this.axios.post('/users/sms/'+ cellphone ,{
+                cellphone:cellphone,
+                })
+                .then((res)=>{
+                    console.log('手机验证请求成功',res);
+                    console.log(res.data.data.smsCode)  
+                    that.smsCode = res.data.data.smsCode
+                    console.log(that.smsCode);
+                })
+                .catch((err)=>{
+                    console.log('手机验证请求失败',err);
+                })
+                }
         },
         //当短信验证框失去焦点的时候进行验证
         msgTest(){
@@ -287,7 +293,7 @@ export default {
     left:65%;
     top: 50px;
     font-size: 16px;
-    padding-top: 40px;
+    padding-top: 20px;
 }
 /* form表单整体样式 */
 form{

@@ -176,7 +176,7 @@ export default {
     },
     // 获取手机验证码
     getCode() {
-      this.axios.post('/users/sms/{'+ this.step2.phone + '}', {
+      this.axios.post('/users/sms/'+ this.step2.phone, {
         cellphone: this.step2.phone
       })
       .then(res => {

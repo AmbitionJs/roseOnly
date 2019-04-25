@@ -42,6 +42,22 @@ const router = new Router({
       path: '/regester',
       name: 'regeter',
       component: () => import('./views/wyj/Regester.vue'),
+    },
+    // 张金玲
+    {
+      path: '/car',
+      name: 'car',
+      component: () => import('./views/zjl/Car.vue')
+    },
+    {
+      path: '/submitOrder',
+      name: 'submitOrder',
+      component: () => import('./views/zjl/SubmitOrder.vue')
+    },
+    {
+      path: '/forgotPassword',
+      name: 'forgotPassword',
+      component: () => import('./views/zjl/ForgotPassword.vue')
     }
   ]
 })

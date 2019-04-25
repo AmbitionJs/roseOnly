@@ -97,6 +97,8 @@ export default {
         //登录按钮被点击的时候
         loginBtn(){
             console.log('登录按钮被点击了')
+            //获取md5
+            var md5 = require('md5')
             //获取username
             var username = this.$data.username;
             //获取userpass
@@ -115,22 +117,23 @@ export default {
                 //不为空的时候判断格式是否正确，如果格式正确发送请求
                 if(pat.test(username)){
                     console.log("格式正确，可以发送请求")
-                    console.log(this.username,this.userpass,this.identity)
+                    console.log(this.username,md5(this.userpass),this.identity)
                     this.axios.post('/users/login',{
                         cellphone:this.username,
-                        password:this.userpass,
+                        password:md5(this.userpass),
                         identity:this.identity
                     })
                     //请求成功
                     .then((res)=>{
-                        console.log(res.data);
-                        if(res.code == 200){
+                        console.log(res);
+                        if(res.data.code == 200){
                             localStorage.setItem('token',res.data.token);
                             console.log('登录成功')
                             //跳转到根路径
                             this.$router.push('/');
                         }else{
                              this.$refs.passText.innerText = "账号或密码错误";
+                             this.$refs.passText.style.color= "red";
                         }
                     })
                     // 请求失败的情况
