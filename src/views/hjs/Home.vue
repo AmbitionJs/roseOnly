@@ -1,41 +1,39 @@
 <template>
   <div id="homeApp">
-    <Nav />
-    <!-- 轮播图 -->
     <el-carousel trigger="click" height="450px">
-      <el-carousel-item v-for="item in imgList" :key="item">
-        <router-link to=''>
-          <img src="@/assets/hjs/testimg/1.jpg" alt="">
-          <div>{{typeof(item)+item}}</div>
+      <el-carousel-item v-for="item in getHomeLB" :key="item.id">
+        <router-link :to="'/Category/'+item.goodsTypeId">
+          <img :src="item.picFileUrl" alt="" >
         </router-link>
       </el-carousel-item>
     </el-carousel>
 
-    <p style="height:2000px" title="这里面是写内容的">{{navList}}</p>
-    <Footer />
+    <p style="height:2000px" title="这里面是写内容的">daffdaf</p>
   </div>
 </template>
 
 <script>
-import Nav from '@/components/hjs/Navigation.vue'
-import Carousel from '@/components/hjs/Carousel.vue'
-import Footer from '@/components/hjs/Footer.vue'
 import { mapState,mapMutations,mapActions,mapGetters } from 'vuex'
+
 
 export default {
   name:'home',
   data(){
     return {
-      imgList:['@/assets/hjs/testimg/1.jpg','@/assets/hjs/testimg/2.jpg','@/assets/hjs/testimg/3.jpg']
+
     }
   },
-  components:{
-    Nav,
-    Carousel,
-    Footer,
-  },
   computed:{
-    ...mapState('hjs',['navList'])
+    ...mapGetters('hjs',['getHomeLB'])
+  },
+  created(){
+    this.axios.get('/goods/client/search/all/list')
+     .then(res => {
+       console.log(res.data.data.length)
+     })
+     .catch(err => {
+       console.log('出错信息:',err)
+     })
   }
 }
 </script>
@@ -51,7 +49,7 @@ ul,li{
   list-style: none;
 }
 #homeApp{
-  background: #414141;
+  background: #fff;
 }
 .el-carousel{
   width: 1240px;

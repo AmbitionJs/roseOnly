@@ -27,7 +27,7 @@
                     <li>{{item1.goodsTypeName+item1.goodsTypeId}}</li>
                     <!-- 三级分类 -->
                     <li v-for="item2 in getNextNavList(item1.goodsTypeId)" :key="item2.goodsTypeId">
-                      <router-link to>{{item2.goodsTypeName+item2.goodsTypeId}}</router-link>
+                      <router-link :to="'/Category/'+item2.goodsTypeId">{{item2.goodsTypeName+item2.goodsTypeId}}</router-link>
                     </li>
                   </ul>
                 </div>
@@ -45,7 +45,7 @@
         <div class="nav-right" style="cursor: pointer">
           <!-- 用户 -->
           <div class="nav-right-user">
-            <router-link to v-if="islogin" title="个人中心">
+            <router-link to='' v-if="islogin" title="个人中心">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
             <router-link to v-if="!islogin" title="去登录">
@@ -55,7 +55,7 @@
 
           <!-- 购物车 -->
           <div class="nav-right-car" title="购物车">
-            <router-link to>
+            <router-link to='/GoodsDetail/14'>
               <span class="iconfont icon-bags"></span>
             </router-link>
           </div>
@@ -116,17 +116,22 @@ export default {
           {
             'goodsTypeId':1,
             'goodsTypeName':'测试一',
-            'goodsTypeSuperior':0
+            'goodsTypeSuperior':0,
+            'picCode':1
           },
           {
             'goodsTypeId':2,
             'goodsTypeName':'测试二',
-            'goodsTypeSuperior':0
+            'goodsTypeSuperior':0,
+            'picCode':0,
+            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15560000664413711.jpg'
           },
           {
             'goodsTypeId':3,
             'goodsTypeName':'测试三',
-            'goodsTypeSuperior':1
+            'goodsTypeSuperior':1,
+            'picCode':0,
+            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15554784849352266.jpg'
           },
           {
             'goodsTypeId':4,
@@ -233,7 +238,7 @@ a {
   position: absolute;
   top: 50px;
   left: 0;
-  background: rgba(255, 255, 255, 0.849);
+  background: rgba(255, 255, 255, 0.986);
   color: black;
   display: flex;
   justify-content: space-around;

@@ -82,6 +82,10 @@ export default {};
 </script>
 
 <style scoped>
+#app{
+  background: #414141;
+  padding-top: 10px;
+}
 a {
   text-decoration: none;
   color: #aaa;
