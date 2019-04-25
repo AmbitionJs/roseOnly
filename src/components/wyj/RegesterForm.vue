@@ -125,11 +125,11 @@ export default {
                 })
                 .then(res=>{
                     if(res.code ==200){
-                         this.$refs.telText.innerText = "手机号码已注册";
-                          this.$refs.telText.style.color = "red";
+                         this.$refs.telText.innerText = "手机号码可以使用注册";
+                          this.$refs.telText.style.color = "green";
                     }else{
-                        this.$refs.telText.innerText = "手机号码可以使用";
-                        this.$refs.telText.style.color = "green"; 
+                        this.$refs.telText.innerText = "手机号码不能使用";
+                        this.$refs.telText.style.color = "red"; 
                         this.telstyle = 1;
                     }
                 })
