@@ -114,10 +114,10 @@ export default {
     // 这里改变了goodsTypeId将触发监听
   },
   watch: {
-    $route(newVal, oldVal) {
+    $route(newVal) {
       this.goodsTypeId = newVal.params.id;
     },
-    goodsTypeId(newVal, oldVal){
+    goodsTypeId(newVal){
       this.defaultType(newVal)
     }
   },

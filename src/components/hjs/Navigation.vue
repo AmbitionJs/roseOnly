@@ -73,7 +73,7 @@
 <script>
 // 导航中的用户，购物车，地图三个图标
 import "@/assets/hjs/iconfont.css";
-import { mapState,mapMutations,mapActions,mapGetters } from 'vuex'
+import {mapMutations,mapGetters } from 'vuex'
 
 export default {
   data() {
@@ -121,7 +121,7 @@ export default {
 
     // 判断store里面的state是否存有导航列表
     if(sessionStorage.getItem('havaNavList')){
-
+      console.log('hello')
     }else{
       // 不存在则发送ajax请求,并将数据存入state
       // ... ajax请求成功后通过mutation修改state里面的数据

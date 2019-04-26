@@ -27,7 +27,7 @@ import Info from "../../components/hsj/Info.vue";
 // 收货地址组件
 import ShipAddress from "../../components/hsj/ShipAddress.vue";
 // 导入 Vuex
-import { mapState,mapMutations,mapActions,mapGetters } from 'vuex'
+import {mapMutations } from 'vuex'
 
 export default {
   data() {

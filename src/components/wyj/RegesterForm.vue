@@ -70,7 +70,6 @@
 </template>
 <script>
 import identify from "@/components/wyj/identify"
-// import qs from 'qs'
 export default {
     name:'regesterForm',
     data(){
@@ -214,13 +213,13 @@ export default {
                   //发送ajax请求，将创建的账号传入数据库
                   this.axios.post('/users/register',{
                       cellphone:cellphone,
-                      password:userpass
+                      password:md5(userpass)
                   })
                    .then((res)=>{
                        console.log(res)
                        if(res.data.code ==200){
                            //成功，跳转到登录页面
-                        this.$router.oush('/login')
+                        this.$router.push('/login')
                        }
                    })
                    .catch((err)=>{

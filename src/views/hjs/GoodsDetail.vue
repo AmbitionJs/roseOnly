@@ -110,10 +110,10 @@ export default {
     this.goodsId = this.$route.params.id;
   },
   watch:{
-    $route(val,oldVal){
+    $route(val){
       this.goodsId = val.params.id;
     },
-    goodsId(val,oldVal){
+    goodsId(val){
 
       this.axios.get('/goods/search/'+val)
      .then(res => {
@@ -127,7 +127,7 @@ export default {
   },
   methods:{
     handleChange(val){
-      //console.log(val)
+      console.log(val)
     }
   }
 };

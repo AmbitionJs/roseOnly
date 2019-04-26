@@ -55,7 +55,6 @@ Vue.use(VueAreaLinkage)
 
 // 统一设置请求的前缀
 axios.defaults.baseURL = 'http://172.16.7.76:8080'
-// axios.defaults.baseURL = 'http://127.0.0.1:3000'
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded'
 axios.interceptors.request.use(config => {
   if(config.type == 'formData' || config.method != 'post'){

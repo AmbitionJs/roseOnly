@@ -114,6 +114,7 @@ export default {
             }else{
                 this.$refs.passText.innerText = "";
                 console.log('不为空');
+                
                 //不为空的时候判断格式是否正确，如果格式正确发送请求
                 if(pat.test(username)){
                     console.log("格式正确，可以发送请求")
@@ -127,7 +128,8 @@ export default {
                     .then((res)=>{
                         console.log(res);
                         if(res.data.code == 200){
-                            localStorage.setItem('token',res.data.token);
+                            localStorage.setItem('token',res.data.token,);
+                            localStorage.setItem('userId',res.data.userId);
                             console.log('登录成功')
                             //跳转到根路径
                             this.$router.push('/');
