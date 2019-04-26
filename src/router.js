@@ -58,6 +58,11 @@ const router = new Router({
       path: '/forgotPassword',
       name: 'forgotPassword',
       component: () => import('./views/zjl/ForgotPassword.vue')
+    },
+    {
+      path: '/promiseWorld',
+      name: 'promiseWorld',
+      component: () => import('./views/zjl/PromiseWorld.vue')
     }
   ]
 })

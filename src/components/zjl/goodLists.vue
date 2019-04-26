@@ -3,13 +3,13 @@
     <el-row>
       <el-col :span="4"><div class="grid-content bg-purple">
         <router-link to="/">
-          <img :src="item.picFileUrl" alt="" class="good-img">
+          <img :src="item.goods.pictures.picFileUrl" alt="" class="good-img">
         </router-link>  
       </div></el-col>
       
       <el-col :span="12"><div class="grid-content bg-purple-light">
         <span>商品名称：</span>
-        <span>{{item.goodsName}}</span>
+        <span>{{item.goods.goodsName}}</span>
       </div></el-col>
 
       <el-col :span="4"><div class="grid-content bg-purple">
@@ -19,7 +19,7 @@
 
       <el-col :span="4"><div class="grid-content bg-purple-light">
       <span>商品单价：</span>  
-      <span>{{item.goodsPrice}}</span>
+      <span>{{item.goods.goodsPrice}}</span>
       </div></el-col>
     </el-row>
   </div>

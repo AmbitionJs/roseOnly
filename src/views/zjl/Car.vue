@@ -20,24 +20,28 @@
           <th>数量</th>
           <th>操作</th>
         </tr>
-        <tr v-for="item in cartDatas" :key="item.goodsIds">
+        <!-- <tr v-if="cartDatas.length == 0">
+          <div>购物车没有商品，
+          <router-link to="">去添加</router-link></div>
+        </tr> -->
+        <tr v-for="item in cartDatas" :key="item.goods.goodsId">
           <td>
              <el-checkbox v-model="item.select"></el-checkbox>
           </td>
-          <td><span>roseonly</span></td>
+          <td><span>{{item.goods.goodsBrand}}</span></td>
           <td>
-            <img :src="item.picFileUrl" alt>
-            <span>{{item.goodsName}}</span>
+            <img :src="item.goods.pictures.picLinkUrl" alt>
+            <span>{{item.goods.goodsName}}</span>
           </td>
-          <td><span>￥{{item.goodsPrice}}</span></td>
+          <td><span>￥{{item.goods.goodsPrice}}</span></td>
           <td>
             <div class="number-group">
-              <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goodsIds)" :min="1" :max="10"></el-input-number>
+              <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goods.goodsId)" :min="1" :max="10"></el-input-number>
             </div>
           </td>
           <td>
             <!-- <span class="del-shopping-list" @click="deleteList(item.goodsIds)">删除</span> -->
-            <el-button type="danger" icon="el-icon-delete" @click="deleteList(item.goodsIds)" size="mini" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="deleteList(item.trolleyId)" size="mini" circle></el-button>
           </td>
         </tr>
       </table>
@@ -73,6 +77,8 @@ export default {
     };
   },
   created() {
+    localStorage.setItem('userId', 1)
+    localStorage.setItem('token', '1dae5a47f6524279ac0352bf9b6bb0a2')
     this.getCarDatas()
   },
   methods: {
@@ -84,14 +90,14 @@ export default {
       const token = localStorage.getItem("token");
       const userId = localStorage.getItem("userId");
       if (token) {
-        this.axios
-          .get("/trolley/" + userId, {
-            userId: userId,
-            userToken: token
-          })
+        this.axios.get("/trolley/" + userId + '?userToken=' + token)
           .then(res => {
-            console.log(res);
-            this.cartDatas = res.data
+            console.log(res, res.data.data);
+            if(res.data.data) {
+              this.cartDatas = res.data.data
+            } else {
+              this.carDatas = []
+            }
           })
           .catch(err => {
             console.log(err);
@@ -100,18 +106,15 @@ export default {
     },
     // 删除单个购物车商品
     deleteList(id) {
-      var goodsIds = [];
-      if (id) {
-        goodsIds.push(id);
-      }
-      console.log(goodsIds);
+      var ids = id.toString()
+      
+      console.log(ids);
       const token = localStorage.getItem("token");
       if (token) {
-        this.axios
-          .post("/trolley/delete", {
-            goodsIds: goodsIds,
-            userToken: token
-          })
+        this.axios.post('/trolley/delete', {
+          trolleyIds: ids,
+          userToken: token
+        })
           .then(res => {
             console.log(res);
             this.getCarDatas()
@@ -124,13 +127,11 @@ export default {
     },
     // 清空购物车
     clearCart() {
-      // this.cartDatas = []
       const token = localStorage.getItem("token");
       if (token) {
-        this.axios
-          .post("/trolley/delete", {
-            userToken: token
-          })
+        this.axios.post("/trolley/delete", {
+          userToken: token
+        })
           .then(res => {
             console.log(res);
             this.getCarDatas()
@@ -145,7 +146,7 @@ export default {
       console.log(id)
       var num;
       this.cartDatas.forEach(item => {
-        if (item.goodsIds == id) {
+        if (item.goods.goodsId == id) {
           num = item.goodsNum;
         }
       });
@@ -155,6 +156,13 @@ export default {
         goodsId: id,
         goodsNum: num,
         userToken: token
+      })
+      .then(res => {
+        console.log(res)
+        this.getCarDatas()
+      })
+      .catch(err => {
+        console.log(err)
       })
     },
     // 全选/取消全选
@@ -166,23 +174,28 @@ export default {
     // 结算
     settlement() {
       var ids = [],token = localStorage.getItem('token')
+      console.log(this.cartDatas)
       this.cartDatas.forEach(item => {
         if (item.select) {
-          ids.push(item.goodsIds);
+          var id = item.trolleyId
+          ids.push(id.toString())
+          console.log(ids) 
         }
       });
-      console.log(ids);
+      console.log(ids.join(','))
+      console.log(ids) 
       if(ids.length == 0) {
-        this.errorAlert('您的购物车没有产品！')
+        this.errorAlert('您没有选中商品！')
       } else {
         this.axios.post('/trolley/settlement', {
-          trolleyIds: ids,
+          trolleyIds: ids.join(','),
           userToken: token
         })
         .then(res => {
-          if(res.state == 200) {
+          console.log(res)
+          if(res.status == 200) {
             this.$router.push('/submitOrder')
-            this.cartOrders(res.data)
+            this.cartOrders(res.data.data)
           }
         })
       }
@@ -220,7 +233,7 @@ export default {
         totalPrice = 0;
       // 计算总价
       items.forEach(item => {
-        totalPrice += item.goodsPrice * item.goodsNum;
+        totalPrice += item.goods.goodsPrice * item.goodsNum;
       });
       return totalPrice;
     }
@@ -235,13 +248,14 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .cart {
   width: 968px;
   min-width: 768px;
   margin: 0 auto;
   color: #414141;
   user-select: none;
+  padding: 50px;
 }
 .cart-title {
   overflow: hidden;
