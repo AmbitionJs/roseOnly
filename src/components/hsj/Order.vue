@@ -152,8 +152,6 @@
 </style>
 
 <script>
-// 导入 Vuex
-import { mapState, mapMutations, mapActions, mapGetters } from "vuex";
 
 export default {
   data() {
