@@ -125,16 +125,18 @@ export default {
     // 综合(默认)
     defaultType(goodsTypeId){
       this.filterMethods=0
-      /* this.axios.get('/goods/search/type/{goodsTypeId}',{
-       goodsTypeId:goodsTypeId,
-     })
+
+      this.axios.get('/goods/search/type/'+goodsTypeId,{
+        pageNo:2,
+        pageSize:3
+      })
      .then(res => {
-       console.log(JSON.parse(res.data))
-       this.goodsList = JSON.parse(res.data)
+       console.log('商品分类展示列表',res.data)
      })
      .catch(err => {
        console.log('出错信息:',err)
-     }) */
+     })
+     
      console.log('综合',goodsTypeId)
     },
 

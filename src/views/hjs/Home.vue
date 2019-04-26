@@ -27,13 +27,13 @@ export default {
     ...mapGetters('hjs',['getHomeLB'])
   },
   created(){
-    this.axios.get('/goods/client/search/all/list')
+    /* this.axios.get('/goods/client/search/all/list')
      .then(res => {
-       console.log(res.data.data.length)
+       console.log(res.data.data)
      })
      .catch(err => {
        console.log('出错信息:',err)
-     })
+     }) */
   }
 }
 </script>

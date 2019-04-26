@@ -100,6 +100,19 @@ export default {
     ...mapMutations('hjs',['setNavList'])
   },
   created() {
+    // 测试
+    /* this.axios({
+      method: 'get',
+      url: '/goods/storage',
+      baseURL:'http://172.16.7.81:8080'
+    })
+     .then(res => {
+       console.log(res.data)
+     })
+     .catch(err => {
+       console.log('出错信息:',err)
+     }) */
+
     window.addEventListener("scroll", this.handleScroll);
     // 如果已经登录,则将登录状态设置为true
     if (sessionStorage.getItem("token")) {

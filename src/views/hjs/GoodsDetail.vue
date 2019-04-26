@@ -114,19 +114,15 @@ export default {
       this.goodsId = val.params.id;
     },
     goodsId(val,oldVal){
-      setTimeout(() => {
-        console.log(val)
-      }, 1000);
-      /* this.axios.get('/goods/search/{goodsId}',{
-       goodsId,
-     })
+
+      this.axios.get('/goods/search/'+val)
      .then(res => {
-       console.log(JSON.parse(res.data))
-       this.goodsList = JSON.parse(res.data)
+       console.log(res.data)
      })
      .catch(err => {
        console.log('出错信息:',err)
-     }) */
+     })
+
     }
   },
   methods:{
