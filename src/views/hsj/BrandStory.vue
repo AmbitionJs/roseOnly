@@ -1,6 +1,8 @@
 <template>
   <div class="brandstory">
-    <img src="https://www.roseonly.com.cn/upload/picture/14573223079612674.jpg" alt="品牌故事">
+    <div class="image">
+      <img src="https://www.roseonly.com.cn/upload/picture/14573223079612674.jpg" alt="品牌故事">
+    </div>
     <el-row>
       <el-col :span="8" v-for="story in stories" :key="story.id">
         <Story :story="story"/>
@@ -15,6 +17,10 @@
 }
 Story:hover {
     cursor: pointer;
+}
+.image {
+  text-align: center;
+  padding: 10px 0;
 }
 </style>
 
