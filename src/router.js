@@ -29,6 +29,12 @@ const router = new Router({
       name: 'person',
       component: () => import('./views/hsj/Person.vue')
     },
+    // 贺斯洁 - 高端定制 
+    {
+      path: '/highcustom',
+      name: 'highcustom',
+      component: () => import('./views/hsj/HighCustom.vue')
+    },
     {// 陈世厚
       path: '/foot',
       name: 'foot',
