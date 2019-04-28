@@ -1,5 +1,6 @@
 <template>
   <div class="brandstory">
+    <img src="https://www.roseonly.com.cn/upload/picture/14573223079612674.jpg" alt="品牌故事">
     <el-row>
       <el-col :span="8" v-for="story in stories" :key="story.id">
         <Story :story="story"/>
@@ -7,6 +8,16 @@
     </el-row>
   </div>
 </template>
+
+<style scoped>
+.el-col-8 {
+    text-align: center;
+}
+Story:hover {
+    cursor: pointer;
+}
+</style>
+
 
 <script>
 // 引入故事插件
@@ -23,7 +34,8 @@ export default {
             "https://www.roseonly.com.cn/upload/picture/15559990217444070.jpg",
           title: "2018城市爱情报告",
           secondTitle: "roseonly诺誓爱情研究院权威发布",
-          alt: "roseonly诺誓 2018城市爱情报告"
+          alt: "roseonly诺誓 2018城市爱情报告",
+          to: '',
         },
         {
           id: 2,
@@ -47,7 +59,7 @@ export default {
             "https://www.roseonly.com.cn/upload/picture/15559990296853852.jpg",
           title: "roseonly六周年",
           secondTitle:
-            "新年初启，相伴的心与爱你的气息，都被更新，我愿与你一起，纪念ro...",
+            "新年初启，相伴的心与爱你的气息",
           alt: "roseonly诺誓 roseonly六周年"
         },
         {
@@ -90,11 +102,11 @@ export default {
           secondTitle: "有真爱的地方，总有roseonly浪漫见证",
           alt: "roseonly诺誓 品牌介绍"
         }
-      ]
+      ],
     };
   },
   components: {
-    Story
+    Story,
   }
 };
 </script>
