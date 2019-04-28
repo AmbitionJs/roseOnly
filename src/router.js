@@ -69,8 +69,8 @@ const router = new Router({
 //路由拦截
 //全局路由钩子函数
 router.beforeEach((to, from, next) => {
-  console.log("即将跳转的路由", to);
-  console.log("即将离开的路由", from);
+  /* console.log("即将跳转的路由", to);
+  console.log("即将离开的路由", from); */
   //判断是否有缓存
   var token = localStorage.getItem('token');
   //判断跳转的路由需不需要权限

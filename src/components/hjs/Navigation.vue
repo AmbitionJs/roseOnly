@@ -101,6 +101,7 @@ export default {
     // 退出
     logOut(){
       console.log('退出被点击')
+      localStorage.removeItem()
     }
 
     // 修改store里面的state导航列表数据
