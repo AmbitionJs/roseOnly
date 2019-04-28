@@ -126,10 +126,7 @@ export default {
     defaultType(goodsTypeId){
       this.filterMethods=0
 
-      this.axios.get('/goods/search/type/'+goodsTypeId,{
-        pageNo:2,
-        pageSize:3
-      })
+      this.axios.get('/goods/search/type/'+goodsTypeId)
      .then(res => {
        console.log('商品分类展示列表',res.data)
      })

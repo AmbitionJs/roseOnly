@@ -53,17 +53,18 @@
             </router-link>
           </div>
 
+
           <!-- 购物车 -->
-          <div class="nav-right-car" title="购物车">
+          <div class="nav-right-car" title="购物车" v-if="islogin">
             <router-link to='/car'>
               <span class="iconfont icon-bags"></span>
             </router-link>
           </div>
 
-          <!-- 定位 -->
-          <div class="nav-right-pos" style="cursor: pointer">
+          <!-- 退出 -->
+          <div class="nav-right-pos" style="cursor: pointer" v-if="islogin">
             <router-link to='/'>
-              <span class="iconfont icon-tuichu" @click="logOut"></span>
+              <span class="iconfont icon-tuichu" @click="logOut" title="退出"></span>
             </router-link>
           </div>
         </div>
@@ -100,96 +101,39 @@ export default {
     
     // 退出
     logOut(){
-      console.log('退出被点击')
-      localStorage.removeItem()
+      localStorage.clear()
+      this.islogin = false;
     }
 
     // 修改store里面的state导航列表数据
     ,...mapMutations('hjs',['setNavList'])
   },
   created() {
-    // 测试
-    /* this.axios({
-      method: 'get',
-      url: '/goods/storage',
-      baseURL:'http://172.16.7.81:8080'
-    })
-     .then(res => {
-       console.log(res.data)
-     })
-     .catch(err => {
-       console.log('出错信息:',err)
-     }) */
+    console.log('导航条的created被执行了')
 
+    // 监听滑动条距离
     window.addEventListener("scroll", this.handleScroll);
+
     // 如果已经登录,则将登录状态设置为true
-    if (sessionStorage.getItem("token")) {
+    if (localStorage.getItem("token")) {
       this.islogin = true;
     }
-
-    // 判断store里面的state是否存有导航列表
-    if(sessionStorage.getItem('havaNavList')){
-      console.log('hello')
-    }else{
-      // 不存在则发送ajax请求,并将数据存入state
-      // ... ajax请求成功后通过mutation修改state里面的数据
-      this.setNavList([
-          {
-            'goodsTypeId':1,
-            'goodsTypeName':'测试一',
-            'goodsTypeSuperior':0,
-            'picCode':1
-          },
-          {
-            'goodsTypeId':2,
-            'goodsTypeName':'测试二',
-            'goodsTypeSuperior':0,
-            'picCode':0,
-            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15560000664413711.jpg'
-          },
-          {
-            'goodsTypeId':3,
-            'goodsTypeName':'测试三',
-            'goodsTypeSuperior':1,
-            'picCode':0,
-            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15554784849352266.jpg'
-          },
-          {
-            'goodsTypeId':4,
-            'goodsTypeName':'测试四',
-            'goodsTypeSuperior':1
-          },
-          {
-            'goodsTypeId':5,
-            'goodsTypeName':'测试五',
-            'goodsTypeSuperior':2
-          },
-          {
-            'goodsTypeId':6,
-            'goodsTypeName':'测试六',
-            'goodsTypeSuperior':2
-          },
-          {
-            'goodsTypeId':7,
-            'goodsTypeName':'测试七',
-            'goodsTypeSuperior':3
-          },
-          {
-            'goodsTypeId':8,
-            'goodsTypeName':'测试八',
-            'goodsTypeSuperior':4
-          },
-          {
-            'goodsTypeId':9,
-            'goodsTypeName':'测试九',
-            'goodsTypeSuperior':5
-          },]
-        )
-    }
+    
+      // 发送ajax请求,并将数据存入state
+      this.axios({
+        method: 'get',
+        url: '/goods/storage',
+        baseURL:'http://172.16.7.81:8080'
+      })
+      .then(res => {
+        console.log('这是导航请求',res.data.data.goodsTypeList)
+        // ... ajax请求成功后通过mutation修改state里面的数据
+        this.setNavList(res.data.data.goodsTypeList)
+      })
+      .catch(err => {
+        console.log('出错信息:',err)
+      })
   },
-  mounted(){
-
-  }
 };
 </script>
 
@@ -211,7 +155,7 @@ a {
   font-size: 36px;
   letter-spacing: 1.8px;
   font-weight: 100;
-  background: #414141;
+  background: #393939;
 }
 /* 导航条 */
 /* 实现定位 */

@@ -1,12 +1,12 @@
 export default {
   namespaced:true,
   state:{
-    navList:{}
+    navList:[]
   },
   getters:{
     // 获得一级列表
     getFirstNavList:(state) => {
-      return state.navList.filter(todo => todo.goodsTypeSuperior === 0)
+      return state.navList.filter(todo => todo.goodsTypeSuperior === -1)
     },
     // 获得子级列表(参数为父级分类id)
     getNextNavList:(state) => (id) => {
