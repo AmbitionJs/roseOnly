@@ -45,24 +45,26 @@
         <div class="nav-right" style="cursor: pointer">
           <!-- 用户 -->
           <div class="nav-right-user">
-            <router-link to='' v-if="islogin" title="个人中心">
+            <router-link to='/person' v-if="islogin" title="个人中心">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
-            <router-link to v-if="!islogin" title="去登录">
+            <router-link to='/login' v-if="!islogin" title="去登录">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
           </div>
 
           <!-- 购物车 -->
           <div class="nav-right-car" title="购物车">
-            <router-link to='/GoodsDetail/14'>
+            <router-link to='/car'>
               <span class="iconfont icon-bags"></span>
             </router-link>
           </div>
 
           <!-- 定位 -->
           <div class="nav-right-pos" style="cursor: pointer">
-            <span class="iconfont icon-dingwei"></span>
+            <router-link to='/'>
+              <span class="iconfont icon-tuichu" @click="logOut"></span>
+            </router-link>
           </div>
         </div>
       </el-main>
@@ -95,9 +97,14 @@ export default {
         document.body.scrollTop;
       scrollTop < 100 ? (this.topdis = true) : (this.topdis = false);
     },
+    
+    // 退出
+    logOut(){
+      console.log('退出被点击')
+    }
 
     // 修改store里面的state导航列表数据
-    ...mapMutations('hjs',['setNavList'])
+    ,...mapMutations('hjs',['setNavList'])
   },
   created() {
     // 测试
