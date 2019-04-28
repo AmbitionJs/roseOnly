@@ -28,7 +28,7 @@
         <!-- col 1 -->
         <el-col :span="8">
           <div class="grid-content bg-purple item">
-            <router-link to>
+            <router-link to="/brandstory">
               <div class="item-img">
                 <img src="@/assets/zjl/images/img01.jpg" alt>
               </div>

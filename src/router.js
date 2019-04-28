@@ -35,6 +35,18 @@ const router = new Router({
       name: 'highcustom',
       component: () => import('./views/hsj/HighCustom.vue')
     },
+    // 贺斯洁 - 诺誓世界 - 品牌故事
+    {
+      path: '/brandstory',
+      name: 'brandstory',
+      component: () => import('./views/hsj/BrandStory.vue')
+    },
+    // 贺斯洁 - 诺誓世界 -品牌故事详情
+    {
+      path: '/storydetail',
+      name: 'storydetail',
+      component: () => import('./components/hsj/StoryDetail.vue')
+    },
     {// 陈世厚
       path: '/foot',
       name: 'foot',
