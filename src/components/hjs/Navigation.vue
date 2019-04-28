@@ -109,7 +109,6 @@ export default {
     ,...mapMutations('hjs',['setNavList'])
   },
   created() {
-    console.log('导航条的created被执行了')
 
     // 监听滑动条距离
     window.addEventListener("scroll", this.handleScroll);
@@ -126,7 +125,6 @@ export default {
         baseURL:'http://172.16.7.81:8080'
       })
       .then(res => {
-        console.log('这是导航请求',res.data.data.goodsTypeList)
         // ... ajax请求成功后通过mutation修改state里面的数据
         this.setNavList(res.data.data.goodsTypeList)
       })

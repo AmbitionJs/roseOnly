@@ -33,20 +33,17 @@
       <!-- 右边选择商品分 -->
       <div class="DtRight">
         <div class="DRlimit">
-          <p style="font-size:20px">高端定制 - 甜心熊灰色站立版嫣红 120cm</p>
-          <p class="fontSmall" style="color:#666;">1011150019</p>
+          <p style="font-size:20px">{{goodsMsg.goodsName}}</p>
+          <p class="fontSmall" style="color:#666;">{{goodsMsg.goodsNo}}</p>
           <div class="price">
             <span class="fontSmall">价格 : </span>
-            <span style="font-size:20px;font-weight:500">￥2999</span>
+            <span style="font-size:20px;font-weight:500">￥{{goodsMsg.goodsPrice}}</span>
           </div>
 
           <div class="color">
             <span class="fontSmall">颜色 : </span>
             <span class="DTRimg">
-              <img src="https://www.roseonly.com.cn/upload/products/15457366485329166_2.png" alt="">
-            </span>
-            <span class="DTRimg">
-              <img src="https://www.roseonly.com.cn/upload/products/15457366619999140_2.png" alt="">
+              <!-- <img :src="'http://172.16.7.76:8080/'+goodsMsg.pictures[0].picFileUrl" alt=""> -->
             </span>
           </div>
 
@@ -79,15 +76,25 @@
       </h3>
       <ul>
         <li>
-          <span style="font-weight:600">适用场景 : </span>什么场景都适合嘻嘻
+          <span style="font-weight:600">适用场景 : </span>{{goodsMsg.goodsDetail || '有ta的所有地方'}}
         </li>
-        <li>适用对象</li>
-        <li>适用节日</li>
+        <li>
+          <span style="font-weight:600">适用对象 : </span>{{goodsMsg.object || '男女朋友'}}
+        </li>
+        <li>
+          <span style="font-weight:600">适用节日 : </span>{{goodsMsg.holiday || '所有快乐的节日'}}
+        </li>
       </ul>
       <ul>
-        <li>鲜花朵数</li>
-        <li>颜色分类</li>
-        <li>产品规格</li>
+        <li>
+          <span style="font-weight:600">鲜花朵数 : </span>{{goodsMsg.goodsSpecs || '99朵'}}
+        </li>
+        <li>
+          <span style="font-weight:600">颜色分类 : </span>{{goodsMsg.goodsColor || '玫瑰红'}}
+        </li>
+        <li>
+          <span style="font-weight:600">产品规格 : </span>{{goodsMsg.goodsSpecs || '20支80cm'}}
+        </li>
       </ul>
     </div>
 
@@ -102,7 +109,7 @@ export default {
     return {
       goodsId: -1,
       buyNum:1,
-      goodsMsg:[]
+      goodsMsg:{}
     };
   },
   created() {
@@ -114,15 +121,15 @@ export default {
       this.goodsId = val.params.id;
     },
     goodsId(val){
-
+      console.log('商品详情的ajax被请求',val)
       this.axios.get('/goods/search/'+val)
      .then(res => {
-       console.log(res.data)
+       console.log(res.data.data)
+       this.goodsMsg = res.data.data
      })
      .catch(err => {
        console.log('出错信息:',err)
      })
-
     }
   },
   methods:{
