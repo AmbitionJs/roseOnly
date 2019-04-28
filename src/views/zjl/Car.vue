@@ -207,8 +207,7 @@ export default {
         center: true,
         type: 'error'
       }).then(()=>{
-        // 跳转到商品页
-        // this.$router.push('/')
+
       }).catch(()=> {})
     }
   },

@@ -184,14 +184,6 @@ export default {
     },
     // 获取手机验证码
     getCode() {
-      /* this.axios({
-        url:'/users/sms/'+ this.step2.phone,
-        type: 'post',
-        data: {
-          cellphone: this.step2.phone
-        },
-        dataType: 'json'
-      }) */
       this.axios.post('/users/sms/'+ this.step2.phone , {
         cellphone: this.step2.phone
       })
@@ -235,5 +227,8 @@ export default {
 .verify {
   width: 150px;
   float: left;
+}
+.el-select {
+  width: 300px;
 }
 </style>
