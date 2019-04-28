@@ -52,20 +52,21 @@ export default {
     ShipAddress
   },
   created() {
-    const that = this
-    // 获取用户所有订单
-    this.axios({
-      method: "get",
-      url: "/users"
-    })
-      .then(function(response) {
-        that.orders = response.data.data
-        console.log('orders is', that.orders)
-        that.setOrders(that.orders)
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
+    // const that = this
+    // // 获取用户所有订单
+    // this.axios({
+    //   method: "get",
+    //   url: "/users"
+    // })
+    //   .then(function(response) {
+    //     that.orders = response.data.data
+    //     console.log('orders is', that.orders)
+    //     that.setOrders(that.orders)
+    //   })
+    //   .catch(function(error) {
+    //     console.log(error);
+    //   });
+    console.log('测试')
   },
 };
 </script>
