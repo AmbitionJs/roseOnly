@@ -184,14 +184,14 @@
         <!-- 左侧导航 -->
         <!-- 右侧文本 -->
         <div class="content">
-          <h2 class="title">退款说明</h2>
-          <hr class="first page4">
+          <h2 class="title page4">退款说明</h2>
+          <hr class="first">
           <p>任何取消或修改订单的需求，请及时联系客服</p>
           <p>热线电话：400-1314-520</p>
           <p>客服邮箱：service@roseonly.com</p>
           <p>订单一旦生成，如需取消或修改订单，请务必提前于您预计到达日期前48小时发送邮件到客服邮箱。</p>
           <br>
-          <hr class="first page4">
+          <hr class="first">
           <p class="font_b">玫瑰退换条例</p>
           <p>以下情况将不提供退换货服务</p>
           <p>•任何非roseonly出售的商品；</p>
@@ -205,7 +205,7 @@
           <p>•关于退换货产生的运费：由于商品本身质量问题造成的退换，运费由roseonly承担。</p>
           <p>•商品及信息仅供参考，因拍摄灯光及不同显示器色差等问题可能造成商品图片与实物有一定色差，一切请以实物为准。</p>
           <br>
-          <hr class="first page4">
+          <hr class="first">
           <p class="font_b">珠宝退换条例</p>
           <p>以下情况将不提供退换货服务</p>
           <p>•珠宝首饰类产品属特殊类商品，在出库前已经我公司专业严格质检，请您在快递公司配送到货后当面检查商品后再签收，一旦签收后，无质量问题将不予退换。</p>
@@ -261,7 +261,7 @@
       <el-tab-pane label="配送服务">
         <!-- 左侧导航 -->
         <!-- 右侧文本 -->
-        <div class="content">
+        <div class="content page3">
           <h2 class="title">配送服务</h2>
           <hr class="first">
           <p>一 配送说明</p>
@@ -370,7 +370,7 @@
       <el-tab-pane label="销售渠道" class="line_cls">
         <!-- 左侧导航 -->
         <!-- 右侧文本 -->
-        <div class="content">
+        <div class="content page3">
           <h2 class="title">声明函</h2>
           <hr class="first">
           <p class="font_b font_s">致所有支持roseonly的伙伴：</p>
@@ -416,7 +416,7 @@
       <el-tab-pane label="联系我们" class="line_cls">
         <!-- 左侧导航 -->
         <!-- 右侧文本 -->
-        <div class="content">
+        <div class="content page3">
           <h2 class="title">联系我们</h2>
           <hr class="first">
           <p>roseonly</p>
@@ -579,7 +579,7 @@
       <el-tab-pane label="保养物语">
         <!-- 左侧导航 -->
         <!-- 右侧文本 -->
-        <div class="content">
+        <div class="content page3">
           <h2 class="title">保养物语</h2>
           <hr class="first">
           <ul class="list">
@@ -653,6 +653,9 @@ export default {
 </script>
 
 <style scopted>
+.page3 {
+  min-height: 780px;
+}
 .store_tit {
   line-height: 50px;
   text-align: center;
@@ -719,7 +722,6 @@ hr {
   margin-top: 0;
   padding: 0;
 }
-
 .first {
   height: 2px;
   background-color: #424242;
@@ -771,10 +773,6 @@ img {
 }
 .el-tabs__header {
   padding-top: 80px;
-}
-.is_left {
-  margin: 0;
-  padding: 0;
 }
 span {
   font-weight: bold;
