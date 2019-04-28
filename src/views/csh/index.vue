@@ -664,7 +664,7 @@ export default {
   vertical-align: middle;
   padding-left: 20px;
 }
-.content img {
+.page2 img {
   margin-top:-180px;
 }
 .list {
