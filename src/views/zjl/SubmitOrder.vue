@@ -7,18 +7,18 @@
     <section class="submit-order-address">
       <div class="title">收货人信息</div>
       <el-radio-group v-model="radio" class="address-list">
-        <el-radio :label="item.aId" v-for="item in address" :key="item.aId">
+        <el-radio :label="item.addressId" v-for="item in address" :key="item.addressId">
           <div class="address">
             <span class="receiver">{{item.receiver}}</span>
-            <span class="address">{{item.province + item.city + item.countyArea + item.detail}}</span>
+            <span class="address">{{item.province + item.city + item.countryArea + item.detail}}</span>
             <span class="telphone">{{item.cellphone}}</span>
           </div>
           <div class="opreate">
             <!-- <el-tooltip class="item" effect="dark" content="编辑" placement="left"> -->
-            <el-button type="primary" icon="el-icon-edit" @click="editAddress(item.aId)" circle></el-button>
+            <el-button type="primary" icon="el-icon-edit" @click="editAddress(item.addressId)" circle></el-button>
             <!-- </el-tooltip> -->
             <!-- <el-tooltip class="item" effect="dark" content="删除" placement="left"> -->
-            <el-button type="danger" icon="el-icon-delete" @click="delAddress(item.aId)" circle></el-button>
+            <el-button type="danger" icon="el-icon-delete" @click="delAddress(item.addressId)" circle></el-button>
             <!-- </el-tooltip> -->
           </div>
         </el-radio>
@@ -116,8 +116,10 @@
         </el-col>
       </el-row>
     </section>
-    <el-button type="info" id="submit-order-btn" @click="submitOrder">提交订单</el-button>
-    <div id="total-price">总计：￥{{totalPrice}}</div>
+    <div class="submit-order-footer">
+      <el-button type="info" id="submit-order-btn" @click="submitOrder">提交订单</el-button>
+      <div id="total-price">总计：￥{{totalPrice}}</div>
+    </div>
   </div>
 </template>
 
@@ -148,7 +150,7 @@ export default {
         email: "",
         province: "",
         city: "",
-        countyArea: "",
+        countryArea: "",
         detail: ""
       },
       selected: []
@@ -159,10 +161,14 @@ export default {
     editAddress(id) {
       this.flag = true;
       this.isWay = 1;
-      let _addr = this.address[id - 1];
+      console.log(id)
+      let _addr = this.address.filter(item => {
+        if(item.addressId == id) return item
+      });
+      console.log(_addr[0].addressId, _addr[0].province, )
       this.selected = [];
-      this.selected.push(_addr.province, _addr.city, _addr.countyArea);
-      this.editAddr = JSON.parse(JSON.stringify(_addr));
+      this.selected.push(_addr[0].province, _addr[0].city, _addr[0].countryArea);
+      this.editAddr = JSON.parse(JSON.stringify(_addr[0]));
     },
     // 添加地址按钮
     addAdddress() {
@@ -182,12 +188,11 @@ export default {
           const userId = localStorage.getItem("userId"),
             token = localStorage.getItem("token");
           // 发起请求
-          this.axios
-            .post("/users/" + userId + "/addresses/delete", {
-              userId: userId,
-              userToken: token,
-              addressId: id
-            })
+          this.axios.post("/users/" + userId + "/addresses/delete", {
+            userId: userId,
+            userToken: token,
+            addressId: id
+          })
             .then(res => {
               console.log("删除成功", res);
               // 删除成功重新获取地址
@@ -226,12 +231,12 @@ export default {
         // 给提交地址的省市区 重新赋值
         this.editAddr.province = this.selected[0];
         this.editAddr.city = this.selected[1];
-        this.editAddr.countyArea = this.selected[2];
+        this.editAddr.countryArea = this.selected[2];
         // 判断是哪一种方式提交
         if (this.isWay == 0) {
           // 添加地址提交
           way = "add";
-          console.log("添加地址", way, this.editAddr, this.selected);
+          console.log(userId,"添加地址", way, this.editAddr, this.selected);
         }
         if (this.isWay == 1) {
           // 编辑地址提交
@@ -239,12 +244,12 @@ export default {
           console.log("编辑地址", way, this.editAddr, this.selected);
         }
         // 发起请求，传输数据
-        this.axios
-          .post("/users/" + userId + "/addresses/" + way, {
-            userId: userId,
-            userToken: token,
-            ...this.editAddr
-          })
+
+        this.axios.post("/users/" + userId + "/addresses/" + way, {
+          userId: userId,
+          userToken: token,
+          ...this.editAddr
+        })
           .then(res => {
             console.log("提交成功", res);
             // 修改完成重新获取地址
@@ -274,15 +279,14 @@ export default {
     getAddress() {
       const userId = localStorage.getItem("userId"),
         token = localStorage.getItem("token");
-      this.axios
-        .get("/users/" + userId + "/addresses/list", {
-          userId: userId,
-          userToken: token
-        })
+      this.axios.get("/users/" + userId + "/addresses/list?userToken=" + token)
         .then(res => {
           console.log(res);
-          this.address = res.data;
-        });
+          this.address = res.data.data;
+        })
+        .catch(err => {
+          console.log(err)
+        })
     },
     // 提交订单
     submitOrder() {
@@ -295,9 +299,23 @@ export default {
         this.message,
         this.deliveryTime
       );
-      this.axios
-        .post("/orders/submit", {
-          userToken: localStorage.getItem("token"),
+      // this.axios({
+      //   url: "/orders/submit",
+      //   type: "post",
+      //   data: {
+      //     userToken: localStorage.getItem("token"),
+      //     orderDetailId: this.submitOrderList.orderDetailId,
+      //     orderDetailNo: this.submitOrderList.orderDetailNo,
+      //     addressId: this.radio,
+      //     trolleyId: this.submitOrderList.trolleyId,
+      //     payMethod: "在线支付",
+      //     msgBoard: this.message,
+      //     orderDetailArriveDate: this.deliveryTime
+      //   },
+      //   dataType: "json"
+      // })
+      this.axios.post("/orders/submit", {
+        userToken: localStorage.getItem("token"),
           orderDetailId: this.submitOrderList.orderDetailId,
           orderDetailNo: this.submitOrderList.orderDetailNo,
           addressId: this.radio,
@@ -305,7 +323,7 @@ export default {
           payMethod: "在线支付",
           msgBoard: this.message,
           orderDetailArriveDate: this.deliveryTime
-        })
+      })
         .then(res => {
           this.clearInput();
           this.flag = false;
@@ -330,7 +348,8 @@ export default {
     // 获取地址
     this.getAddress();
     // 商品清单
-    this.goodList = this.submitOrderList;
+    // this.goodList = this.submitOrderList.trolleys;
+    console.log(this.submitOrderList)
   },
   computed: {
     // 获取订单商品数据
@@ -339,15 +358,15 @@ export default {
     getAddr() {
       if (this.address.length == 0) return {};
       let a = this.address.filter(item => {
-          if (item.aId == this.radio) {
+          if (item.addressId == this.radio) {
             return item;
           }
         }),
         addr = a[0];
       return {
-        receiver: addr.receiver,
-        addr: addr.province + addr.city + addr.countyArea + addr.detail,
-        tel: addr.cellphone
+        // receiver: addr.receiver,
+        // addr: addr.province + addr.city + addr.countryArea + addr.detail,
+        // tel: addr.cellphone
       };
     },
     // 商品清单总计
@@ -362,10 +381,11 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .submit-order {
   width: 900px;
   margin: 0 auto;
+  padding: 50px;
 }
 .submit-order-title {
   text-align: center;
@@ -437,7 +457,6 @@ label.el-radio {
 #submit-order-btn {
   margin-top: 10px;
   float: right;
-  margin-bottom: 30px;
 }
 #total-price {
   float: right;
@@ -472,5 +491,8 @@ label.el-radio {
 .el-textarea__inner {
   height: 150px !important;
   resize: none;
+}
+.submit-order-footer {
+  overflow: hidden;
 }
 </style>
