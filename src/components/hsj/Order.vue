@@ -4,7 +4,7 @@
     <el-card class="box-card">
       <!-- 订单的 基本信息 和 操作 -->
       <div slot="header" class="clearfix">
-        <span>订单编号: {{ order.orderDetailNo }}</span>
+        <span>订单编号: 13131313131313</span>
         <span>订单时间: 2019-03-12 16:40</span>
         <el-tooltip class="item" effect="dark" content="显示订单详细信息" placement="bottom">
           <el-button type="text" icon="el-icon-date" @click="dialogTableVisible = true"></el-button>
@@ -16,11 +16,11 @@
       <!-- 订单关于商品的信息 -->
       <div class="content">
         <img src="../../../public/test.png" alt="商品图片">
-        <span class="detail itemName">{{ gridData[0].itemName }}</span>
-        <span class="detail itemPrice">¥ {{ gridData[0].itemPrice }}</span>
-        <span class="detail itemCount">x {{ gridData[0].itemCount }}</span>
-        <span class="detail itemTotalPrice">{{ gridData[0].itemTotalPrice }}</span>
-        <span class="detail orderStatus">{{ gridData[0].orderStatus }}</span>
+        <span class="detail itemName">玫瑰红</span>
+        <span class="detail itemPrice">¥ 333</span>
+        <span class="detail itemCount">x 3</span>
+        <span class="detail itemTotalPrice">999</span>
+        <span class="detail orderStatus">已完成</span>
         <el-button type="text">申请退换</el-button>
       </div>
     </el-card>

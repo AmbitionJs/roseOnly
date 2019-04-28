@@ -41,7 +41,7 @@ export default {
           title: "2018城市爱情报告",
           secondTitle: "roseonly诺誓爱情研究院权威发布",
           alt: "roseonly诺誓 2018城市爱情报告",
-          to: '',
+          to: '0',
         },
         {
           id: 2,
@@ -49,7 +49,8 @@ export default {
             "https://www.roseonly.com.cn/upload/syspicture/15150512521566675.jpg",
           title: "2017城市爱情报告",
           secondTitle: "roseonly诺誓爱情研究院权威发布",
-          alt: "roseonly诺誓 2017城市爱情报告"
+          alt: "roseonly诺誓 2017城市爱情报告",
+          to: '1',
         },
         {
           id: 3,
@@ -57,7 +58,8 @@ export default {
             "https://www.roseonly.com.cn/upload/syspicture/14865336352995476.jpg",
           title: "2016城市爱情报告",
           secondTitle: "roseonly诺誓爱情研究院权威发布",
-          alt: "roseonly诺誓 2016城市爱情报告"
+          alt: "roseonly诺誓 2016城市爱情报告",
+          to: '2',
         },
         {
           id: 4,
@@ -66,7 +68,8 @@ export default {
           title: "roseonly六周年",
           secondTitle:
             "新年初启，相伴的心与爱你的气息",
-          alt: "roseonly诺誓 roseonly六周年"
+          alt: "roseonly诺誓 roseonly六周年",
+          to: '3',
         },
         {
           id: 5,
@@ -74,7 +77,8 @@ export default {
             "https://www.roseonly.com.cn/upload/picture/15559990407381503.jpg",
           title: "roseonly今天五岁啦！",
           secondTitle: "roseonly五周年，在见证爱情中预见永恒",
-          alt: "roseonly诺誓 roseonly今天五岁啦！"
+          alt: "roseonly诺誓 roseonly今天五岁啦！",
+          to: '4',
         },
         {
           id: 6,
@@ -82,7 +86,8 @@ export default {
             "https://www.roseonly.com.cn/upload/syspicture/14835313101905720.jpg",
           title: "roseonly四周年",
           secondTitle: "roseonly诞生，只为一个虔诚的信念：信者得爱，爱是唯一。",
-          alt: "roseonly诺誓 roseonly四周年"
+          alt: "roseonly诺誓 roseonly四周年",
+          to: '5',
         },
         {
           id: 7,
@@ -90,7 +95,8 @@ export default {
             "https://www.roseonly.com.cn/upload/syspicture/14573342557718093.jpg",
           title: "roseonly三周年，爱的初心始终不变",
           secondTitle: "2013.1.4寓意“爱你一生一世”的世纪告白日，roseonl...",
-          alt: "roseonly诺誓 roseonly三周年，爱的初心始终不变"
+          alt: "roseonly诺誓 roseonly三周年，爱的初心始终不变",
+          to: '6',
         },
         {
           id: 8,
@@ -98,7 +104,8 @@ export default {
             "https://www.roseonly.com.cn/upload/picture/15559990478885960.jpg",
           title: "2019品牌大事记",
           secondTitle: "roseonly爱之旅程，感恩有你一路相伴",
-          alt: "roseonly诺誓 2019品牌大事记"
+          alt: "roseonly诺誓 2019品牌大事记",
+          to: '7',
         },
         {
           id: 9,
@@ -106,7 +113,8 @@ export default {
             "https://www.roseonly.com.cn/upload/picture/15559377621391464.jpg",
           title: "2018城市爱情报告",
           secondTitle: "有真爱的地方，总有roseonly浪漫见证",
-          alt: "roseonly诺誓 品牌介绍"
+          alt: "roseonly诺誓 品牌介绍",
+          to: '8',
         }
       ],
     };

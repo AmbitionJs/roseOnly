@@ -1,6 +1,6 @@
 <template>
   <div class="story">
-    <router-link to>
+    <router-link :to="'storydetail#' + story.to">
       <div class="image">
         <img :src="story.imgSrc" :alt="story.alt">
       </div>

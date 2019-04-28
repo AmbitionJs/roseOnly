@@ -19,6 +19,16 @@
   </div>
 </template>
 
+<style scoped>
+.person {
+  margin: 30px 0;
+}
+.el-tabs__header {
+  background: #e8e8e8;
+}
+</style>
+
+
 <script>
 // 订单组件
 import Order from "../../components/hsj/Order.vue";
@@ -27,7 +37,7 @@ import Info from "../../components/hsj/Info.vue";
 // 收货地址组件
 import ShipAddress from "../../components/hsj/ShipAddress.vue";
 // 导入 Vuex
-import {mapMutations } from 'vuex'
+import { mapMutations } from "vuex";
 
 export default {
   data() {
@@ -35,15 +45,15 @@ export default {
       activeName: "order-lists",
       result: null,
       isResponse: false,
-      orders: [],
+      orders: []
     };
   },
   methods: {
     handleClick(tab, event) {
       console.log(tab, event);
     },
-    ...mapMutations('hsj', {
-      setOrders: 'setOrders'
+    ...mapMutations("hsj", {
+      setOrders: "setOrders"
     })
   },
   components: {
@@ -66,8 +76,8 @@ export default {
     //   .catch(function(error) {
     //     console.log(error);
     //   });
-    console.log('测试')
-  },
+    console.log("测试");
+  }
 };
 </script>
 
