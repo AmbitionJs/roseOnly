@@ -599,8 +599,6 @@
               <div>玫瑰珠宝</div>
               <img src="https://www.roseonly.com.cn/index/images/notes07.png" alt="roseonly">
             </li>
-          </ul>
-          <ul class="list">
             <li>
               <div>围巾</div>
               <img src="https://www.roseonly.com.cn/index/images/notes08.png" alt="roseonly">
@@ -654,7 +652,7 @@ export default {
 };
 </script>
 
-<style>
+<style scopted>
 .store_tit {
   line-height: 50px;
   text-align: center;
@@ -666,9 +664,8 @@ export default {
   vertical-align: middle;
   padding-left: 20px;
 }
-.note img {
-  display: block;
-  float: left;
+.content img {
+  margin-top:-180px;
 }
 .list {
   list-style: none;
