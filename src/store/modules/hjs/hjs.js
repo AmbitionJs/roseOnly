@@ -1,7 +1,8 @@
 export default {
   namespaced:true,
   state:{
-    navList:[]
+    navList:[],
+    sIsLogin:false
   },
   getters:{
     // 获得一级列表
@@ -20,6 +21,13 @@ export default {
   mutations:{
     setNavList(state,arr){
       state.navList = arr
+    },
+    
+    // 改变登录状态
+    changeLoginState(state,il){
+      console.log('修改登录状态成功',il)
+      state.sIsLogin = il
+      console.log(state.sIsLogin)
     }
   },
   actions:{}
