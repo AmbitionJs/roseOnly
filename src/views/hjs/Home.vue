@@ -1,20 +1,20 @@
 <template>
   <div id="homeApp">
     <!-- 轮播图 -->
-    <!-- <el-carousel trigger="click" height="450px">
+    <el-carousel trigger="click" height="450px">
       <el-carousel-item v-for="(item,index) in homeLB" :key="index">
         <router-link :to="'/Category/'+ item.goodsId">
           <img :src="'http://172.16.7.81:8080/'+ item" alt="" >
         </router-link>
       </el-carousel-item>
-    </el-carousel> -->
+    </el-carousel>
 
     <!-- 列表图 -->
-    <!-- <div v-for="(item,index) in homeLP" :key="index" class="picList">
+    <div v-for="(item,index) in homeLP" :key="index" class="picList">
       <router-link :to="'/Category/'+ item.goodsId">
         <img :src="'http://172.16.7.81:8080/'+ item" alt="" >
       </router-link>
-    </div> -->
+    </div>
   </div>
 </template>
 

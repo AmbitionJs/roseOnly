@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <p>这是测试{{goodsId}}</p>
+    <!-- <p>这是测试{{goodsId}}</p> -->
 
     <!-- 最上边部分的商品相关 -->
     <div class="Dtop">

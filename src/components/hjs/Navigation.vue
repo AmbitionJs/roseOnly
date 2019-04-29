@@ -119,7 +119,7 @@ export default {
       this.axios({
         method: 'get',
         url: '/goods/storage',
-        baseURL:'http://172.16.7.81:8080'
+        //baseURL:'http://172.16.7.81:8080'
       })
       .then(res => {
         // ... ajax请求成功后通过mutation修改state里面的数据
