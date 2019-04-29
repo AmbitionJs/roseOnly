@@ -15,10 +15,10 @@
         <!-- 导航的中间部分,链接 -->
         <div class="nav-middle">
           <div v-for='(item,index) in getFirstNavList' :key='item.goodsTypeId' @mouseover="listIndex = index" @mouseout="listIndex = -1" class="nav-header">
-            <span>{{item.goodsTypeName}}</span>
+            <router-link :to="'/Category/'+item.goodsTypeId">{{item.goodsTypeName}}</router-link>
             <!-- 下方的下拉列表 -->
             <transition name="fade">
-              <div class="nav-list" v-show="listIndex==index">
+              <div class="nav-list" v-show="(getNextNavList(item.goodsTypeId).length!=0)&&listIndex==index">
 
                 <!-- 列表中左边的全部分类 -->
                 <div class="nav-list-msg">
@@ -45,24 +45,24 @@
         <div class="nav-right" style="cursor: pointer">
           <!-- 用户 -->
           <div class="nav-right-user">
-            <router-link to='/person' v-if="islogin" title="个人中心">
+            <router-link to='/person' v-if="sIsLogin" title="个人中心">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
-            <router-link to='/login' v-if="!islogin" title="去登录">
+            <router-link to='/login' v-if="!sIsLogin" title="去登录">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
           </div>
 
 
           <!-- 购物车 -->
-          <div class="nav-right-car" title="购物车" v-if="islogin">
+          <div class="nav-right-car" title="购物车" v-if="sIsLogin">
             <router-link to='/car'>
               <span class="iconfont icon-bags"></span>
             </router-link>
           </div>
 
           <!-- 退出 -->
-          <div class="nav-right-pos" style="cursor: pointer" v-if="islogin">
+          <div class="nav-right-pos" style="cursor: pointer" v-if="sIsLogin">
             <router-link to='/'>
               <span class="iconfont icon-tuichu" @click="logOut" title="退出"></span>
             </router-link>
@@ -76,18 +76,18 @@
 <script>
 // 导航中的用户，购物车，地图三个图标
 import "@/assets/hjs/iconfont.css";
-import {mapMutations,mapGetters } from 'vuex'
+import {mapMutations,mapGetters,mapState} from 'vuex'
 
 export default {
   data() {
     return {
       topdis: true, // 距离顶部的距离
-      islogin: false, // 判断是否登录
       listIndex: -1,
     };
   },
   computed:{
-    ...mapGetters('hjs',['getFirstNavList','getNextNavList'])
+    ...mapGetters('hjs',['getFirstNavList','getNextNavList']),
+    ...mapState('hjs',['sIsLogin'])
   },
   methods: {
     // 滚轮滑动距离
@@ -102,21 +102,18 @@ export default {
     // 退出
     logOut(){
       localStorage.clear()
-      this.islogin = false;
+      this.changeLoginState(false)
     }
 
     // 修改store里面的state导航列表数据
-    ,...mapMutations('hjs',['setNavList'])
+    ,...mapMutations('hjs',['setNavList','changeLoginState'])
   },
   created() {
 
     // 监听滑动条距离
     window.addEventListener("scroll", this.handleScroll);
 
-    // 如果已经登录,则将登录状态设置为true
-    if (localStorage.getItem("token")) {
-      this.islogin = true;
-    }
+    
     
       // 发送ajax请求,并将数据存入state
       this.axios({
@@ -244,6 +241,8 @@ a {
 }
 .nav-header:hover {
   background: white;
+}
+.nav-header:hover a{
   color: black;
 }
 </style>

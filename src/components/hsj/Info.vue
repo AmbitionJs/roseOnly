@@ -12,9 +12,9 @@
               <el-form-item label="姓名">
                 <el-input v-model="form.name"></el-input>
               </el-form-item>
-              <el-form-item label="手机">
+              <!-- <el-form-item label="手机">
                 <el-input v-model="form.phone" :disabled="true">13689649260</el-input>
-              </el-form-item>
+              </el-form-item> -->
               <el-form-item label="生日">
                 <el-col>
                   <el-date-picker
@@ -31,7 +31,7 @@
                   <el-radio label="女"></el-radio>
                 </el-radio-group>
               </el-form-item>
-              <el-form-item label="居住地">
+              <!-- <el-form-item label="居住地">
                 <el-select v-model="form.region" placeholder="请选择居住地">
                   <el-option label="区域一" value="shanghai"></el-option>
                   <el-option label="区域二" value="beijing"></el-option>
@@ -44,7 +44,7 @@
                   <el-option label="区域一" value="shanghai"></el-option>
                   <el-option label="区域二" value="beijing"></el-option>
                 </el-select>
-              </el-form-item>
+              </el-form-item> -->
             </div>
             <!-- 爱人信息 -->
             <div class="detail-info lover-info">
@@ -75,7 +75,7 @@
           </div>
           <div class="submit">
             <el-form-item>
-              <el-button>提交</el-button>
+              <el-button @click="changeUserMsg">提交</el-button>
             </el-form-item>
           </div>
         </el-form>
@@ -85,17 +85,14 @@
         <span slot="label">修改密码</span>
         <div class="content">
           <el-form ref="form" :model="form" label-width="80px">
-            <el-form-item label="旧密码">
-              <el-input v-model="form.oldPass"></el-input>
-            </el-form-item>
             <el-form-item label="新密码">
-              <el-input v-model="form.newPass"></el-input>
+              <el-input v-model="form.newPass" type='password'></el-input>
             </el-form-item>
-            <el-form-item label="确认">
-              <el-input v-model="form.verifyPass"></el-input>
+            <el-form-item label="确认密码">
+              <el-input v-model="form.verifyPass" type='password'></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button>修改</el-button>
+              <el-button :plain="true" :disabled='(form.verifyPass!=form.newPass || form.newPass=="")' @click="changePwd">修改</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -125,12 +122,15 @@
 
 
 <script>
+import md5 from 'md5';
+
 export default {
   data() {
     return {
       form: {
         name: "",
         region: "",
+        birth:"",
         date1: "",
         date2: "",
         delivery: false,
@@ -178,31 +178,89 @@ export default {
   methods: {
     onSubmit() {
       console.log("submit!");
+    },
+    changePwd(){
+      let cellphone = localStorage.getItem('cellphone')
+      console.log(this.form.verifyPass,':',cellphone)
+      
+      this.axios.post('/users/newpass',{
+        password:md5(this.form.verifyPass),
+        cellphone
+      })
+     .then(res => {
+       console.log(res)
+       this.$message('修改密码成功');
+       this.form.verifyPass = this.form.newPass = ''
+     })
+     .catch(err => {
+       console.log('出错信息:',err)
+     })
+    },
+    changeUserMsg(){
+      // 个人信息
+      this.axios({
+        url: '/users/'+localStorage.getItem('userId')+'/supplement',
+        method: 'POST',
+        data: {
+          userToken: localStorage.getItem('token'),
+          userId: localStorage.getItem('userId'),
+          
+          userName:this.form.name,
+          birthday:this.form.birth,
+          sex:this.form.gender,
+
+          loverName:this.lover.name,
+          loverSex:this.lover.gender,
+          cellPhone:this.lover.phone,
+          loverBirth:this.lover.birth
+        }
+      })
+      .then(result => {
+        console.log('result is', result.data.data)
+        this.form.name = result.data.data.username 
+        this.form.birth = result.data.data.birthday 
+        this.form.gender = result.data.data.sex
+
+        this.lover.name = result.data.data.lover.loverName
+        this.lover.gender = result.data.data.lover.loverSex
+        this.lover.phone = result.data.data.lover.cellphone
+        this.lover.birth = result.data.data.lover.loverBirth
+      })
+      .catch(e => {
+        console.log(e)
+      })
     }
   },
   created() {
-    console.log('created')
+    console.log('个人信息中的created，userID为：'+localStorage.getItem('userId'))
     // 个人信息
     this.axios({
-      url: '/users/36/supplement',
+      url: '/users/'+localStorage.getItem('userId')+'/supplement',
       method: 'POST',
       data: {
-        userToken: "1350239ad7bb40d89f5eb5091a9b9768",
-        userId: 36,
-        cellphone: '13689649260',
-        sex: '男',
-        idCard: '51130909919098787',
-        age: 8,
-        loverName: 'lover',
-        loverSex: '女',
-        loverBirth: '19951111',
-        anivisary: '测试纪念日',
-        userName: 'Alice',
-        userBirthday: '19960208',
+        userToken: localStorage.getItem('token'),
+        userId: localStorage.getItem('userId'),
+        
+        username:this.form.name,
+        birthday:this.form.birth,
+        sex:this.form.gender,
+
+        loverName:this.lover.name,
+        loverSex:this.lover.gender,
+        cellphone:this.lover.phone,
+        loverBirth:this.lover.birth
       }
     })
     .then(result => {
-      console.log('result is', result)
+      console.log('result is', result.data)
+      this.form.name = result.data.data.username
+      this.form.birth = result.data.data.birthday
+      this.form.gender = result.data.data.sex
+
+      this.lover.name = result.data.data.lover.loverName
+      this.lover.gender = result.data.data.lover.loverSex
+      this.lover.phone = result.data.data.lover.cellphone
+      this.lover.birth = result.data.data.lover.loverBirth
     })
     .catch(e => {
       console.log(e)

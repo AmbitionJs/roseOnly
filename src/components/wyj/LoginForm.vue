@@ -62,6 +62,8 @@
   </div>
 </template>
 <script>
+import {mapMutations} from 'vuex'
+
 export default {
   name: "loginForm",
   data() {
@@ -142,9 +144,11 @@ export default {
               console.log(res);
               console.log("userId is ", res.data.userId);
               if (res.data.code == 200) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("userId", res.data.userId);
-                console.log("登录成功");
+                localStorage.setItem("token", res.data.data.userToken);
+                localStorage.setItem("userId", res.data.data.userId);
+                localStorage.setItem('cellphone',res.data.data.cellphone)
+                this.changeLoginState(true)
+                console.log("登录成功",res);
                 //跳转到根路径
                 this.$router.push("/");
               } else {
@@ -166,7 +170,8 @@ export default {
     toregester() {
       this.$router.push("./regester");
       console.log("跳转到注册");
-    }
+    },
+    ...mapMutations('hjs',['changeLoginState'])
   }
 };
 </script>

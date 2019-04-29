@@ -20,7 +20,7 @@
     </div>
 
     <!-- 下边的所有商品信息 -->
-    <div class="CGoodsList">
+    <div class="CGoodsList" v-if="goodsList">
       <div
         style="width:25%;height:400px;text-align:center;cursor:pointer;"
         :class="{Chover:active==index}"
@@ -28,19 +28,26 @@
         @mouseout="active=-1"
         v-for="(item,index) in goodsList" :key="item.goodsNo"
       >
-        <div class="goodshowImg">
-          <!-- <img :src="'http://172.16.7.76:8080/'+item.pictures[0].picFileUrl" alt> -->
-        </div>
-        <h4>{{item.goodsName}}</h4>
-        <p style="padding:5px 0">{{item.goodsDetail}}</p>
-        <h4>{{item.goodsPrice}}</h4>
+        <router-link :to="'/GoodsDetail/'+item.goodsId">
+          <div class="goodshowImg">
+            <img :src="'http://172.16.7.76:8080/'+item.pictures[0].picFileUrl" alt>
+          </div>
+          <h4>{{item.goodsName}}</h4>
+          <p style="padding:5px 0">{{item.goodsDetail}}</p>
+          <h4>{{item.goodsPrice}}</h4>
+        </router-link>
       </div>
+    </div>
+
+    <div v-else-if="!goodsList">
+      <h3 style="margin:50px 0">抱歉,您搜索的商品不存在</h3>
     </div>
 
     <!-- 分页 -->
     <el-pagination background layout="prev, pager, next" 
-    :total="goodsList.length*100"
+    :total="(goodsList.length*10)"
     @current-change='pageChange'
+    v-if="goodsList"
     ></el-pagination>
   </div>
 </template>
@@ -104,13 +111,16 @@ export default {
     // 按最新
     newsType(goodsTypeId){
       this.filterMethods=2
-      this.axios.get('/goods/search/grouding',{
-        order:'asc',
-       goodsTypeId:3,
-     })
+
+      this.axios.get('/goods/search/grouding/asc',
+       {
+        params:{
+          goodsTypeId
+          }
+      })
      .then(res => {
-       console.log('最新的ajax请求发起',res.data)
-       //this.goodsList = res.data
+       console.log('最新请求成功:',res.data.data)
+       this.goodsList = res.data.data
      })
      .catch(err => {
        console.log('出错信息:',err)
@@ -118,22 +128,22 @@ export default {
     },
 
     // 按价格
-    priceType(goodsTypeId,lowest=this.lowPrice,heighest=this.heighPrice){
+    priceType(goodsTypeId,lowest=this.lowPrice || 1,highest=this.heighPrice || 1000000){
       this.filterMethods=3
       this.axios.get('/goods/search/price',{
-       goodsTypeId,
-       lowest:0,
-       heighest:1000,
+       params:{
+          lowest,
+          highest,
+          goodsTypeId,
+       }
      })
      .then(res => {
-       console.log('价格请求',res.data)
-       //this.goodsList = res.data
+       console.log('价格请求',res)
+       this.goodsList = res.data.data
      })
      .catch(err => {
        console.log('出错信息:',err)
      })
-     lowest && console.log('当输入了最小值才显示当前最小值:',lowest)
-     heighest && console.log('当输入了最大值才显示当前最大值:',heighest)
     },
 
     // 分页中的当前页改变
@@ -157,6 +167,9 @@ export default {
 </script>
 
 <style scoped>
+a{
+  color: black
+}
 /* 中间筛选列表 */
 .Cfilters {
   border-top: 1px solid black;
