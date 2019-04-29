@@ -8,5 +8,14 @@ export default {
   buyNowOrders(state, lists) {
     state.submitOrderList = []
     state.submitOrderList = lists
+  },
+  // 地址
+  addressDatas(state, lists) {
+    state.getAddresses = []
+    state.getAddresses = lists
+  },
+  setPay(state, obj) {
+    state.payObj = {}
+    state.payObj = obj
   }
 }

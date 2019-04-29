@@ -20,10 +20,10 @@
           <th>数量</th>
           <th>操作</th>
         </tr>
-        <!-- <tr v-if="cartDatas.length == 0">
+        <tr v-if="cartDatas.length == 0">
           <div>购物车没有商品，
           <router-link to="">去添加</router-link></div>
-        </tr> -->
+        </tr>
         <tr v-for="item in cartDatas" :key="item.goods.goodsId">
           <td>
              <el-checkbox v-model="item.select"></el-checkbox>
@@ -69,6 +69,7 @@
 
 <script>
 import {mapMutations, mapState} from 'vuex'
+import '@/assets/zjl/js/formatDate.js'
 export default {
   name: "cart",
   data() {
@@ -77,8 +78,6 @@ export default {
     };
   },
   created() {
-    localStorage.setItem('userId', 1)
-    localStorage.setItem('token', '1dae5a47f6524279ac0352bf9b6bb0a2')
     this.getCarDatas()
   },
   methods: {
@@ -93,7 +92,7 @@ export default {
         this.axios.get("/trolley/" + userId + '?userToken=' + token)
           .then(res => {
             console.log(res, res.data.data);
-            if(res.data.data) {
+            if(res.data.data && res.data.data != null) {
               this.cartDatas = res.data.data
             } else {
               this.carDatas = []
@@ -187,6 +186,7 @@ export default {
       if(ids.length == 0) {
         this.errorAlert('您没有选中商品！')
       } else {
+        console.log(1)
         this.axios.post('/trolley/settlement', {
           trolleyIds: ids.join(','),
           userToken: token
@@ -197,6 +197,9 @@ export default {
             this.$router.push('/submitOrder')
             this.cartOrders(res.data.data)
           }
+        })
+        .catch(err => {
+          console.log(err)
         })
       }
       

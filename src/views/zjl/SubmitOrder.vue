@@ -75,9 +75,9 @@
       <el-row class="good-list-title">
         <el-col :span="12">
           <div class="grid-content bg-purple delivery-addr">
-            <span>收货人：{{getAddr.receiver}}</span>
-            <span>收货地址：{{getAddr.addr}}</span>
-            <span>联系电话：{{getAddr.tel}}</span>
+            <span>收货人：{{shipAddress.receiver}}</span>
+            <span>收货地址：{{shipAddress.addr}}</span>
+            <span>联系电话：{{shipAddress.tel}}</span>
           </div>
         </el-col>
         <el-col :span="12">
@@ -126,7 +126,8 @@
 <script>
 import GoodList from "@/components/zjl/goodLists.vue";
 import PCAA from "area-data/pcaa";
-import { mapState } from "vuex";
+import { mapState,mapMutations } from "vuex";
+import '@/assets/zjl/js/formatDate.js'
 
 export default {
   components: {
@@ -153,10 +154,18 @@ export default {
         countryArea: "",
         detail: ""
       },
-      selected: []
+      selected: [],
+      shipAddress: {
+        receiver: '',
+        addr: '',
+        tel: ''
+      }
     };
   },
   methods: {
+    ...mapMutations('orders', [
+      'addressDatas'
+    ]),
     // 编辑地址按钮
     editAddress(id) {
       this.flag = true;
@@ -283,6 +292,8 @@ export default {
         .then(res => {
           console.log(res);
           this.address = res.data.data;
+          this.addressDatas(res.data.data)
+        
         })
         .catch(err => {
           console.log(err)
@@ -291,42 +302,35 @@ export default {
     // 提交订单
     submitOrder() {
       console.log(
+        this.submitOrderList,
         localStorage.getItem("token"),
         this.submitOrderList.orderDetailId,
         this.submitOrderList.orderDetailNo,
         this.radio,
-        this.submitOrderList.trolleyId,
         this.message,
-        this.deliveryTime
+        new Date(this.deliveryTime).format('yyyy-MM-dd hh:mm:ss')
       );
-      // this.axios({
-      //   url: "/orders/submit",
-      //   type: "post",
-      //   data: {
-      //     userToken: localStorage.getItem("token"),
-      //     orderDetailId: this.submitOrderList.orderDetailId,
-      //     orderDetailNo: this.submitOrderList.orderDetailNo,
-      //     addressId: this.radio,
-      //     trolleyId: this.submitOrderList.trolleyId,
-      //     payMethod: "在线支付",
-      //     msgBoard: this.message,
-      //     orderDetailArriveDate: this.deliveryTime
-      //   },
-      //   dataType: "json"
-      // })
-      this.axios.post("/orders/submit", {
-        userToken: localStorage.getItem("token"),
-          orderDetailId: this.submitOrderList.orderDetailId,
+     
+      this.axios.post("/orders/client/submit", {
+          userToken: localStorage.getItem("token"),
           orderDetailNo: this.submitOrderList.orderDetailNo,
           addressId: this.radio,
-          trolleyId: this.submitOrderList.trolleyId,
           payMethod: "在线支付",
           msgBoard: this.message,
-          orderDetailArriveDate: this.deliveryTime
+          orderDetailArriveDate: new Date(this.deliveryTime).format('yyyy-MM-dd hh:mm:ss')
       })
         .then(res => {
-          this.clearInput();
-          this.flag = false;
+          // this.clearInput();
+          // this.flag = false;
+          // sessionStorage.setItem('orderDetailNo', res.data.data.orderDetailNo)
+          // sessionStorage.setItem('orderDetailId', res.data.data.orderDetailId)
+          // sessionStorage.setItem('totalPrice', res.data.data.orderDetailTotalPrice)
+          sessionStorage.setItem('orderInfo', JSON.stringify({
+            orderDetailNo: res.data.data.orderDetailNo,
+            orderDetailId: res.data.data.orderDetailId,
+            totalPrice: res.data.data.orderDetailTotalPrice
+          }))
+          this.$router.push('/person')
           console.log("提交成功", res);
         })
         .catch(err => {
@@ -341,39 +345,53 @@ export default {
       })
         .then(() => {})
         .catch(() => {});
-    }
+    },
+    
+    
   },
   // 请求数据
   created() {
     // 获取地址
     this.getAddress();
     // 商品清单
-    // this.goodList = this.submitOrderList.trolleys;
-    console.log(this.submitOrderList)
-  },
-  computed: {
-    // 获取订单商品数据
-    ...mapState("orders", ["submitOrderList"]),
-    // 获取选中地址
-    getAddr() {
-      if (this.address.length == 0) return {};
-      let a = this.address.filter(item => {
+    this.goodList = this.submitOrderList.trolleys;
+
+    this.address = this.getAddresses
+
+    if(this.address == []) return;
+    this.address.forEach(item => {
+      if(item.aDefault) {
+        this.radio = item.addressId
+      } else {
+        this.radio = this.address[0].addressId
+      }
+    })
+
+    let addr, a
+      if(this.address.length > 0) {
+         a = this.address.filter(item => {
           if (item.addressId == this.radio) {
             return item;
           }
-        }),
-        addr = a[0];
-      return {
-        // receiver: addr.receiver,
-        // addr: addr.province + addr.city + addr.countryArea + addr.detail,
-        // tel: addr.cellphone
-      };
-    },
+        })
+      } 
+      if(a != null) {
+        addr = a[0]
+        return this.shipAddress = {
+          receiver: addr.receiver,
+          addr: addr.province + addr.city + addr.countryArea + addr.detail,
+          tel: addr.cellphone
+        };
+      }
+  },
+  computed: {
+    // 获取订单商品数据
+    ...mapState("orders", ["submitOrderList", 'getAddresses']),
     // 商品清单总计
     totalPrice() {
       let totalPrice = 0;
       this.goodList.forEach(item => {
-        totalPrice += item.goodsNum * item.goodsPrice;
+        totalPrice += item.goodsNum * item.goods.goodsPrice;
       });
       return totalPrice;
     }

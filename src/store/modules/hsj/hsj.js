@@ -1,7 +1,7 @@
 export default {
   namespaced: true,
   state: {
-    orders: {}
+    orders: []
   },
   getters: {
     // 获得所有订单
