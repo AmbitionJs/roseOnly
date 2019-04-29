@@ -144,11 +144,11 @@ export default {
               console.log(res);
               console.log("userId is ", res.data.userId);
               if (res.data.code == 200) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("userId", res.data.userId);
-                localStorage.setItem('cellphone',res.data.cellphone)
+                localStorage.setItem("token", res.data.data.userToken);
+                localStorage.setItem("userId", res.data.data.userId);
+                localStorage.setItem('cellphone',res.data.data.cellphone)
                 this.changeLoginState(true)
-                console.log("登录成功");
+                console.log("登录成功",res);
                 //跳转到根路径
                 this.$router.push("/");
               } else {

@@ -143,7 +143,8 @@ export default {
 
     // 立即购买
     pay(){
-      this.axios.post('/orders/'+ this.goodsId +'/purchase',{
+      console.log(this.goodsId,this.buyNum,localStorage.getItem('token'))
+      this.axios.post('/orders/client/'+ this.goodsId +'/purchase',{
           goodsId:this.goodsId,
           goodsNum:this.buyNum,
           userToken:localStorage.getItem('token')
@@ -162,6 +163,7 @@ export default {
 
     // 加入购物车
     car(){
+      console.log(this.goodsId,this.buyNum,localStorage.getItem('token'))
       this.axios.post('/trolley/add',{
           goodsId:this.goodsId,
           goodsNum:this.buyNum,
