@@ -1,10 +1,10 @@
 <template>
   <div id="app">
     <!-- 顶上的图片 -->
-    <div>
+    <!-- <div>
       <img src alt>
       {{goodsTypeId}}
-    </div>
+    </div> -->
 
     <!-- 中间的筛选列表 -->
     <div class="Cfilters">
