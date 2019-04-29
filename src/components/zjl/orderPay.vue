@@ -50,7 +50,7 @@ import {mapState} from 'vuex'
           this.$emit('cancel')
           this.$emit('getOrderList')
 
-          var socket = new WebSocket("ws://172.16.7.71:9999");
+          var socket = new WebSocket("ws://172.16.7.76:9999");
 
           socket.addEventListener("open", function() {
             console.log("连接成功");
