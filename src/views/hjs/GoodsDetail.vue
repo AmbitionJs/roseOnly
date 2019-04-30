@@ -158,10 +158,17 @@ export default {
           userToken:localStorage.getItem('token')
      })
      .then(res => {
-       console.log('立即购买返回数据',res.data.data)
-      this.buyNowOrders(res.data.data)
-      sessionStorage.setItem('submitOrders', JSON.stringify(res.data.data))
-      this.$router.push("/submitOrder");
+       console.log('立即购买返回数据',res.data.code)
+       if(res.data.code == 200){
+        sessionStorage.setItem('submitOrders', JSON.stringify(res.data.data))
+        this.$router.push("/submitOrder");
+        this.buyNowOrders(res.data.data)
+       }else{
+         this.$message('请先登录');
+         setTimeout(() => {
+           this.$router.push("/login");
+         }, 1000);
+       }
      })
      .catch(err => {
        console.log('立即购买出错信息:',err)
@@ -179,7 +186,17 @@ export default {
      })
      .then(res => {
        console.log('加入购物车返回数据:',res.data)
-
+        if(res.data.code==200){
+          this.$message({
+          message: '加入购物车成功',
+          type: 'success'
+        });
+        }else{
+          this.$message('请先登录');
+         setTimeout(() => {
+           this.$router.push("/login");
+         }, 1000);
+        }
      })
      .catch(err => {
        console.log('加入购物车出错信息:',err)
