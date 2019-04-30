@@ -12,8 +12,8 @@
         <el-tooltip class="item" effect="dark" content="显示订单详细信息" placement="bottom">
           <el-button type="text" icon="el-icon-date" @click="dialogTableVisible = true"></el-button>
         </el-tooltip>
-        <el-tooltip class="item" effect="dark" content="删除订单" placement="top" v-if="orderList.orderDetailStatus=='已完成'">
-          <el-button type="text" icon="el-icon-delete"></el-button>
+        <el-tooltip class="item" effect="dark" content="删除订单" placement="top" v-if="orderList.orderDetailStatus=='交易完成'">
+          <el-button type="text" icon="el-icon-delete" @click="delOrder(orderList.orderDetailNo)"></el-button>
         </el-tooltip>
         <el-button type="danger" size="small" @click="toPay()" v-if="orderList.orderDetailStatus=='待支付'">等待支付</el-button>
         <el-button type="danger" size="small" @click="confirm(orderList.orderDetailId)" v-if="orderList.orderDetailStatus=='待收货'">等待收货</el-button>
@@ -147,7 +147,7 @@ export default {
       console.log(id)
       const userId = localStorage.getItem('userId'),
         token = localStorage.getItem('token')
-      this.axios.post('/orders/'+ id +'/petition', {
+      this.axios.post('/orders/client/'+ id +'/petition', {
         userId: userId,
         userToken: token,
         orderDetailId: id,
@@ -155,6 +155,20 @@ export default {
         apply: this.applyMsg
       }).then(res => {
         console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    // 删除订单
+    delOrder(no) {
+      console.log(no)
+      const token = localStorage.getItem('token')
+      this.axios.post('/orders/client/' + no + '/delete', {
+        userToken: token,
+        orderDetailId: no
+      }).then(res=> {
+        console.log(res)
+        this.$emit('getOrderList')
       }).catch(err => {
         console.log(err)
       })

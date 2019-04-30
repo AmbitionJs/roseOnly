@@ -2,7 +2,7 @@
   <div class="person">
     <el-tabs v-model="activeName" @tab-click="handleClick">
       <el-tab-pane label="我的订单" name="order-lists">
-        <Order v-for="order in orderLists" :key="order.orderDetailId" :order="order" @showPay="showPay"/>
+        <Order v-for="order in orderLists" :key="order.orderDetailId" :order="order" @showPay="showPay" @getOrderList="getOrderList"/>
         <p v-if="orderLists.length==0">您没有订单！</p>
       </el-tab-pane>
       <el-tab-pane label="退换列表" name="return-lists">
@@ -82,11 +82,11 @@ export default {
       const token = localStorage.getItem('token'),
       userId = localStorage.getItem('userId')
       
-      this.axios.get('/orders/client/' + userId +'/list?userToken=' + token + '&&pageNo=' + 1 + '&&pageSize=' + 3)
+      this.axios.get('/orders/client/' + userId +'/list?userToken=' + token + '&&pageNo=' + 1 + '&&pageSize=' + 15)
         .then(function(response) {
           console.log(response)
           if(response.data.data && response.data.data != null) {
-            // that.orderLists = response.data.data
+            that.orderLists = response.data.data
             that.setOrders(response.data.data)
           }
         })
@@ -105,7 +105,7 @@ export default {
     // 获取用户所有订单
     this.getOrderList()
     if(!this.orders) return
-    this.orderLists = this.orders
+    // this.orderLists = this.orders
     // 退换列表
     this.returnLists = this.orders.filter(item => {
       if(item.orderDetailStatus == '已退换') {

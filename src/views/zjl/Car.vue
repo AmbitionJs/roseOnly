@@ -237,7 +237,7 @@ export default {
       items.forEach(item => {
         totalPrice += item.goods.goodsPrice * item.goodsNum;
       });
-      return totalPrice;
+      return Math.floor(totalPrice * 100) / 100
     }
   },
   mounted() {

@@ -320,11 +320,6 @@ export default {
           orderDetailArriveDate: new Date(this.deliveryTime).format('yyyy-MM-dd hh:mm:ss')
       })
         .then(res => {
-          // this.clearInput();
-          // this.flag = false;
-          // sessionStorage.setItem('orderDetailNo', res.data.data.orderDetailNo)
-          // sessionStorage.setItem('orderDetailId', res.data.data.orderDetailId)
-          // sessionStorage.setItem('totalPrice', res.data.data.orderDetailTotalPrice)
           sessionStorage.setItem('orderInfo', JSON.stringify({
             orderDetailNo: res.data.data.orderDetailNo,
             orderDetailId: res.data.data.orderDetailId,
@@ -356,8 +351,8 @@ export default {
     // 商品清单
     this.goodList = this.submitOrderList.trolleys;
 
-    this.address = this.getAddresses
-
+    // this.address = this.getAddresses
+    console.log(this.address)
     if(this.address == []) return;
     this.address.forEach(item => {
       if(item.aDefault) {
@@ -367,22 +362,6 @@ export default {
       }
     })
 
-    let addr, a
-      if(this.address.length > 0) {
-         a = this.address.filter(item => {
-          if (item.addressId == this.radio) {
-            return item;
-          }
-        })
-      } 
-      if(a != null) {
-        addr = a[0]
-        return this.shipAddress = {
-          receiver: addr.receiver,
-          addr: addr.province + addr.city + addr.countryArea + addr.detail,
-          tel: addr.cellphone
-        };
-      }
   },
   computed: {
     // 获取订单商品数据
@@ -394,6 +373,28 @@ export default {
         totalPrice += item.goodsNum * item.goods.goodsPrice;
       });
       return totalPrice;
+    }
+  },
+  watch: {
+    radio(n, o) {
+      let addr, a
+      if(this.address.length > 0) {
+         a = this.address.filter(item => {
+          if (item.addressId == this.radio) {
+            return item;
+          }
+        })
+      } 
+      console.log(a)
+      if(a != null) {
+        addr = a[0]
+        console.log(addr)
+        this.shipAddress = {
+          receiver: addr.receiver,
+          addr: addr.province + addr.city + addr.countryArea + addr.detail,
+          tel: addr.cellphone
+        };
+      }
     }
   }
 };
