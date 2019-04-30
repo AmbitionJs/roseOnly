@@ -117,11 +117,6 @@ export default {
     this.goodsId = this.$route.params.id;
 
   },
-  mounted(){
-    console.log('mounted被执行:',this.topPic)
-    // 初始化大图地址
-    this.bigPicUrl = this.topPic[0]
-  },
   watch:{
     $route(val){
       this.goodsId = val.params.id;
@@ -133,6 +128,7 @@ export default {
        for(let i = 0;i<res.data.data.pictures.length;i++){
          if(res.data.data.pictures[i].picCode == 2){
            console.log('上面的图',res.data.data.pictures[i].picFileUrl)
+          //  this.$set(this.topPic, index, res.data.data.pictures[i].picFileUrl)
            this.topPic.push(res.data.data.pictures[i].picFileUrl)
          }else if(res.data.data.pictures[i].picCode == 3){
            console.log('下面的描述图片',res.data.data.pictures[i].picFileUrl)
@@ -144,6 +140,10 @@ export default {
      .catch(err => {
        console.log('出错信息:',err)
      })
+    },
+    topPic(val){
+      console.log('监听topPic',val[0])
+      this.bigPicUrl = val[0]
     }
   },
   methods:{
@@ -279,7 +279,7 @@ img{
 .Dmid{
   height: 123px;
   margin: 20px 0;
-  padding: 20px;
+  padding: 20px 0;
   border-top: 1px solid #999;
   border-bottom: 1px solid #999;
   display: flex;

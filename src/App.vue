@@ -8,7 +8,7 @@
     </div>
     
 
-    <Footer />
+    <Footer style="margin-top:20px"/>
     
   </div>
 </template>
@@ -55,6 +55,7 @@ export default {
   .container{
     width: 1170px;
     margin: 0 auto;
+    min-height: 400px;
   }
   .mtop{
     margin-top: 150px;

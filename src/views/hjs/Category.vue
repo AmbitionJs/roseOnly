@@ -1,10 +1,9 @@
 <template>
   <div id="app">
     <!-- 顶上的图片 -->
-    <!-- <div>
-      <img src alt>
-      {{goodsTypeId}}
-    </div> -->
+    <div style="margin:20px 0">
+      <img src='https://www.roseonly.com.cn/upload/menupic/15554727984809606.jpg' alt>
+    </div>
 
     <!-- 中间的筛选列表 -->
     <div class="Cfilters">
