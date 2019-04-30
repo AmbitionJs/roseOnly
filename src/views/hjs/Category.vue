@@ -39,16 +39,16 @@
       </div>
     </div>
 
-    <div v-else-if="!goodsList">
+    <div v-if="!goodsList">
       <h3 style="margin:50px 0">抱歉,您搜索的商品不存在</h3>
     </div>
 
     <!-- 分页 -->
-    <el-pagination background layout="prev, pager, next" 
+    <!-- <el-pagination background layout="prev, pager, next" 
     :total="(goodsList.length*10)"
     @current-change='pageChange'
     v-if="goodsList"
-    ></el-pagination>
+    ></el-pagination> -->
   </div>
 </template>
 

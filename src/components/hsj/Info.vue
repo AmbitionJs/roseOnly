@@ -199,7 +199,7 @@ export default {
     changeUserMsg(){
       // 个人信息
       this.axios({
-        url: '/users/'+localStorage.getItem('userId')+'/supplement',
+        url: localStorage.getItem('userId')+'/updatesupplement',
         method: 'POST',
         data: {
           userToken: localStorage.getItem('token'),
@@ -209,6 +209,7 @@ export default {
           birthday:this.form.birth,
           sex:this.form.gender,
 
+          loverId:this.lover.loverId,
           loverName:this.lover.name,
           loverSex:this.lover.gender,
           cellPhone:this.lover.phone,
@@ -252,7 +253,7 @@ export default {
       }
     })
     .then(result => {
-      console.log('result is', result.data)
+      console.log('result is', result.data.data.lover)
       this.form.name = result.data.data.username
       this.form.birth = result.data.data.birthday
       this.form.gender = result.data.data.sex
@@ -261,6 +262,8 @@ export default {
       this.lover.gender = result.data.data.lover.loverSex
       this.lover.phone = result.data.data.lover.cellphone
       this.lover.birth = result.data.data.lover.loverBirth
+
+      this.lover.loverId = result.data.data.loverId
     })
     .catch(e => {
       console.log(e)

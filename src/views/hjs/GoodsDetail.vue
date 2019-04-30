@@ -8,13 +8,13 @@
       <div class="DtLeft">
         <!-- 大图 -->
         <div class="bigPic">
-          <img :src="'http://172.16.7.76:8080/'+topPic[0]" alt>
+          <img :src="'http://172.16.7.76:8080/'+bigPicUrl" alt>
         </div>
 
         <!-- 小图列表(切换大图) -->
         <div class="spicList">
           &lt;
-          <span v-for="(item,index) in topPic" :key="index">
+          <span v-for="(item,index) in topPic" :key="index" @click="changePic(index)">
             <img :src="'http://172.16.7.76:8080/'+item" alt>
           </span>
           &gt;
@@ -107,12 +107,20 @@ export default {
       buyNum:1,
       goodsMsg:{},
       topPic:[], //上面的图
-      bottomPic:[] //下面的描述图片
+      bottomPic:[], //下面的描述图片
+      bigPicUrl:null // 显示的主图
     };
   },
   created() {
+    console.log('商品详情页中的created被执行')
     // 获取url中的参数
     this.goodsId = this.$route.params.id;
+
+  },
+  mounted(){
+    console.log('mounted被执行:',this.topPic)
+    // 初始化大图地址
+    this.bigPicUrl = this.topPic[0]
   },
   watch:{
     $route(val){
@@ -152,7 +160,7 @@ export default {
      .then(res => {
        console.log('立即购买返回数据',res.data.data)
       this.buyNowOrders(res.data.data)
-
+      sessionStorage.setItem('submitOrders', JSON.stringify(res.data.data))
       this.$router.push("/submitOrder");
      })
      .catch(err => {
@@ -176,12 +184,21 @@ export default {
      .catch(err => {
        console.log('加入购物车出错信息:',err)
      })
+    },
+
+    changePic(index){
+      console.log('点击了小图',index)
+      this.bigPicUrl = this.topPic[index]
     }
   }
 };
 </script>
 
 <style scoped>
+img{
+  width: 100%;
+  height: auto;
+}
 /* 顶部商品部分 */
 .Dtop {
   display: flex;
@@ -191,7 +208,6 @@ export default {
 .DtLeft {
   width: 50%;
   height: 500px;
-  background: antiquewhite;
 }
 /* 大图 */
 .bigPic {
@@ -225,7 +241,6 @@ export default {
 .DtRight {
   width: 50%;
   height: 500px;
-  background: thistle;
   display: flex;
   flex-direction: column;
   justify-content: space-around;

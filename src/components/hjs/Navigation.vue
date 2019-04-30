@@ -83,11 +83,18 @@ export default {
     return {
       topdis: true, // 距离顶部的距离
       listIndex: -1,
+      sIsLogin:null
     };
+  },
+  watch:{
+    $route(newVal) {
+      console.log('导航监听路由',localStorage.getItem('token'))
+      this.sIsLogin = localStorage.getItem('token')
+    },
   },
   computed:{
     ...mapGetters('hjs',['getFirstNavList','getNextNavList']),
-    ...mapState('hjs',['sIsLogin'])
+    //...mapState('hjs',['sIsLogin'])
   },
   methods: {
     // 滚轮滑动距离
@@ -103,12 +110,14 @@ export default {
     logOut(){
       localStorage.clear()
       this.changeLoginState(false)
+      this.sIsLogin = null
     }
 
     // 修改store里面的state导航列表数据
     ,...mapMutations('hjs',['setNavList','changeLoginState'])
   },
   created() {
+    console.log()
 
     // 监听滑动条距离
     window.addEventListener("scroll", this.handleScroll);
