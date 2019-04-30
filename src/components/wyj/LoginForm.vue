@@ -49,7 +49,7 @@
       <!-- 快速注册和忘记密码 -->
       <div class="forget clear">
         <span class="quick-regester" @click="toregester">快速注册</span>
-        <span class="pass-forget">忘记密码?</span>
+        <router-link to="/forgotPassword"><span class="pass-forget">忘记密码?</span></router-link>
       </div>
       <div class="submit">
         <button type="button" class="submitBtn" ref="submitBtn" @click="loginBtn">登录</button>
@@ -175,7 +175,7 @@ export default {
   }
 };
 </script>
-<style>
+<style scoped>
 /* 登录框整体样式 */
 .loginForm {
   width: 400px;
