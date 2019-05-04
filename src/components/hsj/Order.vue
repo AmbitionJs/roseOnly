@@ -178,10 +178,17 @@ export default {
           itemTotalPrice: "3000"
         }
       ],
-      results: null
+      results: null,
+      userId: JSON.parse(localStorage.getItem('userId')),
     };
   },
-  created() {},
+  created() {
+    // 测试订单接口
+    // this.axios({
+    //   method: '',
+    //   url: '/orders/36/list'
+    // })
+  },
   props: ["order"]
 };
 </script>

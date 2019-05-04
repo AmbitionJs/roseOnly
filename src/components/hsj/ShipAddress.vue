@@ -74,13 +74,13 @@
 
 <style>
 .addNewButton {
-    border: 1px dashed #000;
-    margin-top: 10px;
+  border: 1px dashed #000;
+  margin-top: 10px;
 }
 .addNewButton button {
-    width: 100%;
-    height: 100%;
-    display: block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 </style>
 
@@ -113,6 +113,24 @@ export default {
       dialogFormVisible: false,
       formLabelWidth: "120px"
     };
+  },
+  created() {
+    console.log("shipAddress created");
+    this.axios({
+      method: "get",
+      url: "/users/1/addresses/list",
+      data: {
+        userId: 1
+      }
+    })
+      .then(result => {
+        console.log("所有地址请求成功，所有地址有");
+        console.log(result);
+      })
+      .catch(e => {
+        console.log("获取所有地址请求失败，失败原因是");
+        console.log(e);
+      });
   }
 };
 </script>

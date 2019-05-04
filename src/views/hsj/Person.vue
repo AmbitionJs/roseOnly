@@ -1,6 +1,6 @@
 <template>
   <div class="person">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="我的订单" name="order-lists">
         <Order v-for="order in orders" :key="order.orderDetailId" :order="order"/>
       </el-tab-pane>
@@ -49,9 +49,6 @@ export default {
     };
   },
   methods: {
-    handleClick(tab, event) {
-      console.log(tab, event);
-    },
     ...mapMutations("hsj", {
       setOrders: "setOrders"
     })

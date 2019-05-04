@@ -180,37 +180,6 @@ export default {
       console.log("submit!");
     }
   },
-  created() {
-    console.log('created')
-    // 个人信息
-    this.axios({
-      url: '/users/36/supplement',
-      method: 'POST',
-      data: {
-        userToken: "1350239ad7bb40d89f5eb5091a9b9768",
-        userId: 36,
-        cellphone: '13689649260',
-        sex: '男',
-        idCard: '51130909919098787',
-        age: 8,
-        loverName: 'lover',
-        loverSex: '女',
-        loverBirth: '19951111',
-        anivisary: '测试纪念日',
-        userName: 'Alice',
-        userBirthday: '19960208',
-      }
-    })
-    .then(result => {
-      console.log('result is', result)
-    })
-    .catch(e => {
-      console.log(e)
-    })
-  },
-  destroyed() {
-    console.log('destroy')
-  }
 };
 </script>
 
