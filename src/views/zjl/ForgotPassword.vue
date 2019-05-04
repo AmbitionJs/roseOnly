@@ -29,7 +29,7 @@
         <!-- 验证码 -->
         <el-form-item label="验证码">
           <el-input v-model="step1.verify" placeholder="输入验证码" class="verify"></el-input>
-          <canvas id="canvas" width="150" height="40" style="border-radius:4px"></canvas>
+          <canvas id="canvas" ref="canvas" width="150" height="40" style="border-radius:4px"></canvas>
         </el-form-item>
       </el-form>
       <el-button style="margin-top: 12px;" @click="next1" class="step-btn">下一步</el-button>
@@ -66,7 +66,7 @@
 
 <script>
 // import { setTimeout } from 'timers';
-import '@/assets/zjl/js/verifyCode.js';
+import {RegCode} from '@/assets/zjl/js/verifyCode.js';
 import md5 from 'md5';
 export default {
   data() {
@@ -195,6 +195,14 @@ export default {
       })
     }
   },
+  mounted() {
+    let reg = new RegCode(); // 使用默认值
+    reg.draw(this.$refs.canvas, (txt) => {
+      console.log('验证码：',txt);
+      window.code = txt.toLowerCase();
+    });
+    console.log('实例对象：',reg);
+    }
 };
 </script>
 

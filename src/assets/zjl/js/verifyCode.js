@@ -157,15 +157,15 @@ function RegCode(options = {}) {
   };
 }
 
-window.onload = () => {
-  const canvas = document.getElementById('canvas');
-  let reg = new RegCode(); // 使用默认值
-  reg.draw(canvas, (txt) => {
-    console.log('验证码：',txt);
-    window.code = txt.toLowerCase();
-  });
-  console.log('实例对象：',reg);
-}
+// window.onload = () => {
+//   const canvas = document.getElementById('canvas');
+//   let reg = new RegCode(); // 使用默认值
+//   reg.draw(canvas, (txt) => {
+//     console.log('验证码：',txt);
+//     window.code = txt.toLowerCase();
+//   });
+//   console.log('实例对象：',reg);
+// }
 
 export {
   RegCode
