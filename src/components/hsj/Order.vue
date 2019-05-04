@@ -19,6 +19,7 @@
         </el-tooltip> -->
          <el-button type="danger" size="mini" v-if="orderList.orderDetailStatus=='订单完成'" @click="delOrder(orderList.orderDetailNo)">删除订单</el-button>
          <el-button type="danger" size="mini" v-if="orderList.orderDetailStatus=='取消订单'" @click="delOrder(orderList.orderDetailNo)">删除订单</el-button>
+         <el-button type="danger" size="mini" v-if="orderList.orderDetailStatus=='退货成功'" @click="delOrder(orderList.orderDetailNo)">删除订单</el-button>
 
         <!-- 等待支付 -->
         <el-button type="danger" size="mini" @click="toPay()" v-if="orderList.orderDetailStatus=='待支付'">等待支付</el-button>
@@ -244,6 +245,11 @@ export default {
   },
   computed: {
     ...mapState('orders', ['currentPage'])
+  },
+  watch: {
+    order(newVal, oldVal) {
+      this.orderList = newVal
+    }
   }
 };
 </script>

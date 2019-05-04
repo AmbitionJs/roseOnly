@@ -75,7 +75,7 @@ export default {
       page: {
         size: 3,
         count: 3,
-        total: 12
+        total: 0
       },
       isApply: false
     };
@@ -170,6 +170,9 @@ export default {
   watch: {
     centerDialogVisible(newVal, oldVal) {
       this.centerDialogVisible = newVal
+    },
+    orderLists(newVal, oldVal) {
+      this.orderLists = newVal
     }
   }
 };

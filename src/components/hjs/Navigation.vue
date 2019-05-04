@@ -109,6 +109,7 @@ export default {
     // 退出
     logOut(){
       localStorage.clear()
+      sessionStorage.clear()
       this.changeLoginState(false)
       this.sIsLogin = null
     }
@@ -132,7 +133,7 @@ export default {
       })
       .then(res => {
         // ... ajax请求成功后通过mutation修改state里面的数据
-        this.setNavList(res.data.data.goodsTypeList)
+        this.setNavList(res.data.data)
       })
       .catch(err => {
         console.log('出错信息:',err)

@@ -30,13 +30,13 @@
           </td>
           <td><span>{{item.goods.goodsBrand}}</span></td>
           <td>
-            <img :src="'http://172.16.7.76:8080/' + item.goods.pictures[0].picLinkUrl" alt>
+            <img :src="'http://172.16.7.76:8080/' + item.goods.pictures[0].picLinkUrl" alt="图片丢失">
             <span>{{item.goods.goodsName}}</span>
           </td>
           <td><span>￥{{item.goods.goodsPrice}}</span></td>
           <td>
             <div class="number-group">
-              <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goods.goodsId)" :min="1" :max="10"></el-input-number>
+              <el-input-number size="mini" v-model="item.goodsNum" @change="changeNum(item.goods.goodsId)" :min="1"></el-input-number>
             </div>
           </td>
           <td>
@@ -92,10 +92,10 @@ export default {
         this.axios.get("/trolley/" + userId + '?userToken=' + token)
           .then(res => {
             console.log(res, res.data.data);
-            if(res.data.data && res.data.data != null) {
+            if(res.data.code == 200) {
               this.cartDatas = res.data.data
             } else {
-              this.carDatas = []
+              this.cartDatas = []
             }
           })
           .catch(err => {
@@ -108,7 +108,7 @@ export default {
       var ids = id.toString()
       
       console.log(ids);
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token"),that = this
       if (token) {
         this.axios.post('/trolley/delete', {
           trolleyIds: ids,
@@ -116,7 +116,7 @@ export default {
         })
           .then(res => {
             console.log(res);
-            this.getCarDatas()
+            that.getCarDatas()
           })
           .catch(err => {
             console.log(err);
@@ -126,14 +126,14 @@ export default {
     },
     // 清空购物车
     clearCart() {
-      const token = localStorage.getItem("token");
+      const token = localStorage.getItem("token"), that = this
       if (token) {
         this.axios.post("/trolley/delete", {
           userToken: token
         })
           .then(res => {
             console.log(res);
-            this.getCarDatas()
+            that.getCarDatas()
           })
           .catch(err => {
             console.log(err);
@@ -143,22 +143,21 @@ export default {
     // 输入商品数量
     changeNum(id) {
       console.log(id)
-      var num;
+      var num, trolleyId;
       this.cartDatas.forEach(item => {
         if (item.goods.goodsId == id) {
           num = item.goodsNum;
+          trolleyId = item.trolleyId
         }
       });
-      console.log(num);
-      const token = localStorage.getItem("token")
-      this.axios.post('/trolley/add', {
-        goodsId: id,
-        goodsNum: num,
+      console.log(num, trolleyId);
+      const token = localStorage.getItem("token"), that = this
+      this.axios.post('/trolley/' + trolleyId + '/' + id + '/' + num, {
         userToken: token
       })
       .then(res => {
         console.log(res)
-        this.getCarDatas()
+        that.getCarDatas()
       })
       .catch(err => {
         console.log(err)
@@ -244,9 +243,23 @@ export default {
   mounted() {
     var _this = this;
     //为cartDatas添加select（是否选中）字段，初始值为true
+    if(this.cartDatas == []) return;
     this.cartDatas.map(function(item) {
       _this.$set(item, "select", true);
     });
+  },
+  watch: {
+    cartDatas(newVal, oldVal) {
+      console.log(newVal)
+      this.cartDatas = newVal
+
+      var _this = this;
+        //为cartDatas添加select（是否选中）字段，初始值为true
+        if(this.cartDatas == []) return;
+        this.cartDatas.map(function(item) {
+          _this.$set(item, "select", true);
+        });
+    }
   }
 };
 </script>
