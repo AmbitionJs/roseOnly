@@ -1,7 +1,8 @@
 export default {
   namespaced: true,
   state: {
-    orders: []
+    orders: [],
+    isLogin: false,
   },
   getters: {
     // 获得所有订单
@@ -12,12 +13,19 @@ export default {
     getNextNavList: (state) => (id) => {
       return state.navList.filter(todo => todo.goodsTypeSuperior === id)
     },
+    getIsLogin: state => {
+      return state.isLogin
+    },
   },
   mutations: {
     // 设置订单
     setOrders(state, arr) {
       state.orders = arr
     },
+    // 修改登录状态值
+    setIsLogin(state) {
+      state.isLogin = !state.isLogin
+    }
   },
   actions: {}
 }

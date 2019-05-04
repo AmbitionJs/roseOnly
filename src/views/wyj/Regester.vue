@@ -5,6 +5,7 @@
 </template>
 <script>
 import regesterForm from "@/components/wyj/RegesterForm"
+import {mapMutations, mapState} from 'vuex'
 export default {
     name:'regester',
     components:{
@@ -19,6 +20,20 @@ export default {
                 backgroundPosition:'center'
             }
         }
+    },
+    created() {
+        console.log('created')
+        this.setIsLogin()
+    },
+    destroyed() {
+        console.log('destroyed')
+        this.setIsLogin()
+    },
+    computed: {
+        ...mapState('hsj',['isLogin']),
+    },
+    methods: {
+        ...mapMutations('hsj', ['setIsLogin'])
     }
 }
 </script>

@@ -58,11 +58,15 @@ const router = new Router({
     {// 王云杰  登录路由
       path: '/login',
       name: 'login',
-      component: () => import('./views/wyj/Login.vue')
+      components: {
+        'login': () => import('./views/wyj/Login.vue'),
+      }, 
     }, {// 王云杰  注册路由
       path: '/regester',
       name: 'regeter',
-      component: () => import('./views/wyj/Regester.vue'),
+      components:{
+        'login':  () => import('./views/wyj/Regester.vue'),
+      }
     },
     // 张金玲
     {

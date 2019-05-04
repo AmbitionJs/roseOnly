@@ -5,6 +5,7 @@
 </template>
 <script>
 import loginForm from "@/components/wyj/LoginForm"
+import {mapMutations, mapState} from 'vuex'
 export default {
     name:'login',
     components:{
@@ -21,9 +22,23 @@ export default {
             
         }
     },
+    created() {
+        console.log('created')
+        this.setIsLogin()
+    },
+    destroyed() {
+        console.log('destroyed')
+        this.setIsLogin()
+    },
+    computed: {
+        ...mapState('hsj',['isLogin']),
+    },
+    methods: {
+        ...mapMutations('hsj', ['setIsLogin'])
+    }
 }
 </script>
-<style>
+<style scoped>
 .login{
     width: 100%;
     height: 600px;
@@ -32,7 +47,17 @@ export default {
     min-width: 1346px;
     
 }
-
+/* .login {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 999;
+    width: 100%;
+    height: 100%;
+} */
+/* .container {
+    width: auto;
+} */
 </style>
 
 

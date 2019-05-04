@@ -208,7 +208,7 @@ export default {
 
 <style scoped>
 .forgot-password {
-  width: 500px;
+  width: 600px;
   margin: 0 auto;
   padding: 50px;
 }
