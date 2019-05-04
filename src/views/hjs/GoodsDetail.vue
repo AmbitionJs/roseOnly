@@ -294,7 +294,7 @@ img{
 
 /* 中间部分参数 */
 .Dmid{
-  height: 123px;
+  height: auto;
   margin: 20px 0;
   padding: 20px 0;
   border-top: 1px solid #999;

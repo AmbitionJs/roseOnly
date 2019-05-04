@@ -81,11 +81,6 @@ export default {
     };
   },
   methods: {
-<<<<<<< HEAD
-    ...mapMutations("hsj", {
-      setOrders: "setOrders"
-    })
-=======
     ...mapMutations('orders', ['setPay', 'setCurrentPage']),
     handleClick(tab, event) {
       // console.log(tab, event);
@@ -131,7 +126,6 @@ export default {
       this.getOrderList(currentPage)
       this.setCurrentPage(currentPage)
     }
->>>>>>> 5750140b7d381dc8a3e4e2b8af8d174cae86e1bd
   },
   components: {
     Order,

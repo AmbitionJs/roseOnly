@@ -139,7 +139,8 @@ export default {
         desc: "",
         oldPass: "",
         newPass: "",
-        verifyPass: ""
+        verifyPass: "",
+        gender: "",
       },
       lover: {
         name: "",
@@ -149,7 +150,9 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: ""
+        desc: "",
+        gender: "",
+        birth: "",
       },
       tableData: [
         {
@@ -232,8 +235,6 @@ export default {
       })
     }
   },
-<<<<<<< HEAD
-=======
   created() {
     console.log('个人信息中的created，userID为：'+localStorage.getItem('userId'))
     // 个人信息
@@ -274,7 +275,6 @@ export default {
   destroyed() {
     console.log('destroy')
   }
->>>>>>> 5750140b7d381dc8a3e4e2b8af8d174cae86e1bd
 };
 </script>
 
