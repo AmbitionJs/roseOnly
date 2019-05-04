@@ -15,10 +15,10 @@
         <!-- 导航的中间部分,链接 -->
         <div class="nav-middle">
           <div v-for='(item,index) in getFirstNavList' :key='item.goodsTypeId' @mouseover="listIndex = index" @mouseout="listIndex = -1" class="nav-header">
-            <span>{{item.goodsTypeName}}</span>
+            <router-link :to="'/Category/'+item.goodsTypeId">{{item.goodsTypeName}}</router-link>
             <!-- 下方的下拉列表 -->
             <transition name="fade">
-              <div class="nav-list" v-show="listIndex==index">
+              <div class="nav-list" v-show="(getNextNavList(item.goodsTypeId).length!=0)&&listIndex==index">
 
                 <!-- 列表中左边的全部分类 -->
                 <div class="nav-list-msg">
@@ -45,25 +45,26 @@
         <div class="nav-right" style="cursor: pointer">
           <!-- 用户 -->
           <div class="nav-right-user">
-            <router-link to='/person' v-if="islogin" title="个人中心">
+            <router-link to='/person' v-if="sIsLogin" title="个人中心">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
-            <router-link to='/login' v-if="!islogin" title="去登录">
+            <router-link to='/login' v-if="!sIsLogin" title="去登录">
               <span class="iconfont icon-yonghu user-fa"></span>
             </router-link>
           </div>
 
+
           <!-- 购物车 -->
-          <div class="nav-right-car" title="购物车">
+          <div class="nav-right-car" title="购物车" v-if="sIsLogin">
             <router-link to='/car'>
               <span class="iconfont icon-bags"></span>
             </router-link>
           </div>
 
-          <!-- 定位 -->
-          <div class="nav-right-pos" style="cursor: pointer">
+          <!-- 退出 -->
+          <div class="nav-right-pos" style="cursor: pointer" v-if="sIsLogin">
             <router-link to='/'>
-              <span class="iconfont icon-tuichu" @click="logOut"></span>
+              <span class="iconfont icon-tuichu" @click="logOut" title="退出"></span>
             </router-link>
           </div>
         </div>
@@ -75,18 +76,25 @@
 <script>
 // 导航中的用户，购物车，地图三个图标
 import "@/assets/hjs/iconfont.css";
-import {mapMutations,mapGetters } from 'vuex'
+import {mapMutations,mapGetters,mapState} from 'vuex'
 
 export default {
   data() {
     return {
       topdis: true, // 距离顶部的距离
-      islogin: false, // 判断是否登录
       listIndex: -1,
+      sIsLogin:null
     };
   },
+  watch:{
+    $route(newVal) {
+      console.log('导航监听路由',localStorage.getItem('token'))
+      this.sIsLogin = localStorage.getItem('token')
+    },
+  },
   computed:{
-    ...mapGetters('hjs',['getFirstNavList','getNextNavList'])
+    ...mapGetters('hjs',['getFirstNavList','getNextNavList']),
+    //...mapState('hjs',['sIsLogin'])
   },
   methods: {
     // 滚轮滑动距离
@@ -100,96 +108,37 @@ export default {
     
     // 退出
     logOut(){
-      console.log('退出被点击')
-      localStorage.removeItem()
+      localStorage.clear()
+      sessionStorage.clear()
+      this.changeLoginState(false)
+      this.sIsLogin = null
     }
 
     // 修改store里面的state导航列表数据
-    ,...mapMutations('hjs',['setNavList'])
+    ,...mapMutations('hjs',['setNavList','changeLoginState'])
   },
   created() {
-    // 测试
-    /* this.axios({
-      method: 'get',
-      url: '/goods/storage',
-      baseURL:'http://172.16.7.81:8080'
-    })
-     .then(res => {
-       console.log(res.data)
-     })
-     .catch(err => {
-       console.log('出错信息:',err)
-     }) */
+    console.log()
 
+    // 监听滑动条距离
     window.addEventListener("scroll", this.handleScroll);
-    // 如果已经登录,则将登录状态设置为true
-    if (sessionStorage.getItem("token")) {
-      this.islogin = true;
-    }
 
-    // 判断store里面的state是否存有导航列表
-    if(sessionStorage.getItem('havaNavList')){
-      console.log('hello')
-    }else{
-      // 不存在则发送ajax请求,并将数据存入state
-      // ... ajax请求成功后通过mutation修改state里面的数据
-      this.setNavList([
-          {
-            'goodsTypeId':1,
-            'goodsTypeName':'测试一',
-            'goodsTypeSuperior':0,
-            'picCode':1
-          },
-          {
-            'goodsTypeId':2,
-            'goodsTypeName':'测试二',
-            'goodsTypeSuperior':0,
-            'picCode':0,
-            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15560000664413711.jpg'
-          },
-          {
-            'goodsTypeId':3,
-            'goodsTypeName':'测试三',
-            'goodsTypeSuperior':1,
-            'picCode':0,
-            'picFileUrl':'https://www.roseonly.com.cn/upload/indexpic/15554784849352266.jpg'
-          },
-          {
-            'goodsTypeId':4,
-            'goodsTypeName':'测试四',
-            'goodsTypeSuperior':1
-          },
-          {
-            'goodsTypeId':5,
-            'goodsTypeName':'测试五',
-            'goodsTypeSuperior':2
-          },
-          {
-            'goodsTypeId':6,
-            'goodsTypeName':'测试六',
-            'goodsTypeSuperior':2
-          },
-          {
-            'goodsTypeId':7,
-            'goodsTypeName':'测试七',
-            'goodsTypeSuperior':3
-          },
-          {
-            'goodsTypeId':8,
-            'goodsTypeName':'测试八',
-            'goodsTypeSuperior':4
-          },
-          {
-            'goodsTypeId':9,
-            'goodsTypeName':'测试九',
-            'goodsTypeSuperior':5
-          },]
-        )
-    }
+    
+    
+      // 发送ajax请求,并将数据存入state
+      this.axios({
+        method: 'get',
+        url: '/goods/storage',
+        //baseURL:'http://172.16.7.81:8080'
+      })
+      .then(res => {
+        // ... ajax请求成功后通过mutation修改state里面的数据
+        this.setNavList(res.data.data)
+      })
+      .catch(err => {
+        console.log('出错信息:',err)
+      })
   },
-  mounted(){
-
-  }
 };
 </script>
 
@@ -211,7 +160,7 @@ a {
   font-size: 36px;
   letter-spacing: 1.8px;
   font-weight: 100;
-  background: #414141;
+  background: #393939;
 }
 /* 导航条 */
 /* 实现定位 */
@@ -302,6 +251,8 @@ a {
 }
 .nav-header:hover {
   background: white;
+}
+.nav-header:hover a{
   color: black;
 }
 </style>

@@ -4,61 +4,61 @@
       <ul>
         <li>新手指南</li>
         <li>
-          <router-link to>购物流程</router-link>
+          <router-link to='/foot'>购物流程</router-link>
         </li>
         <li>
-          <router-link to>会员尊享</router-link>
+          <router-link to='/foot'>会员尊享</router-link>
         </li>
         <li>
-          <router-link to>常见问题</router-link>
+          <router-link to='/foot'>常见问题</router-link>
         </li>
         <li>
-          <router-link to>指圈测量</router-link>
+          <router-link to='/foot'>指圈测量</router-link>
         </li>
       </ul>
       <ul>
         <li>物流配送</li>
         <li>
-          <router-link to>配送方式</router-link>
+          <router-link to='/foot'>配送方式</router-link>
         </li>
         <li>
-          <router-link to>配送服务</router-link>
+          <router-link to='/foot'>配送服务</router-link>
         </li>
       </ul>
       <ul>
         <li>售后服务</li>
         <li>
-          <router-link to>退款说明</router-link>
+          <router-link to='/foot'>退款说明</router-link>
         </li>
         <li>
-          <router-link to>保养物语</router-link>
+          <router-link to='/foot'>保养物语</router-link>
         </li>
       </ul>
       <ul>
         <li>关于我们</li>
         <li>
-          <router-link to>品牌介绍</router-link>
+          <router-link to='/foot'>品牌介绍</router-link>
         </li>
         <li>
-          <router-link to>销售渠道</router-link>
+          <router-link to='/foot'>销售渠道</router-link>
         </li>
         <li>
-          <router-link to>联系我们</router-link>
+          <router-link to='/foot'>联系我们</router-link>
         </li>
         <li>
-          <router-link to>加入我们</router-link>
+          <router-link to='/foot'>加入我们</router-link>
         </li>
       </ul>
       <ul>
         <li>关注我们</li>
         <li>
-          <router-link to>
+          <router-link to='/foot'>
             微信
             <span class="iconfont icon-changyonglogo28"></span>
           </router-link>
         </li>
         <li>
-          <router-link to>
+          <router-link to='/foot'>
             微博
             <span class="iconfont icon-weibo"></span>
           </router-link>

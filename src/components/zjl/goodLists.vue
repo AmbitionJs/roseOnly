@@ -2,8 +2,8 @@
   <div class="good-lists-item">
     <el-row>
       <el-col :span="4"><div class="grid-content bg-purple">
-        <router-link to="/">
-          <img :src="item.goods.pictures.picFileUrl" alt="" class="good-img">
+        <router-link :to="'/GoodsDetail/' + item.goods.goodsId">
+          <img :src="'http://172.16.7.76:8080/' + item.goods.pictures[0].picFileUrl" alt="" class="good-img">
         </router-link>  
       </div></el-col>
       

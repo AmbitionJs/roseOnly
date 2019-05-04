@@ -282,7 +282,7 @@ export default {
     }
 }
 </script>
-<style>
+<style scoped>
 /* 登录框整体样式 */
 .regesterForm{
     width: 400px;

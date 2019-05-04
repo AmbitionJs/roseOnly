@@ -27,7 +27,10 @@ const router = new Router({
     {
       path: '/person',
       name: 'person',
-      component: () => import('./views/hsj/Person.vue')
+      component: () => import('./views/hsj/Person.vue'),
+      meta: {
+        auth: true
+      }
     },
     // 贺斯洁 - 高端定制 
     {
@@ -65,12 +68,18 @@ const router = new Router({
     {
       path: '/car',
       name: 'car',
-      component: () => import('./views/zjl/Car.vue')
+      component: () => import('./views/zjl/Car.vue'),
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/submitOrder',
       name: 'submitOrder',
-      component: () => import('./views/zjl/SubmitOrder.vue')
+      component: () => import('./views/zjl/SubmitOrder.vue'),
+      meta: {
+        auth: true
+      }
     },
     {
       path: '/forgotPassword',

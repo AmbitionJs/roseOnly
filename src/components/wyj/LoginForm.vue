@@ -49,7 +49,7 @@
       <!-- 快速注册和忘记密码 -->
       <div class="forget clear">
         <span class="quick-regester" @click="toregester">快速注册</span>
-        <span class="pass-forget">忘记密码?</span>
+        <router-link to="/forgotPassword"><span class="pass-forget">忘记密码?</span></router-link>
       </div>
       <div class="submit">
         <button type="button" class="submitBtn" ref="submitBtn" @click="loginBtn">登录</button>
@@ -62,6 +62,8 @@
   </div>
 </template>
 <script>
+import {mapMutations} from 'vuex'
+
 export default {
   name: "loginForm",
   data() {
@@ -140,9 +142,11 @@ export default {
             //请求成功
             .then(res => {
               if (res.data.code == 200) {
-                localStorage.setItem("token", res.data.token);
-                localStorage.setItem("userId", res.data.userId);
-                console.log("登录成功");
+                localStorage.setItem("token", res.data.data.userToken);
+                localStorage.setItem("userId", res.data.data.userId);
+                localStorage.setItem('cellphone',res.data.data.cellphone)
+                this.changeLoginState(true)
+                console.log("登录成功",res);
                 //跳转到根路径
                 this.$router.push("/");
               } else {
@@ -164,11 +168,12 @@ export default {
     toregester() {
       this.$router.push("./regester");
       console.log("跳转到注册");
-    }
+    },
+    ...mapMutations('hjs',['changeLoginState'])
   }
 };
 </script>
-<style>
+<style scoped>
 /* 登录框整体样式 */
 .loginForm {
   width: 400px;

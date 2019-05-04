@@ -140,34 +140,30 @@ export default {
     next3() {
        // 第三步：设置新密码
       if(this.active == 2) {
-        const token = localStorage.getItem("token");
         const patPass = /^[a-zA-Z0-9]{6,16}$/
         if(this.step3.pass != '' && this.step3.checkPass != '') {
           if(patPass.test(this.step3.pass)) {
             if(this.step3.pass === this.step3.checkPass) {
-              // this.active = 3
+              this.active = 3
               console.log(this.step3.checkPass,md5(this.step3.checkPass))
               // 第四步：完成，跳转登录界面
-              // this.axios({
-              //   url: '/users/newpass',
-              //   type: 'post',
-              //   data: {
-              //     password: this.step3.checkPass,
-              //        userToken: token 
-              //   },
-              //   dataType: 'json'
-              // }).then(res => {
-              //   if(res) setTimeout(() => {
-              //     this.active = 4
-                  
-              //       if(this.active == 4) {
-              //         setTimeout(() => {
-              //           console.log('设置成功')
-              //           this.$router.push('/login')
-              //         },3000) 
-              //     }
-              //   },300)
-              // }).catch(err => {console.log(err)})
+
+              this.axios.post('/users/newpass', {
+                password: md5(this.step3.checkPass),
+                cellphone: this.step2.phone
+              })
+              .then(res => {
+                if(res) setTimeout(() => {
+                  console.log(res)
+                  this.active = 4
+                    if(this.active == 4) {
+                      setTimeout(() => {
+                        console.log('设置成功')
+                        this.$router.push('/login')
+                      },2000) 
+                  }
+                },300)
+              }).catch(err => {console.log(err)})
             }
             else this.errorAlert('两次密码输入不正确')
           } else this.errorAlert('密码格式不正确')
