@@ -17,5 +17,11 @@ export default {
   setPay(state, obj) {
     state.payObj = {}
     state.payObj = obj
+  },
+  setCurrentPage(state, page) {
+    state.currentPage = page
+  },
+  setApplyObj(state, obj) {
+    state.applyObj = obj
   }
 }

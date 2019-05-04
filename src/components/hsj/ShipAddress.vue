@@ -5,7 +5,7 @@
     <el-card class="box-card" v-for="item in info" :key="item.addressId">
       <div slot="header" class="clearfix">
         <span>{{ item.receiver }}</span>
-        <el-button style="float: right; padding: 3px 0" type="text" v-if="item.aDefault=1" @click="setDefaultAddr(item.addressId)">设为常用地址</el-button>
+        <!-- <el-button style="float: right; padding: 3px 0" type="text" v-if="item.aDefault=1" @click="setDefaultAddr(item.addressId)">设为常用地址</el-button> -->
         <el-button
           style="float: right; padding: 3px 0"
           type="text"
@@ -49,11 +49,11 @@
         <el-form-item label="详细地址" :label-width="formLabelWidth" required>
           <el-input v-model="editAddr.detail" autocomplete="off"></el-input>
         </el-form-item>
-        <el-form-item label="设为常用地址">
+        <!-- <el-form-item label="设为常用地址">
           <el-checkbox-group v-model="isDefault">
             <el-checkbox label="设为常用地址" name="type"></el-checkbox>
           </el-checkbox-group>
-        </el-form-item>
+        </el-form-item> -->
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="cancelEdit">取 消</el-button>

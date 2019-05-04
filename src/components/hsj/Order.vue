@@ -8,19 +8,32 @@
         <span>订单时间: {{orderList.createTime}}</span>
         <span class="detail orderStatus">订单状态：{{orderList.orderDetailStatus}}</span>
         <span>订单金额: {{orderList.orderDetailTotalPrice}}</span>
-        <el-button type="text" v-if="orderList.orderDetailStatus=='已支付'" @click="apply(orderList.orderDetailId)">申请退换</el-button>
+        <!-- 申请退换 -->
+        <el-button type="text" size="mini" v-if="orderList.orderDetailStatus=='已支付'" @click="apply()">申请退换</el-button>
+        <!-- 删除订单 -->
+        <!-- <el-tooltip class="item" effect="dark" content="删除订单" placement="top" v-if="orderList.orderDetailStatus=='订单完成'">
+          <el-button type="text" icon="el-icon-delete" @click="delOrder(orderList.orderDetailNo)"></el-button>
+        </el-tooltip>
+        <el-tooltip class="item" effect="dark" content="删除订单" placement="top" v-if="orderList.orderDetailStatus=='取消订单'">
+          <el-button type="text" icon="el-icon-delete" @click="delOrder(orderList.orderDetailNo)"></el-button>
+        </el-tooltip> -->
+         <el-button type="danger" size="mini" v-if="orderList.orderDetailStatus=='订单完成'" @click="delOrder(orderList.orderDetailNo)">删除订单</el-button>
+         <el-button type="danger" size="mini" v-if="orderList.orderDetailStatus=='取消订单'" @click="delOrder(orderList.orderDetailNo)">删除订单</el-button>
+
+        <!-- 等待支付 -->
+        <el-button type="danger" size="mini" @click="toPay()" v-if="orderList.orderDetailStatus=='待支付'">等待支付</el-button>
+        <!-- 取消订单 -->
+        <el-button type="primary" size="mini" @click="cancelPay(orderList.orderDetailNo)" v-if="orderList.orderDetailStatus=='待支付'">取消订单</el-button>
+        <!-- 等待收货 -->
+        <el-button type="danger" size="mini" @click="confirm(orderList.orderDetailNo)" v-if="orderList.orderDetailStatus=='发货'">等待收货</el-button>
+        <!-- 显示订单详细信息 -->
         <el-tooltip class="item" effect="dark" content="显示订单详细信息" placement="bottom">
           <el-button type="text" icon="el-icon-date" @click="dialogTableVisible = true"></el-button>
         </el-tooltip>
-        <el-tooltip class="item" effect="dark" content="删除订单" placement="top" v-if="orderList.orderDetailStatus=='交易完成'">
-          <el-button type="text" icon="el-icon-delete" @click="delOrder(orderList.orderDetailNo)"></el-button>
-        </el-tooltip>
-        <el-button type="danger" size="small" @click="toPay()" v-if="orderList.orderDetailStatus=='待支付'">等待支付</el-button>
-        <el-button type="danger" size="small" @click="confirm(orderList.orderDetailId)" v-if="orderList.orderDetailStatus=='待收货'">等待收货</el-button>
       </div>
       <!-- 订单关于商品的信息 -->
       <div class="content" v-for="item in orderList.trolleys" :key="item.trolleyId">
-        <router-link to="/"><img src="../../../public/test.png" alt="商品图片"></router-link>
+        <router-link :to="'/GoodsDetail/' + item.goods.goodsId"><img :src="'http://172.16.7.76:8080/' + item.goods.pictures[0].picFileUrl" alt="商品图片"></router-link>
         <span class="detail itemName">{{item.goods.goodsName}}</span>
         <span class="detail itemPrice">¥ {{item.goods.goodsPrice}}</span>
         <span class="detail itemCount">x {{item.goodsNum}}</span>
@@ -73,8 +86,11 @@
           <span>购物清单</span>
         </div>
         <el-table :data="goodsInfo">
-          <el-table-column property="goods" label="商品图">
-            <img src="../../../public/test.png" alt="商品图片">
+          <el-table-column property="goods.pictures[0].picFileUrl" label="商品图">
+            <template slot-scope="scope">
+                <img :src="'http://172.16.7.76:8080/'+ scope.row.goods.pictures[0].picFileUrl" alt="商品图片">
+            </template>
+            
           </el-table-column>
           <el-table-column property="goods.goodsName" label="商品名称"></el-table-column>
           <el-table-column property="goods.goodsPrice" label="商品单价"></el-table-column>
@@ -91,7 +107,8 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations, mapState} from 'vuex'
+
 export default {
   data() {
     return {
@@ -101,7 +118,8 @@ export default {
       orderList: [],
       orderListDetail: [],
       shipInfo: [],
-      goodsInfo:[]
+      goodsInfo:[],
+      applyMsg: ''
     };
   },
   props: ["order"],
@@ -114,9 +132,10 @@ export default {
       this.goodsInfo = this.order.trolleys
     }
 
+    console.log(this.goodsInfo)
   },
   methods: {
-    ...mapMutations('orders', ['setPay']),
+    ...mapMutations('orders', ['setPay', 'setApplyObj']),
     toPay() {
 
       let order = {}
@@ -124,55 +143,107 @@ export default {
         if(this.orderList.orderDetailStatus =='待支付') {
           order.orderDetailNo = this.orderList.orderDetailNo,
           order.orderDetailId = this.orderList.orderDetailId,
-          order.totalPrice = this.orderList.totalPrice
+          order.totalPrice = this.orderList.orderDetailTotalPrice
         }
+        console.log(order)
       this.$emit('showPay')
       this.setPay(order)
     },
-    confirm(id) {
-      console.log(id)
-      const userId = localStorage.getItem('userId'),
-        token = localStorage.getItem('token')
-      this.axios.post('/orders/receipt/confirm', {
-        orderDetailId: id,
-        userId: userId,
-        userToken: token
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
+    confirm(no) {    
+      const token = localStorage.getItem('token')
+
+      this.$confirm('确认收货, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const token = localStorage.getItem('token')
+          this.axios.get('/orders/client/receipt/confirm?orderDetailNo=' + no + '&&userToken=' + token)
+            .then(res => {
+              this.$emit('getOrderList', this.currentPage)
+              console.log(res)
+            }).catch(err => {
+              console.log(err)
+            })
+
+          this.$message({
+            type: 'success',
+            message: '收货成功!'
+          });
+        }).catch(() => {
+                 
+        });
     },
-    apply(id) {
-      console.log(id)
-      const userId = localStorage.getItem('userId'),
-        token = localStorage.getItem('token')
-      this.axios.post('/orders/client/'+ id +'/petition', {
-        userId: userId,
-        userToken: token,
-        orderDetailId: id,
-        identify: 0,
-        apply: this.applyMsg
-      }).then(res => {
-        console.log(res)
-      }).catch(err => {
-        console.log(err)
-      })
+    apply() {
+
+      let order = {}
+      console.log(this.orderList)
+        if(this.orderList.orderDetailStatus == '已支付') {
+          order.orderDetailNo = this.orderList.orderDetailNo,
+          order.orderDetailId = this.orderList.orderDetailId
+        }
+        console.log(order)
+      this.$emit('showApply')
+      this.setApplyObj(order)
     },
     // 删除订单
     delOrder(no) {
       console.log(no)
       const token = localStorage.getItem('token')
-      this.axios.post('/orders/client/' + no + '/delete', {
-        userToken: token,
-        orderDetailId: no
-      }).then(res=> {
-        console.log(res)
-        this.$emit('getOrderList')
-      }).catch(err => {
-        console.log(err)
-      })
+      
+      this.$confirm('此操作将永久删除该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const token = localStorage.getItem('token')
+          this.axios.post('/orders/client/' + no + '/delete', {
+              userToken: token,
+              orderDetailNo: no
+            }).then(res=> {
+              console.log(res)
+              this.$emit('getOrderList', this.currentPage)
+            }).catch(err => {
+              console.log(err)
+            })
+
+          this.$message({
+            type: 'success',
+            message: '删除成功!'
+          });
+        }).catch(() => {
+                 
+        });
+    },
+    // 取消订单
+    cancelPay(no) {
+      console.log(no)
+      this.$confirm('此操作将永久取消该订单, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          const token = localStorage.getItem('token')
+          this.axios.get('/orders/client/' + no + '/cancel?orderDetailNo=' + no + '&&userToken=' + token)
+          .then(res => {
+            this.$emit('getOrderList', this.currentPage)
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
+
+          this.$message({
+            type: 'success',
+            message: '取消成功!'
+          });
+        }).catch(() => {
+                 
+        });
+      
     }
+  },
+  computed: {
+    ...mapState('orders', ['currentPage'])
   }
 };
 </script>
@@ -182,10 +253,10 @@ export default {
 .text {
   font-size: 14px;
 }
-
+/* 
 .item {
   margin-bottom: 18px;
-}
+} */
 
 .clearfix:before,
 .clearfix:after {
@@ -213,13 +284,23 @@ export default {
   background: #f2f2f2;
   font-size: 13px;
 }
+.el-card__header .clearfix {
+  line-height: 40px;
+}
 .el-card__header span {
   display: inline-block;
   padding: 0 20px;
 }
 .el-card__header .el-button {
   float: right;
-  padding: 0 10px;
+  /* padding: 10px; */
+}
+.el-button.el-button--mini {
+  margin-left: 18px;
+  margin-top: 5px;
+}
+.el-button.el-button--mini span {
+  padding: 0;
 }
 .el-card__body img,
 .el-card__body span {

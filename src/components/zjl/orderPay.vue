@@ -2,7 +2,7 @@
   <el-dialog
   title="支付"
   :visible.sync="centerDialogVisible"
-  width="60%"
+  width="600px"
   center>
   <span></span>
   <div class="item">
@@ -39,6 +39,7 @@ import {mapState} from 'vuex'
       pay() {
         const token = localStorage.getItem('token')
         //       orderInfo = JSON.parse(sessionStorage.getItem('orderInfo'))
+        console.log(this.payObj)
         this.axios.post('/orders/client/accounts/pay', {
           orderDetailNo: this.payObj.orderDetailNo,
           orderDetailId: this.payObj.orderDetailId,
@@ -48,39 +49,12 @@ import {mapState} from 'vuex'
           console.log(res)
           sessionStorage.clear()
           this.$emit('cancel')
-          this.$emit('getOrderList')
+          this.$emit('getOrderList', this.currentPage)
 
-          var socket = new WebSocket("ws://172.16.7.76:9999");
-
-          socket.addEventListener("open", function() {
-            console.log("连接成功");
-            var obj = new Object()
-            obj.from = 'user'
-            obj.content = "新订单"
-            obj.to = "Admin"
-            
-            socket.send(JSON.stringify(obj));
-            // console.log(obj);
-          });
-
-          // socket.addEventListener("message", function(e) {
-          //   console.log(e)
-          //   let data = JSON.parse(e.data.split('\\').join(''))
-          //   that.$notify({
-          //     title: "系统消息",
-          //     message: data.content,
-          //     duration: 60*1000
-          //   });
-          //   // e.data.split('/').join('')
-          //   console.log(12,data,e);
-          // });
-          socket.addEventListener("close", function() {
-            console.log("连接已经断开");
-          });
-          socket.addEventListener("error", function() {
-            console.log("连接异常");
-          });
-
+           this.$message({
+              message: '支付成功',
+              type: 'success'
+            });
         })
         .catch(err => {
           console.log(err)
@@ -88,11 +62,18 @@ import {mapState} from 'vuex'
       },
       cancelPay() {
         this.$emit('cancel')
-        sessionStorage.clear()
+        sessionStorage.removeItem('orderInfo')
       }
     },
     computed: {
-      ...mapState('orders', ['payObj'])
+      ...mapState('orders', ['payObj', 'currentPage'])
+    },
+    watch: {
+      payObj(n, o) {
+        console.log(n, 0)
+        this.orderDetailNo = n.orderDetailNo
+        this.totalPrice = n.totalPrice
+      }
     }
   };
 </script>

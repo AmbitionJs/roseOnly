@@ -22,7 +22,7 @@
         </tr>
         <tr v-if="cartDatas.length == 0">
           <div>购物车没有商品，
-          <router-link to="">去添加</router-link></div>
+          <router-link to="/Category/1">去添加</router-link></div>
         </tr>
         <tr v-for="item in cartDatas" :key="item.goods.goodsId">
           <td>
@@ -30,7 +30,7 @@
           </td>
           <td><span>{{item.goods.goodsBrand}}</span></td>
           <td>
-            <img :src="item.goods.pictures.picLinkUrl" alt>
+            <img :src="'http://172.16.7.76:8080/' + item.goods.pictures[0].picLinkUrl" alt>
             <span>{{item.goods.goodsName}}</span>
           </td>
           <td><span>￥{{item.goods.goodsPrice}}</span></td>
@@ -195,7 +195,8 @@ export default {
           console.log(res)
           if(res.status == 200) {
             this.$router.push('/submitOrder')
-            this.cartOrders(res.data.data)
+            // this.cartOrders(res.data.data)
+            sessionStorage.setItem('submitOrders', JSON.stringify(res.data.data))
           }
         })
         .catch(err => {

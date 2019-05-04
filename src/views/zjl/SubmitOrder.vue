@@ -263,6 +263,8 @@ export default {
             console.log("提交成功", res);
             // 修改完成重新获取地址
             this.getAddress();
+            this.flag = false
+            this.clearInput();
           })
           .catch(err => {
             console.log("提交失败", err);
@@ -302,10 +304,10 @@ export default {
     // 提交订单
     submitOrder() {
       console.log(
-        this.submitOrderList,
+        JSON.parse(sessionStorage.getItem('submitOrders')),
         localStorage.getItem("token"),
-        this.submitOrderList.orderDetailId,
-        this.submitOrderList.orderDetailNo,
+        JSON.parse(sessionStorage.getItem('submitOrders')).orderDetailId,
+        JSON.parse(sessionStorage.getItem('submitOrders')).orderDetailNo,
         this.radio,
         this.message,
         new Date(this.deliveryTime).format('yyyy-MM-dd hh:mm:ss')
@@ -313,7 +315,7 @@ export default {
      
       this.axios.post("/orders/client/submit", {
           userToken: localStorage.getItem("token"),
-          orderDetailNo: this.submitOrderList.orderDetailNo,
+          orderDetailNo: JSON.parse(sessionStorage.getItem('submitOrders')).orderDetailNo,
           addressId: this.radio,
           payMethod: "在线支付",
           msgBoard: this.message,
@@ -325,6 +327,7 @@ export default {
             orderDetailId: res.data.data.orderDetailId,
             totalPrice: res.data.data.orderDetailTotalPrice
           }))
+          sessionStorage.removeItem('submitOrders')
           this.$router.push('/person')
           console.log("提交成功", res);
         })
@@ -349,30 +352,34 @@ export default {
     // 获取地址
     this.getAddress();
     // 商品清单
-    this.goodList = this.submitOrderList.trolleys;
-
+    // this.goodList = this.submitOrderList.trolleys;
+    this.goodList = JSON.parse(sessionStorage.getItem('submitOrders')).trolleys
     // this.address = this.getAddresses
     console.log(this.address)
     if(this.address == []) return;
     this.address.forEach(item => {
-      if(item.aDefault) {
+      if(item.aDefault == 1) {
         this.radio = item.addressId
       } else {
         this.radio = this.address[0].addressId
       }
     })
-
+    console.log(this.radio)
   },
   computed: {
     // 获取订单商品数据
     ...mapState("orders", ["submitOrderList", 'getAddresses']),
     // 商品清单总计
     totalPrice() {
-      let totalPrice = 0;
-      this.goodList.forEach(item => {
-        totalPrice += item.goodsNum * item.goods.goodsPrice;
-      });
-      return totalPrice;
+      // let totalPrice = 0;
+      // if(this.goodList != [])
+      // {
+      //   this.goodList.forEach(item => {
+      //     totalPrice += item.goodsNum * item.goods.goodsPrice;
+      //   });
+      //   return totalPrice;
+      // }
+      return JSON.parse(sessionStorage.getItem('submitOrders')).orderDetailTotalPrice
     }
   },
   watch: {
@@ -385,7 +392,7 @@ export default {
           }
         })
       } 
-      console.log(a)
+      console.log(a, n, o)
       if(a != null) {
         addr = a[0]
         console.log(addr)
@@ -400,7 +407,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .submit-order {
   width: 900px;
   margin: 0 auto;
