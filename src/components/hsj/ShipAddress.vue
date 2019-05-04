@@ -276,13 +276,13 @@ export default {
   position: relative;
 }
 .addNewButton {
-    border: 1px dashed #000;
-    margin-top: 10px;
+  border: 1px dashed #000;
+  margin-top: 10px;
 }
 .addNewButton button {
-    width: 100%;
-    height: 100%;
-    display: block;
+  width: 100%;
+  height: 100%;
+  display: block;
 }
 .area-select-wrap {
   line-height: 25px;

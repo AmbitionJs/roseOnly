@@ -139,7 +139,8 @@ export default {
         desc: "",
         oldPass: "",
         newPass: "",
-        verifyPass: ""
+        verifyPass: "",
+        gender: "",
       },
       lover: {
         name: "",
@@ -149,7 +150,9 @@ export default {
         delivery: false,
         type: [],
         resource: "",
-        desc: ""
+        desc: "",
+        gender: "",
+        birth: "",
       },
       tableData: [
         {

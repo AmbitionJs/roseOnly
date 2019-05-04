@@ -141,8 +141,6 @@ export default {
             })
             //请求成功
             .then(res => {
-              console.log(res);
-              console.log("userId is ", res.data.userId);
               if (res.data.code == 200) {
                 localStorage.setItem("token", res.data.data.userToken);
                 localStorage.setItem("userId", res.data.data.userId);

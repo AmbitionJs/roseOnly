@@ -1,6 +1,6 @@
 <template>
   <div class="person">
-    <el-tabs v-model="activeName" @tab-click="handleClick">
+    <el-tabs v-model="activeName">
       <el-tab-pane label="我的订单" name="order-lists">
         <Order v-for="order in orderLists" :key="order.orderDetailId" :order="order" @showPay="showPay" @getOrderList="getOrderList" @showApply="showApply"/>
         <p v-if="orderLists.length==0">您没有订单！</p>
